@@ -1,0 +1,2393 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 kernal::weight。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 118,
+                  "startColumn": 2,
+                  "endLine": 118,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0kernal@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "kernal::weight"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 kernal::SeriesWeights。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 118,
+                  "startColumn": 2,
+                  "endLine": 118,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0kernal@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "kernal::SeriesWeights"
+          }
+        },
+        {
+          "ruleId": "C26451",
+          "message": {
+            "text": "算术溢出: 使用 4 字节值上的运算符 * ，然后将结果转换到 8 字节值。在调用运算符 * 之前将值强制转换为宽类型可避免溢出(io.2)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 131,
+                  "startColumn": 32,
+                  "endLine": 131,
+                  "endColumn": 36
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?initKernal@kernal@@QEAAXN@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26812",
+          "message": {
+            "text": "枚举类型“layerType”未设定范围。相比于 \"enum\"，首选 \"enum class\" (Enum.3)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 257,
+                  "startColumn": 7,
+                  "endLine": 257,
+                  "endColumn": 7
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?setlayerType@CNNCalc@@QEAAXW4layerType@@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26812",
+          "message": {
+            "text": "枚举类型“PaddingMethod”未设定范围。相比于 \"enum\"，首选 \"enum class\" (Enum.3)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 258,
+                  "startColumn": 7,
+                  "endLine": 258,
+                  "endColumn": 7
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?setPaddingMethod@CNNCalc@@QEAAXW4PaddingMethod@@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::kernalChannel。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::kernalChannel"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::Loss。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::Loss"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::lossType。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::lossType"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::shadowKernals。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::shadowKernals"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::kernalRow。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::kernalRow"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::stride。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::stride"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::poolingStride。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::poolingStride"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::kernalCol。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::kernalCol"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::poolingDim2。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::poolingDim2"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::poolingDim1。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::poolingDim1"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::neuroNumers。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::neuroNumers"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNModel::normMethod。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 11,
+                  "endLine": 3,
+                  "endColumn": 11
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0CNNModel@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNModel::normMethod"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNModel::normGlobalValueOrRange。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 11,
+                  "endLine": 3,
+                  "endColumn": 11
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0CNNModel@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNModel::normGlobalValueOrRange"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNModel::normShift。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 11,
+                  "endLine": 3,
+                  "endColumn": 11
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0CNNModel@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNModel::normShift"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNModel::outLen。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 11,
+                  "endLine": 3,
+                  "endColumn": 11
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0CNNModel@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNModel::outLen"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNModel::dw。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 11,
+                  "endLine": 3,
+                  "endColumn": 11
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0CNNModel@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNModel::dw"
+          }
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 101,
+                  "startColumn": 24,
+                  "endLine": 101,
+                  "endColumn": 56
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?getLayer@CNNModel@@QEAA?AVCNNCalc@@H@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 101,
+                  "startColumn": 6,
+                  "endLine": 101,
+                  "endColumn": 20
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?getLayer@CNNModel@@QEAA?AVCNNCalc@@H@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 114,
+                  "startColumn": 36,
+                  "endLine": 114,
+                  "endColumn": 46
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?addInputImage@CNNModel@@QEAAXUimage@@PEANH@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 114,
+                  "startColumn": 6,
+                  "endLine": 114,
+                  "endColumn": 32
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?addInputImage@CNNModel@@QEAAXUimage@@PEANH@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 137,
+                  "startColumn": 61,
+                  "endLine": 137,
+                  "endColumn": 69
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?startTrainning@CNNModel@@QEAA_NXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 137,
+                  "startColumn": 37,
+                  "endLine": 137,
+                  "endColumn": 57
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?startTrainning@CNNModel@@QEAA_NXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 137,
+                  "startColumn": 6,
+                  "endLine": 137,
+                  "endColumn": 33
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?startTrainning@CNNModel@@QEAA_NXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 200,
+                  "startColumn": 18,
+                  "endLine": 200,
+                  "endColumn": 24
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?startTrainning@CNNModel@@QEAA_NXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 246,
+                  "startColumn": 27,
+                  "endLine": 246,
+                  "endColumn": 44
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?startTrainning@CNNModel@@QEAA_NXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 246,
+                  "startColumn": 8,
+                  "endLine": 246,
+                  "endColumn": 12
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?startTrainning@CNNModel@@QEAA_NXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6385",
+          "message": {
+            "text": "从“DeltaImageLayerSeries”中读取的数据无效: 可读大小为“(size_t)*24”个字节，但可能读取了“72”个字节。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 194,
+                  "startColumn": 7,
+                  "endLine": 194,
+                  "endColumn": 72
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?startTrainning@CNNModel@@QEAA_NXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 160,
+                            "startColumn": 10
+                          }
+                        },
+                        "message": {
+                          "text": "“dpth”可能等于 1"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ],
+                      "importance": "essential"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 159,
+                            "startColumn": 7
+                          }
+                        },
+                        "message": {
+                          "text": "“dpth”接收来自“std::vector<CNNCalc,std::allocator<CNNCalc> >::size”的返回值(在 d:\\program files (x86)\\microsoft visual studio\\2019\\community\\vc\\tools\\msvc\\14.29.30133\\include\\vector:1547 处声明)"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ],
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 136,
+                            "startColumn": 7
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 137,
+                            "startColumn": 59
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 142,
+                            "startColumn": 30
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 148,
+                            "startColumn": 55
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 153,
+                            "startColumn": 6
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 155,
+                            "startColumn": 10
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 157,
+                            "startColumn": 7
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 158,
+                            "startColumn": 10
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 158,
+                            "startColumn": 19
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 159,
+                            "startColumn": 7
+                          }
+                        },
+                        "message": {
+                          "text": "“dpth”接收来自“std::vector<CNNCalc,std::allocator<CNNCalc> >::size”的返回值(在 d:\\program files (x86)\\microsoft visual studio\\2019\\community\\vc\\tools\\msvc\\14.29.30133\\include\\vector:1547 处声明)"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ],
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 160,
+                            "startColumn": 10
+                          }
+                        },
+                        "message": {
+                          "text": "“DeltaImageLayerSeries”是一个 1 元素数组(24 字节)"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ],
+                      "importance": "essential"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 161,
+                            "startColumn": 12
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 161,
+                            "startColumn": 21
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 163,
+                            "startColumn": 34
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 164,
+                            "startColumn": 34
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 165,
+                            "startColumn": 37
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 166,
+                            "startColumn": 38
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 161,
+                            "startColumn": 30
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 161,
+                            "startColumn": 21
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 168,
+                            "startColumn": 15
+                          }
+                        },
+                        "message": {
+                          "text": "进入此循环(假定“iterK<maxIteration”)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ],
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 172,
+                            "startColumn": 13
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 172,
+                            "startColumn": 24
+                          }
+                        },
+                        "message": {
+                          "text": "进入此循环(假定“im<NIMG”)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ],
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 174,
+                            "startColumn": 14
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 174,
+                            "startColumn": 23
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 176,
+                            "startColumn": 41
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 174,
+                            "startColumn": 32
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 174,
+                            "startColumn": 23
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 178,
+                            "startColumn": 13
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 179,
+                            "startColumn": 11
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 180,
+                            "startColumn": 14
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 180,
+                            "startColumn": 23
+                          }
+                        },
+                        "message": {
+                          "text": "进入此循环(假定“b<batchSize”)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ],
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 182,
+                            "startColumn": 12
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 184,
+                            "startColumn": 10
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 185,
+                            "startColumn": 8
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 186,
+                            "startColumn": 14
+                          }
+                        },
+                        "message": {
+                          "text": "进入此分支(假定“ret==1”)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ],
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 189,
+                            "startColumn": 15
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 190,
+                            "startColumn": 18
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 191,
+                            "startColumn": 35
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 192,
+                            "startColumn": 7
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 193,
+                            "startColumn": 16
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 194,
+                            "startColumn": 41
+                          }
+                        },
+                        "message": {
+                          "text": "“dpth”是“CNNCalc::setOutLossss”中的输出(在 e:\\2-c++\\fnn2\\fnn\\cnnlayer.h:260 处声明)"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ],
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 194,
+                            "startColumn": 41
+                          }
+                        },
+                        "message": {
+                          "text": "从“DeltaImageLayerSeries[2]”中读取无效(可读范围是 0 到 0)"
+                        }
+                      },
+                      "kinds": [
+                        "usage"
+                      ],
+                      "importance": "essential"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6386",
+          "message": {
+            "text": "写入到“DeltaImageLayerSeries”时缓冲区溢出: 可写大小为“(unsigned __int64 size_t)*24”个字节，但可能写入了“dpth”个字节。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 191,
+                  "startColumn": 7,
+                  "endLine": 191,
+                  "endColumn": 56
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?startTrainning@CNNModel@@QEAA_NXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 160,
+                            "startColumn": 10
+                          }
+                        },
+                        "message": {
+                          "text": "“dpth”可能等于 1"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ],
+                      "importance": "essential"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 159,
+                            "startColumn": 7
+                          }
+                        },
+                        "message": {
+                          "text": "“dpth”接收来自“std::vector<CNNCalc,std::allocator<CNNCalc> >::size”的返回值(在 d:\\program files (x86)\\microsoft visual studio\\2019\\community\\vc\\tools\\msvc\\14.29.30133\\include\\vector:1547 处声明)"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ],
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 136,
+                            "startColumn": 7
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 137,
+                            "startColumn": 59
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 142,
+                            "startColumn": 30
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 148,
+                            "startColumn": 55
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 153,
+                            "startColumn": 6
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 155,
+                            "startColumn": 10
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 157,
+                            "startColumn": 7
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 158,
+                            "startColumn": 10
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 158,
+                            "startColumn": 19
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 159,
+                            "startColumn": 7
+                          }
+                        },
+                        "message": {
+                          "text": "“dpth”接收来自“std::vector<CNNCalc,std::allocator<CNNCalc> >::size”的返回值(在 d:\\program files (x86)\\microsoft visual studio\\2019\\community\\vc\\tools\\msvc\\14.29.30133\\include\\vector:1547 处声明)"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ],
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 160,
+                            "startColumn": 10
+                          }
+                        },
+                        "message": {
+                          "text": "“DeltaImageLayerSeries”是一个 1 元素数组(24 字节)"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ],
+                      "importance": "essential"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 161,
+                            "startColumn": 12
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 161,
+                            "startColumn": 21
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 163,
+                            "startColumn": 34
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 164,
+                            "startColumn": 34
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 165,
+                            "startColumn": 37
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 166,
+                            "startColumn": 38
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 161,
+                            "startColumn": 30
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 161,
+                            "startColumn": 21
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 168,
+                            "startColumn": 15
+                          }
+                        },
+                        "message": {
+                          "text": "进入此循环(假定“iterK<maxIteration”)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ],
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 172,
+                            "startColumn": 13
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 172,
+                            "startColumn": 24
+                          }
+                        },
+                        "message": {
+                          "text": "进入此循环(假定“im<NIMG”)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ],
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 174,
+                            "startColumn": 14
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 174,
+                            "startColumn": 23
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 176,
+                            "startColumn": 41
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 174,
+                            "startColumn": 32
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 174,
+                            "startColumn": 23
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 178,
+                            "startColumn": 13
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 179,
+                            "startColumn": 11
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 180,
+                            "startColumn": 14
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 180,
+                            "startColumn": 23
+                          }
+                        },
+                        "message": {
+                          "text": "进入此循环(假定“b<batchSize”)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ],
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 182,
+                            "startColumn": 12
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 184,
+                            "startColumn": 10
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 185,
+                            "startColumn": 8
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 186,
+                            "startColumn": 14
+                          }
+                        },
+                        "message": {
+                          "text": "进入此分支(假定“ret==1”)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ],
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 189,
+                            "startColumn": 15
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 190,
+                            "startColumn": 18
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                          },
+                          "region": {
+                            "startLine": 191,
+                            "startColumn": 35
+                          }
+                        },
+                        "message": {
+                          "text": "写入到“DeltaImageLayerSeries[1]”无效(可写范围是 0 到 0)"
+                        }
+                      },
+                      "kinds": [
+                        "usage"
+                      ],
+                      "importance": "essential"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26451",
+          "message": {
+            "text": "算术溢出: 使用 4 字节值上的运算符 + ，然后将结果转换到 8 字节值。在调用运算符 + 之前将值强制转换为宽类型可避免溢出(io.2)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 182,
+                  "startColumn": 45,
+                  "endLine": 182,
+                  "endColumn": 48
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?startTrainning@CNNModel@@QEAA_NXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26451",
+          "message": {
+            "text": "算术溢出: 使用 4 字节值上的运算符 - ，然后将结果转换到 8 字节值。在调用运算符 - 之前将值强制转换为宽类型可避免溢出(io.2)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 203,
+                  "startColumn": 27,
+                  "endLine": 203,
+                  "endColumn": 32
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?startTrainning@CNNModel@@QEAA_NXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26451",
+          "message": {
+            "text": "算术溢出: 使用 4 字节值上的运算符 + ，然后将结果转换到 8 字节值。在调用运算符 + 之前将值强制转换为宽类型可避免溢出(io.2)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+                },
+                "region": {
+                  "startLine": 228,
+                  "startColumn": 47,
+                  "endLine": 228,
+                  "endColumn": 52
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?startTrainning@CNNModel@@QEAA_NXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.29.30137.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "commandLine": "\"D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX86\\x64\\c1xx.dll\" -ACf{1F7B090C-16DB-4822-966A-A93D26ED4681} -ACpmspft140.dll -Alint -D_PREFAST_ -D_AST_FE_ -Analyze -zm0x00E6C1B0 -il C:\\Users\\63473\\AppData\\Local\\Temp\\_CL_30441fdfast -typedil -f CNNModel.cpp -Ze -D_MSC_EXTENSIONS -Zp16 -pc \\:/ -D_MSC_VER=1929 -D_MSC_FULL_VER=192930137 -D_MSC_BUILD=0 -D_M_AMD64=100 -ZILP448 -D_M_X64=100 -D_WIN64 -D_WIN32 -GR -D_CPPRTTI -I .\\GeneratedFiles -I .\\GeneratedFiles\\Release -I . -I .\\GeneratedFiles -I .\\GeneratedFiles\\Release -I D:\\Program Files (x86)\\Visual Leak Detector\\include -I E:\\2-C++\\FNN2\\FNN\\ -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\include -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\include\\QtCharts -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\include\\QtWidgets -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\include\\QtGui -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\include\\QtANGLE -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\include\\QtCore -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\mkspecs\\win32-msvc -I .\\GeneratedFiles\\Release -I .\\GeneratedFiles -nologo -W 1 -diagnostics:column -GF -Og -Oi -Ot -Oy -DCODE_ANALYSIS -DUNICODE -DQT_DLL -D_WINDOWS -DWIN32 -DWIN64 -DQT_NO_DEBUG -DQT_CHARTS_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG -EHs -D_CPPUNWIND -EHc -MD -D_MT -D_DLL -GS -D_M_FP_PRECISE -Zc:wchar_t -Zc:forScope -Fox64\\Release\\CNNModel.obj -Fdx64\\Release\\vc142.pdb -external:W 1 -Gd -analyze:projectdirectory E:\\2-C++\\FNN2\\FNN -analyze:rulesetdirectory ;D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\\\Rule Sets; -analyze:ruleset D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\Rule Sets\\NativeRecommendedRules.ruleset -analyze:quiet -analyze:plugin D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX86\\x86\\EspXEngine.dll -FC -errorreport:prompt -Zc:rvalueCast -Zc:strictStrings -Zc:referenceBinding -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\include -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\atlmfc\\include -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\UnitTest\\include -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\um -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\winrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\cppwinrt -I C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\Include\\um -external:I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\include -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\include -external:I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\atlmfc\\include -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\atlmfc\\include -external:I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt -external:I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\UnitTest\\include -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\UnitTest\\include -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\um -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\um -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\winrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\winrt -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\cppwinrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\cppwinrt -external:I C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\Include\\um -I C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\Include\\um -MPdiagMutex 00000000000001B4",
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+          },
+          "roles": [
+            "resultFile"
+          ],
+          "hashes": {
+            "md5": "97dd9057401c8a24485d1a1a2e361d73"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///E:/2-C++/FNN2/FNN/CNNModel.cpp"
+          },
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ],
+          "hashes": {
+            "md5": "d10e1dee8b770ffa9eb5aedebaf8edd8"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///e:/2-c++/fnn2/fnn/cnnmodel.h"
+          },
+          "hashes": {
+            "md5": "8e7f8862dfcad7430ba47b473780eec8"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2273 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "ruleId": "C6011",
+          "message": {
+            "text": "取消对 NULL 指针“vImageData”的引用。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 70,
+                  "startColumn": 5,
+                  "endLine": 70,
+                  "endColumn": 21
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?initImage@image@@QEAA_NH@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 44,
+                            "startColumn": 30
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 46,
+                            "startColumn": 14
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 47,
+                            "startColumn": 13
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 47,
+                            "startColumn": 24
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 49,
+                            "startColumn": 19
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 50,
+                            "startColumn": 14
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 50,
+                            "startColumn": 23
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 52,
+                            "startColumn": 23
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 50,
+                            "startColumn": 32
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 50,
+                            "startColumn": 23
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 47,
+                            "startColumn": 37
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 47,
+                            "startColumn": 24
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 55,
+                            "startColumn": 13
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 55,
+                            "startColumn": 24
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 57,
+                            "startColumn": 14
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 57,
+                            "startColumn": 23
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 59,
+                            "startColumn": 15
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 59,
+                            "startColumn": 24
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 61,
+                            "startColumn": 27
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 59,
+                            "startColumn": 33
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 59,
+                            "startColumn": 24
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 57,
+                            "startColumn": 32
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 57,
+                            "startColumn": 23
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 55,
+                            "startColumn": 37
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 55,
+                            "startColumn": 24
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 65,
+                            "startColumn": 11
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 66,
+                            "startColumn": 11
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 67,
+                            "startColumn": 15
+                          }
+                        },
+                        "message": {
+                          "text": "“vImageData”可能为 NULL"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ],
+                      "importance": "essential"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 68,
+                            "startColumn": 13
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 68,
+                            "startColumn": 21
+                          }
+                        },
+                        "message": {
+                          "text": "进入此循环(假定“i<block”)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ],
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 70,
+                            "startColumn": 19
+                          }
+                        },
+                        "message": {
+                          "text": "已取消对“vImageData”的引用，但可能仍为 NULL"
+                        }
+                      },
+                      "kinds": [
+                        "usage"
+                      ],
+                      "importance": "essential"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6011",
+          "message": {
+            "text": "取消对 NULL 指针“vWeight”的引用。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 244,
+                  "startColumn": 4,
+                  "endLine": 244,
+                  "endColumn": 17
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?initKernal@kernal@@QEAAXN@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 229,
+                            "startColumn": 10
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 230,
+                            "startColumn": 12
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 230,
+                            "startColumn": 21
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 232,
+                            "startColumn": 14
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 233,
+                            "startColumn": 13
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 233,
+                            "startColumn": 22
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 235,
+                            "startColumn": 18
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 233,
+                            "startColumn": 30
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 233,
+                            "startColumn": 22
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 230,
+                            "startColumn": 33
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 230,
+                            "startColumn": 21
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 238,
+                            "startColumn": 10
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 239,
+                            "startColumn": 10
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 241,
+                            "startColumn": 11
+                          }
+                        },
+                        "message": {
+                          "text": "“vWeight”可能为 NULL"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ],
+                      "importance": "essential"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 242,
+                            "startColumn": 12
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 242,
+                            "startColumn": 20
+                          }
+                        },
+                        "message": {
+                          "text": "进入此循环(假定“i<blockSoze”)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ],
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 244,
+                            "startColumn": 15
+                          }
+                        },
+                        "message": {
+                          "text": "已取消对“vWeight”的引用，但可能仍为 NULL"
+                        }
+                      },
+                      "kinds": [
+                        "usage"
+                      ],
+                      "importance": "essential"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6011",
+          "message": {
+            "text": "取消对 NULL 指针“alignedWeight”的引用。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 259,
+                  "startColumn": 6,
+                  "endLine": 259,
+                  "endColumn": 60
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?initKernal@kernal@@QEAAXN@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 229,
+                            "startColumn": 10
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 230,
+                            "startColumn": 12
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 230,
+                            "startColumn": 21
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 232,
+                            "startColumn": 14
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 233,
+                            "startColumn": 13
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 233,
+                            "startColumn": 22
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 235,
+                            "startColumn": 18
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 233,
+                            "startColumn": 30
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 233,
+                            "startColumn": 22
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 230,
+                            "startColumn": 33
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 230,
+                            "startColumn": 21
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 238,
+                            "startColumn": 10
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 239,
+                            "startColumn": 10
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 241,
+                            "startColumn": 11
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 242,
+                            "startColumn": 12
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 242,
+                            "startColumn": 20
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 244,
+                            "startColumn": 15
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 242,
+                            "startColumn": 33
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 242,
+                            "startColumn": 20
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 246,
+                            "startColumn": 7
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 247,
+                            "startColumn": 17
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 248,
+                            "startColumn": 17
+                          }
+                        },
+                        "message": {
+                          "text": "“alignedWeight”可能为 NULL"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ],
+                      "importance": "essential"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 249,
+                            "startColumn": 8
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 250,
+                            "startColumn": 12
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 250,
+                            "startColumn": 23
+                          }
+                        },
+                        "message": {
+                          "text": "进入此循环(假定“ch<channel”)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ],
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 252,
+                            "startColumn": 13
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 252,
+                            "startColumn": 22
+                          }
+                        },
+                        "message": {
+                          "text": "进入此循环(假定“r<row”)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ],
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 254,
+                            "startColumn": 14
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 254,
+                            "startColumn": 23
+                          }
+                        },
+                        "message": {
+                          "text": "进入此循环(假定“c<col”)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ],
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 256,
+                            "startColumn": 12
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 257,
+                            "startColumn": 23
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 258,
+                            "startColumn": 52
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                          },
+                          "region": {
+                            "startLine": 259,
+                            "startColumn": 58
+                          }
+                        },
+                        "message": {
+                          "text": "已取消对“alignedWeight”的引用，但可能仍为 NULL"
+                        }
+                      },
+                      "kinds": [
+                        "usage"
+                      ],
+                      "importance": "essential"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26812",
+          "message": {
+            "text": "枚举类型“layerType”未设定范围。相比于 \"enum\"，首选 \"enum class\" (Enum.3)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 515,
+                  "startColumn": 7,
+                  "endLine": 515,
+                  "endColumn": 7
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?setlayerType@CNNCalc@@QEAAXW4layerType@@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26812",
+          "message": {
+            "text": "枚举类型“PaddingMethod”未设定范围。相比于 \"enum\"，首选 \"enum class\" (Enum.3)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 516,
+                  "startColumn": 7,
+                  "endLine": 516,
+                  "endColumn": 7
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?setPaddingMethod@CNNCalc@@QEAAXW4PaddingMethod@@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                },
+                "region": {
+                  "startLine": 89,
+                  "startColumn": 30,
+                  "endLine": 89,
+                  "endColumn": 40
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?ImportIdlO@FNN@@QEAAXXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6290",
+          "message": {
+            "text": "对逻辑结果的位运算: ! 的优先级高于 & 。应改用 && 或(! (x & y))。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                },
+                "region": {
+                  "startLine": 89,
+                  "startColumn": 10,
+                  "endLine": 89,
+                  "endColumn": 40
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?ImportIdlO@FNN@@QEAAXXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6001",
+          "message": {
+            "text": "使用未初始化的内存“o”。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                },
+                "region": {
+                  "startLine": 101,
+                  "startColumn": 6,
+                  "endLine": 101,
+                  "endColumn": 6
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?ImportIdlO@FNN@@QEAAXXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 61,
+                            "startColumn": 9
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 62,
+                            "startColumn": 11
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 62,
+                            "startColumn": 20
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 66,
+                            "startColumn": 16
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 67,
+                            "startColumn": 37
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 67,
+                            "startColumn": 6
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 68,
+                            "startColumn": 6
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 69,
+                            "startColumn": 6
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 70,
+                            "startColumn": 6
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 71,
+                            "startColumn": 11
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 71,
+                            "startColumn": 22
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 73,
+                            "startColumn": 11
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 71,
+                            "startColumn": 34
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 71,
+                            "startColumn": 22
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 78,
+                            "startColumn": 83
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 78,
+                            "startColumn": 79
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 78,
+                            "startColumn": 56
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 78,
+                            "startColumn": 10
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 80,
+                            "startColumn": 8
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 81,
+                            "startColumn": 6
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 82,
+                            "startColumn": 7
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 83,
+                            "startColumn": 6
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 84,
+                            "startColumn": 14
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 86,
+                            "startColumn": 11
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 87,
+                            "startColumn": 15
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 89,
+                            "startColumn": 27
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 91,
+                            "startColumn": 10
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 91,
+                            "startColumn": 19
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 91,
+                            "startColumn": 10
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 92,
+                            "startColumn": 16
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 93,
+                            "startColumn": 24
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 95,
+                            "startColumn": 13
+                          }
+                        },
+                        "message": {
+                          "text": "未初始化“o”"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ],
+                      "importance": "essential"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 96,
+                            "startColumn": 9
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 99,
+                            "startColumn": 14
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 99,
+                            "startColumn": 23
+                          }
+                        },
+                        "message": {
+                          "text": "进入此循环(假定“i<outlen”)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ],
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 101,
+                            "startColumn": 11
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 101,
+                            "startColumn": 6
+                          }
+                        },
+                        "message": {
+                          "text": "已使用“o”，但可能尚未将其初始化"
+                        }
+                      },
+                      "kinds": [
+                        "usage"
+                      ],
+                      "importance": "essential"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                },
+                "region": {
+                  "startLine": 168,
+                  "startColumn": 30,
+                  "endLine": 168,
+                  "endColumn": 47
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?ImpotsDatas@FNN@@QEAAXXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6290",
+          "message": {
+            "text": "对逻辑结果的位运算: ! 的优先级高于 & 。应改用 && 或(! (x & y))。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                },
+                "region": {
+                  "startLine": 168,
+                  "startColumn": 10,
+                  "endLine": 168,
+                  "endColumn": 47
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?ImpotsDatas@FNN@@QEAAXXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                },
+                "region": {
+                  "startLine": 193,
+                  "startColumn": 6,
+                  "endLine": 193,
+                  "endColumn": 23
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?ImpotsDatas@FNN@@QEAAXXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6283",
+          "message": {
+            "text": "“outVector”使用数组 new [] 分配，但使用标量 delete 删除。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                },
+                "region": {
+                  "startLine": 505,
+                  "startColumn": 10,
+                  "endLine": 505,
+                  "endColumn": 10
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?LauchCNNModel@FNN@@QEAAXXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 464,
+                            "startColumn": 21
+                          }
+                        }
+                      },
+                      "importance": "important"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                          },
+                          "region": {
+                            "startLine": 505,
+                            "startColumn": 10
+                          }
+                        }
+                      },
+                      "importance": "important"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26451",
+          "message": {
+            "text": "算术溢出: 使用 4 字节值上的运算符 - ，然后将结果转换到 8 字节值。在调用运算符 - 之前将值强制转换为宽类型可避免溢出(io.2)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                },
+                "region": {
+                  "startLine": 477,
+                  "startColumn": 44,
+                  "endLine": 477,
+                  "endColumn": 54
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?LauchCNNModel@FNN@@QEAAXXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26451",
+          "message": {
+            "text": "算术溢出: 使用 4 字节值上的运算符 - ，然后将结果转换到 8 字节值。在调用运算符 - 之前将值强制转换为宽类型可避免溢出(io.2)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+                },
+                "region": {
+                  "startLine": 486,
+                  "startColumn": 40,
+                  "endLine": 486,
+                  "endColumn": 50
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?LauchCNNModel@FNN@@QEAAXXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.29.30137.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "commandLine": "\"D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX86\\x64\\c1xx.dll\" -ACf{1F7B090C-16DB-4822-966A-A93D26ED4681} -ACpmspft140.dll -Alint -D_PREFAST_ -D_AST_FE_ -Analyze -zm0x006CC1B0 -il C:\\Users\\63473\\AppData\\Local\\Temp\\_CL_b8483971ast -typedil -f FNN.cpp -Ze -D_MSC_EXTENSIONS -Zp16 -pc \\:/ -D_MSC_VER=1929 -D_MSC_FULL_VER=192930137 -D_MSC_BUILD=0 -D_M_AMD64=100 -ZILP448 -D_M_X64=100 -D_WIN64 -D_WIN32 -GR -D_CPPRTTI -I E:\\2-C++\\FNN5\\FNN\\GeneratedFiles -I E:\\2-C++\\FNN5\\FNN\\GeneratedFiles\\Debug -I E:\\2-C++\\FNN5\\FNN -I E:\\2-C++\\FNN5\\FNN\\GeneratedFiles -I E:\\2-C++\\FNN5\\FNN\\GeneratedFiles\\Debug -I D:\\Program Files (x86)\\Visual Leak Detector\\include -I E:\\2-C++\\FNN5\\FNN\\ -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\include -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\include\\QtOpenGL -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\include\\QtCharts -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\include\\QtWidgets -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\include\\QtGui -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\include\\QtANGLE -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\include\\QtCore -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\mkspecs\\win32-msvc -I E:\\2-C++\\FNN5\\FNN\\GeneratedFiles\\Debug -I E:\\2-C++\\FNN5\\FNN\\GeneratedFiles -nologo -W 1 -diagnostics:column -Ot -DCODE_ANALYSIS -DQT_DLL -D_WINDOWS -DWIN32 -DWIN64 -DQT_OPENGL_LIB -DQT_CHARTS_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_UNICODE -DUNICODE -EHs -D_CPPUNWIND -EHc -MDd -D_DEBUG -D_MT -D_DLL -GS -D_M_FP_PRECISE -Zc:wchar_t -Zc:forScope -Fox64\\Debug\\FNN.obj -Fdx64\\Debug\\vc142.pdb -external:W 1 -Gd -analyze:projectdirectory E:\\2-C++\\FNN5\\FNN -analyze:rulesetdirectory ;D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\\\Rule Sets; -analyze:ruleset D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\Rule Sets\\NativeRecommendedRules.ruleset -analyze:quiet -analyze:plugin D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX86\\x86\\EspXEngine.dll -FC -errorreport:prompt -Zc:rvalueCast -Zc:strictStrings -Zc:referenceBinding -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\include -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\atlmfc\\include -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.10240.0\\ucrt -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\UnitTest\\include -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.10240.0\\um -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.10240.0\\shared -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.10240.0\\winrt -I C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\Include\\um -external:I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\include -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\include -external:I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\atlmfc\\include -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\atlmfc\\include -external:I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.10240.0\\ucrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.10240.0\\ucrt -external:I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\UnitTest\\include -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\UnitTest\\include -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.10240.0\\um -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.10240.0\\um -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.10240.0\\shared -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.10240.0\\shared -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.10240.0\\winrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.10240.0\\winrt -external:I C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\Include\\um -I C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\Include\\um -MPdiagMutex 00000000000001AC",
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///E:/2-C++/FNN5/FNN/CNNLayer.h"
+          },
+          "roles": [
+            "resultFile"
+          ],
+          "hashes": {
+            "md5": "979591598913f700218a86cd7c1bf9c3"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///E:/2-C++/FNN5/FNN/FNN.cpp"
+          },
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ],
+          "hashes": {
+            "md5": "07805b7044af9b34c04a477f0c1d4839"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///e:/2-c++/fnn5/fnn/fnn.h"
+          },
+          "hashes": {
+            "md5": "e36e01a437f7be9f28c8be5886dee271"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///e:/2-c++/fnn5/fnn/getcpuid.h"
+          },
+          "hashes": {
+            "md5": "699d0204c5c9d78255adb0cae3fb0532"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///e:/2-c++/fnn5/fnn/cnnmodel.h"
+          },
+          "hashes": {
+            "md5": "9c8f437dd259b6c6f0c06c65f3e22d4d"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///e:/2-c++/fnn5/fnn/readcifar10.h"
+          },
+          "hashes": {
+            "md5": "206472102c9ca8a7b5ffce6b75268f8b"
+          }
+        }
+      ]
+    }
+  ]
+}

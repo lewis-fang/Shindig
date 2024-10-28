@@ -1,0 +1,8 @@
+﻿  CNNLayer.cpp
+  CNNModel.cpp
+  FNN.cpp
+  main.cpp
+  readCifar10.cpp
+E:\2-C++\FNN5-simd 1.5 - multiThread\FNN\FNN.cpp(104): warning C4700: 使用了未初始化的局部变量“o”
+  moc_FNN.cpp
+  FNN.vcxproj -> E:\2-C++\FNN5-simd 1.5 - multiThread\x64\Debug\FNN.exe

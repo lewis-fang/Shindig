@@ -1,0 +1,976 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 kernal::weight。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 118,
+                  "startColumn": 2,
+                  "endLine": 118,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0kernal@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "kernal::weight"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 kernal::SeriesWeights。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 118,
+                  "startColumn": 2,
+                  "endLine": 118,
+                  "endColumn": 2
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0kernal@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "kernal::SeriesWeights"
+          }
+        },
+        {
+          "ruleId": "C26451",
+          "message": {
+            "text": "算术溢出: 使用 4 字节值上的运算符 * ，然后将结果转换到 8 字节值。在调用运算符 * 之前将值强制转换为宽类型可避免溢出(io.2)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 131,
+                  "startColumn": 32,
+                  "endLine": 131,
+                  "endColumn": 36
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?initKernal@kernal@@QEAAXN@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26812",
+          "message": {
+            "text": "枚举类型“layerType”未设定范围。相比于 \"enum\"，首选 \"enum class\" (Enum.3)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 257,
+                  "startColumn": 7,
+                  "endLine": 257,
+                  "endColumn": 7
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?setlayerType@CNNCalc@@QEAAXW4layerType@@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26812",
+          "message": {
+            "text": "枚举类型“PaddingMethod”未设定范围。相比于 \"enum\"，首选 \"enum class\" (Enum.3)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 258,
+                  "startColumn": 7,
+                  "endLine": 258,
+                  "endColumn": 7
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?setPaddingMethod@CNNCalc@@QEAAXW4PaddingMethod@@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::kernalChannel。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::kernalChannel"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::Loss。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::Loss"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::lossType。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::lossType"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::shadowKernals。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::shadowKernals"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::kernalRow。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::kernalRow"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::stride。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::stride"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::poolingStride。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::poolingStride"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::kernalCol。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::kernalCol"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::poolingDim2。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::poolingDim2"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::poolingDim1。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::poolingDim1"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::BackLayer::neuroNumers。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+                },
+                "region": {
+                  "startLine": 322,
+                  "startColumn": 3,
+                  "endLine": 322,
+                  "endColumn": 3
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0BackLayer@CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::BackLayer::neuroNumers"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::dkernal。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.cpp"
+                },
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 10,
+                  "endLine": 3,
+                  "endColumn": 10
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::dkernal"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::CNNKernalsRotate180。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.cpp"
+                },
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 10,
+                  "endLine": 3,
+                  "endColumn": 10
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::CNNKernalsRotate180"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::CNNKernals。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.cpp"
+                },
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 10,
+                  "endLine": 3,
+                  "endColumn": 10
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::CNNKernals"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::kernalChannel。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.cpp"
+                },
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 10,
+                  "endLine": 3,
+                  "endColumn": 10
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::kernalChannel"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::kernalCols。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.cpp"
+                },
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 10,
+                  "endLine": 3,
+                  "endColumn": 10
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::kernalCols"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::kernalRows。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.cpp"
+                },
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 10,
+                  "endLine": 3,
+                  "endColumn": 10
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::kernalRows"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::neuroNums。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.cpp"
+                },
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 10,
+                  "endLine": 3,
+                  "endColumn": 10
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::neuroNums"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "未初始化变量 CNNCalc::stride。始终初始化成员变量(type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.cpp"
+                },
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 10,
+                  "endLine": 3,
+                  "endColumn": 10
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "??0CNNCalc@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "CNNCalc::stride"
+          }
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.cpp"
+                },
+                "region": {
+                  "startLine": 181,
+                  "startColumn": 77,
+                  "endLine": 181,
+                  "endColumn": 111
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?padding@CNNCalc@@AEAAXXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.cpp"
+                },
+                "region": {
+                  "startLine": 181,
+                  "startColumn": 62,
+                  "endLine": 181,
+                  "endColumn": 64
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?padding@CNNCalc@@AEAAXXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.cpp"
+                },
+                "region": {
+                  "startLine": 181,
+                  "startColumn": 24,
+                  "endLine": 181,
+                  "endColumn": 58
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?padding@CNNCalc@@AEAAXXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.cpp"
+                },
+                "region": {
+                  "startLine": 181,
+                  "startColumn": 9,
+                  "endLine": 181,
+                  "endColumn": 11
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?padding@CNNCalc@@AEAAXXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26451",
+          "message": {
+            "text": "算术溢出: 使用 4 字节值上的运算符 * ，然后将结果转换到 8 字节值。在调用运算符 * 之前将值强制转换为宽类型可避免溢出(io.2)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.cpp"
+                },
+                "region": {
+                  "startLine": 220,
+                  "startColumn": 64,
+                  "endLine": 220,
+                  "endColumn": 75
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?pooling@CNNCalc@@AEAAXXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.cpp"
+                },
+                "region": {
+                  "startLine": 399,
+                  "startColumn": 83,
+                  "endLine": 399,
+                  "endColumn": 111
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?setOutLossss@CNNCalc@@QEAA_NUimage@@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.cpp"
+                },
+                "region": {
+                  "startLine": 399,
+                  "startColumn": 48,
+                  "endLine": 399,
+                  "endColumn": 76
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?setOutLossss@CNNCalc@@QEAA_NUimage@@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C6281",
+          "message": {
+            "text": "运算顺序不正确: 关系运算符的优先级高于位运算符。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.cpp"
+                },
+                "region": {
+                  "startLine": 399,
+                  "startColumn": 6,
+                  "endLine": 399,
+                  "endColumn": 37
+                }
+              },
+              "logicalLocations": [
+                {
+                  "decoratedName": "?setOutLossss@CNNCalc@@QEAA_NUimage@@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.29.30137.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "commandLine": "\"D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX86\\x64\\c1xx.dll\" -ACf{1F7B090C-16DB-4822-966A-A93D26ED4681} -ACpmspft140.dll -Alint -D_PREFAST_ -D_AST_FE_ -Analyze -zm0x00E6C1B0 -il C:\\Users\\63473\\AppData\\Local\\Temp\\_CL_4ed392d0ast -typedil -f CNNLayer.cpp -Ze -D_MSC_EXTENSIONS -Zp16 -pc \\:/ -D_MSC_VER=1929 -D_MSC_FULL_VER=192930137 -D_MSC_BUILD=0 -D_M_AMD64=100 -ZILP448 -D_M_X64=100 -D_WIN64 -D_WIN32 -GR -D_CPPRTTI -I .\\GeneratedFiles -I .\\GeneratedFiles\\Release -I . -I .\\GeneratedFiles -I .\\GeneratedFiles\\Release -I D:\\Program Files (x86)\\Visual Leak Detector\\include -I E:\\2-C++\\FNN2\\FNN\\ -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\include -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\include\\QtCharts -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\include\\QtWidgets -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\include\\QtGui -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\include\\QtANGLE -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\include\\QtCore -I D:\\Qt\\Qt5.9.9\\5.9.9\\msvc2017_64\\mkspecs\\win32-msvc -I .\\GeneratedFiles\\Release -I .\\GeneratedFiles -nologo -W 1 -diagnostics:column -GF -Og -Oi -Ot -Oy -DCODE_ANALYSIS -DUNICODE -DQT_DLL -D_WINDOWS -DWIN32 -DWIN64 -DQT_NO_DEBUG -DQT_CHARTS_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG -EHs -D_CPPUNWIND -EHc -MD -D_MT -D_DLL -GS -D_M_FP_PRECISE -Zc:wchar_t -Zc:forScope -Fox64\\Release\\CNNLayer.obj -Fdx64\\Release\\vc142.pdb -external:W 1 -Gd -analyze:projectdirectory E:\\2-C++\\FNN2\\FNN -analyze:rulesetdirectory ;D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\\\Rule Sets; -analyze:ruleset D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\Rule Sets\\NativeRecommendedRules.ruleset -analyze:quiet -analyze:plugin D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX86\\x86\\EspXEngine.dll -FC -errorreport:prompt -Zc:rvalueCast -Zc:strictStrings -Zc:referenceBinding -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\include -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\atlmfc\\include -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\UnitTest\\include -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\um -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\winrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\cppwinrt -I C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\Include\\um -external:I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\include -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\include -external:I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\atlmfc\\include -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30133\\atlmfc\\include -external:I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt -external:I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\UnitTest\\include -I D:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\UnitTest\\include -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\um -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\um -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\winrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\winrt -external:I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\cppwinrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\cppwinrt -external:I C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\Include\\um -I C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\Include\\um -MPdiagMutex 00000000000001B4",
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.h"
+          },
+          "roles": [
+            "resultFile"
+          ],
+          "hashes": {
+            "md5": "97dd9057401c8a24485d1a1a2e361d73"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///E:/2-C++/FNN2/FNN/CNNLayer.cpp"
+          },
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ],
+          "hashes": {
+            "md5": "28f3499fdaf2e7dd8f89be9878705f2a"
+          }
+        }
+      ]
+    }
+  ]
+}
