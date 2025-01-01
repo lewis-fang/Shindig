@@ -8,6 +8,7 @@
 #include<iomanip>
 #include<getCpuId.h>
 #include"DataDefine.h"
+#define SMALLZERO 1E-8
 class CNNCalc
 {
 public:
@@ -15,6 +16,9 @@ public:
 	~CNNCalc();
 	//init current Layer
 	void initLayerMemory(int inRows, int inCols, int inChannel);
+	void initLayerMemoryV2(int batchSize);
+	void initLayerSize(int inRows, int inCols, int inChannel);
+	void freeLayerMemory();
 	void initKernals(int wtsRow, int wtsCol, int wtsChannel, int ns,int strd,float sd,float bs);
 	void SetInput(image imago);//must set
 	bool SetKernals(std::vector<kernal> kernals, int kernalrow, int kernalcol, int padsz, int strd, int ns);// must set
@@ -24,7 +28,7 @@ public:
 	void setPaddingMethod(PaddingMethod pm){ padMoethod = pm; }
 	void setHiddenNum(int hn){ HideLayerNumth = hn; }
 	bool setOutLossss(image umg);
-	void resetShadowKernal();
+
 	void UpdateLayerWB();
 	void AccumulateDW(float learnrate, int bs);
 	bool UpdateLayerLoss(image& retImage);
@@ -42,15 +46,21 @@ public:
 	 image getActImage(){ return actImage; }
 	 image getInputImage(){ return inputImage; }
 	 image getPaddingImage(){ return padImage; }
-
-	bool LaunchConvolutionBySimd();
-	void SetInputSimd(image imago);
-	bool UpdateLayerLossSimd(image& retImage);
+	bool LaunchConvolutionBySimd(int b=0);
+	void SetInputSimd(image imago,int b=0);
+	bool UpdateLayerLossSimd(image& retImage, int b=0);
 	image& getCurrentLayerIdealOutDxdy() { return BL.dIdealOutVSdO; }
-	bool setOutLossssSimd(image umg);
-	void resetShadowKernalSimd();
-	void UpdateLayerWBSimd();
-	void AccumulateDWSimd(float learnrate, int bs);
+	bool setOutLossssSimd(image umg,int b=0);
+	void UpdateLayerWBSimd(float learnrate, float l2Lamda,  int bs);
+	void AccumulateDWSimd(float learnrate, int bs,int b=0);
+
+	void addDKernalShadow(int b=0);
+	void UpdateLayerWBSGDM(float learnrate, float beta1, float l2Lamda,int t);
+	void UpdateLayerWBSGDMW(float learnrate, float beta1, float l2Lamda, int t);
+	void UpdateLayerWBSGNAD(float learnrate, float beta1, float l2Lamda,int t);
+	void UpdateLayerWBADAM(float learnrate, float beta1, float beta2, float sigma, float l2Lamda, int t);
+	void UpdateLayerWBADAMW(float learnrate, float beta1, float beta2, float sigma, float l2Lamda,int t);
+	void SetInputSimdV2(image imago, int b);
 private:
 	size_t HideLayerNumth;
 	image inputImage;
@@ -68,7 +78,7 @@ private:
 	kernal* CNNKernalsRotate180;
 	kernal* CNNKernalsRotate180Simd;
 	kernal* dkernal;
-
+	std::vector<kernal*> dkernalSeries;
 
 	image bzactImage;
 	image actImage;//buffers before  pooling
@@ -95,13 +105,13 @@ private:
 	
 	inline float activate(float a, int fun);
 	void pooling();   //4th
-	void setOutBuffer();//prior to the convolution step
-	void setOutBuffer2();
+	void setOutBuffer(int batchSize=1);//prior to the convolution step
+	void setOutBuffer2(int batchSize = 1);
 
-	void paddingSimd();
-	void poolingSimdV2();
-	void ConvolutionSimd();
-	void ConvolutionSimdFullyConv();
+	void paddingSimd(int b=0);
+	void poolingSimdV2(int b = 0);
+	void ConvolutionSimd(int b = 0);
+	void ConvolutionSimdFullyConv(int b = 0);
 
 
 	size_t cmplementSize;
@@ -117,7 +127,8 @@ class BackLayer
 		__m128  dactivateSimd128(__m128 a, int fun);
 		float dactivate(float a, int fun);
 
-		kernal* shadowKernals;
+		kernal* ShadowMoment;
+		kernal* ShadowVelocity;
 	public:
 			int lossType;//0:1/2*||y-x||,,1: cross Entropy
 			image dIdealOutVSdO;
@@ -140,15 +151,15 @@ class BackLayer
 			bool TMatrixKernal(const kernal* kernalSeris, kernal* retKernal180, int neuroNums);
 			void innerPadding(image beforePaddingZ, image& AfterPaddingZ ,int innerSizeRow, int innerSizeCol);
 			bool outPadding(image beforePaddingZ, image& AfterPaddingZ, int targetRow, int targetCol);
-
+			
 			//simd version function
 			bool TMatrixKernalSimd(const kernal* kernalSeris, kernal* retKernal180, int neuroNums);
 			bool outPaddingSimd(image beforePaddingZ, image& AfterPaddingZ, int targetRow, int targetCol);
-			bool dConvolutionXSimd(image inPa, image outZ, image bzactImage, kernal* K180, int Kn, int stride, image& dImage);
-			bool dFullyConvolutionXSimd(image inPa, image outZ, image bzactImage, kernal* kernalSeries, int Kn, image& dImage);
-			bool dPoolingSimd(image actImage, image DyDxoutImage, int poolingdim1, int poolingdim2, int poolingstride, image& dPoolingImage);
-			bool dConvolutionWSimd(image inPa, image outZ, image bzactImage, kernal*& dkernal, int Kn, int stride);
-			void innerPaddingSimd(image beforePaddingZ, image& AfterPaddingZ, int innerSizeRow, int innerSizeCol);
+			bool dConvolutionXSimd(image inPa, image outZ, image bzactImage, kernal* K180, int Kn, int stride, image& dImage, int b=0);
+			bool dFullyConvolutionXSimd(image inPa, image outZ, image bzactImage, kernal* kernalSeries, int Kn, image& dImage,int b = 0);
+			bool dPoolingSimd(image actImage, image DyDxoutImage, int poolingdim1, int poolingdim2, int poolingstride, image& dPoolingImage, int b = 0);
+			bool dConvolutionWSimd(image inPa, image outZ, image bzactImage, kernal*& dkernal, int Kn, int stride, int b = 0);
+			void innerPaddingSimd(image beforePaddingZ, image& AfterPaddingZ, int innerSizeRow, int innerSizeCol, int b = 0);
 			__m256 _mm256_exp_ps_ft(__m256 a);
 			__m128 _mm_exp_ps_ft(__m128 a);
 	}BL;

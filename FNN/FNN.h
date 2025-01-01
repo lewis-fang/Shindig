@@ -12,8 +12,8 @@
 #include "CNNModel.h"
 #include <QtCharts/qvalueaxis.h>
 #include "readCifar10.h"
-//#include"qmainwindow.h"
 #include <thread>
+#include"DataDefine.h"
 #define loopImg 1000
 //#define CHECKSPEED
 using namespace QtCharts;
@@ -49,7 +49,7 @@ private:
 	
 	void updateLoss();
 public slots:
-	void ImpotsDatas();
+//	void ImpotsDatas();
 	void ImpotWts();
 	void SetInputSize();
 	void Launch();
@@ -61,8 +61,9 @@ public slots:
 	void popBack();
 	void ChangeTrainMode(int);
 	void LaunchTraing();
-	void ImportIdlO();
+//	void ImportIdlO();
 	void ImportCifarTrain();
 	void ImportCifarTest();
 	void LaunchTraingThread();
+	void LauchCNNModelParrallel();
 };

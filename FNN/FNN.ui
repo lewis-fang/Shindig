@@ -660,23 +660,10 @@
        <string>Model Controller</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_7">
-       <item row="2" column="0">
+       <item row="1" column="0">
         <widget class="QLabel" name="label_13">
          <property name="text">
           <string>Import Model</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QPushButton" name="pushButton_ImportWts">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string/>
          </property>
         </widget>
        </item>
@@ -687,7 +674,7 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="0" colspan="2">
+       <item row="4" column="0" colspan="2">
         <widget class="QPushButton" name="pushButton_LaunchModel">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -1118,13 +1105,6 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_44">
-         <property name="text">
-          <string>Import test Img</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="1">
         <widget class="QLineEdit" name="lineEdit_testImgNum">
          <property name="sizePolicy">
@@ -1138,17 +1118,23 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="pushButton_ImportTestImg">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
+       <item row="3" column="1">
         <widget class="QPushButton" name="pushButton_cifarTest">
          <property name="text">
           <string>Import Cifar Test Group</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="pushButton_ImportWts">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </item>
@@ -1236,22 +1222,8 @@
        <string>train</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_8">
-       <item row="12" column="0">
-        <widget class="QLabel" name="label_37">
-         <property name="text">
-          <string>Loss</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_42">
-         <property name="text">
-          <string>Img Number</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QPushButton" name="pushButton_ImportIdealOut">
+       <item row="18" column="1">
+        <widget class="QLineEdit" name="lineEdit_L2Lamda">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -1259,52 +1231,11 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string/>
+          <string>0.001</string>
          </property>
         </widget>
        </item>
-       <item row="9" column="1">
-        <widget class="QLineEdit" name="lineEdit_NormalizedSHif">
-         <property name="text">
-          <string>1</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0">
-        <widget class="QLabel" name="label_36">
-         <property name="text">
-          <string>learn rate</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="label_35">
-         <property name="text">
-          <string>Normalized Mthd</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="2">
-        <widget class="Line" name="line">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="pushButton_importImage">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="1">
+       <item row="11" column="1">
         <widget class="QLineEdit" name="lineEdit_diffLoss">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1317,14 +1248,54 @@
          </property>
         </widget>
        </item>
-       <item row="8" column="0">
+       <item row="14" column="0">
+        <widget class="QLabel" name="label_31">
+         <property name="text">
+          <string>Optimizer</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="1">
+        <widget class="QLineEdit" name="lineEdit_maxIters">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>20</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_42">
+         <property name="text">
+          <string>Img Number</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QLineEdit" name="lineEdit_NormalizedSHif">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
         <widget class="QLabel" name="label_41">
          <property name="text">
           <string>range</string>
          </property>
         </widget>
        </item>
-       <item row="12" column="1">
+       <item row="10" column="1">
         <widget class="QLineEdit" name="lineEdit_Loss">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1337,49 +1308,21 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="0">
-        <widget class="QLabel" name="label_43">
+       <item row="12" column="0">
+        <widget class="QLabel" name="label_39">
          <property name="text">
-          <string>shift</string>
+          <string>Max iter</string>
          </property>
         </widget>
        </item>
-       <item row="13" column="0">
-        <widget class="QLabel" name="label_38">
+       <item row="10" column="0">
+        <widget class="QLabel" name="label_37">
          <property name="text">
-          <string>Diff Loss</string>
+          <string>Loss</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_40">
-         <property name="text">
-          <string>Import Ideal Out</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="QPushButton" name="pushButton_cifarTrains">
-         <property name="text">
-          <string>Import Cifar Train Group</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Import Img</string>
-         </property>
-        </widget>
-       </item>
-       <item row="16" column="0">
-        <widget class="QLabel" name="label_Traingmode">
-         <property name="text">
-          <string>start</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="1">
+       <item row="9" column="1">
         <widget class="QLineEdit" name="lineEdit_learnRate">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -1392,14 +1335,158 @@
          </property>
         </widget>
        </item>
-       <item row="8" column="1">
-        <widget class="QLineEdit" name="lineEdit_NormalizedRange">
-         <property name="text">
-          <string>255</string>
+       <item row="5" column="1">
+        <widget class="QComboBox" name="comboBox_normalizedMethd">
+         <property name="currentIndex">
+          <number>2</number>
+         </property>
+         <item>
+          <property name="text">
+           <string>None</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>global norm</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>self norm</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="2">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="16" column="1">
+       <item row="6" column="1">
+        <widget class="QLineEdit" name="lineEdit_NormalizedRange">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="label_36">
+         <property name="text">
+          <string>learn rate</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_43">
+         <property name="text">
+          <string>shift</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="1">
+        <widget class="QComboBox" name="comboBox_useSimd">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(218, 203, 218);</string>
+         </property>
+         <property name="currentIndex">
+          <number>3</number>
+         </property>
+         <item>
+          <property name="text">
+           <string>Basic</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Simd</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>MultiThread Simd Layer</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>MultiThread Simd Batch</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QLabel" name="label_38">
+         <property name="text">
+          <string>Diff Loss</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineEdit_ImgNumbers">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>160</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_35">
+         <property name="text">
+          <string>Normalized Mthd</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QPushButton" name="pushButton_cifarTrains">
+         <property name="text">
+          <string>Import Cifar Train Group</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QSpinBox" name="spinBox_batchSize">
+         <property name="maximum">
+          <number>32</number>
+         </property>
+         <property name="value">
+          <number>8</number>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="QLabel" name="label_26">
+         <property name="text">
+          <string>use simd</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_28">
+         <property name="text">
+          <string>Batch Size</string>
+         </property>
+        </widget>
+       </item>
+       <item row="19" column="0">
+        <widget class="QLabel" name="label_Traingmode">
+         <property name="text">
+          <string>start</string>
+         </property>
+        </widget>
+       </item>
+       <item row="19" column="1">
         <widget class="QPushButton" name="pushButton_startTraning">
          <property name="palette">
           <palette>
@@ -1824,113 +1911,113 @@
          </property>
         </widget>
        </item>
-       <item row="7" column="1">
-        <widget class="QComboBox" name="comboBox_normalizedMethd">
-         <property name="currentIndex">
-          <number>2</number>
-         </property>
-         <item>
-          <property name="text">
-           <string>None</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>global norm</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>self norm</string>
-          </property>
-         </item>
-        </widget>
-       </item>
        <item row="14" column="1">
-        <widget class="QLineEdit" name="lineEdit_maxIters">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+        <widget class="QComboBox" name="comboBox_optimizer">
+         <property name="currentIndex">
+          <number>6</number>
          </property>
-         <property name="text">
-          <string>20</string>
-         </property>
+         <item>
+          <property name="text">
+           <string>NooP</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SGD</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SGDM</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SGDW</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SGNAD</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>ADAM</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>ADAMW</string>
+          </property>
+         </item>
         </widget>
        </item>
        <item row="15" column="0">
-        <widget class="QLabel" name="label_26">
+        <widget class="QLabel" name="label_45">
          <property name="text">
-          <string>use simd</string>
+          <string>SGD/ADAM beta1</string>
          </property>
         </widget>
        </item>
-       <item row="14" column="0">
-        <widget class="QLabel" name="label_39">
+       <item row="17" column="0">
+        <widget class="QLabel" name="label_47">
          <property name="text">
-          <string>Max iter</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="lineEdit_ImgNumbers">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>100</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0">
-        <widget class="QLabel" name="label_28">
-         <property name="text">
-          <string>Batch Size</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="1">
-        <widget class="QSpinBox" name="spinBox_batchSize">
-         <property name="maximum">
-          <number>128</number>
-         </property>
-         <property name="value">
-          <number>1</number>
+          <string>ADAM sigma</string>
          </property>
         </widget>
        </item>
        <item row="15" column="1">
-        <widget class="QComboBox" name="comboBox_useSimd">
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(218, 203, 218);</string>
+        <widget class="QLineEdit" name="lineEdit_adamBeta1">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-         <property name="currentIndex">
-          <number>2</number>
+         <property name="text">
+          <string>0.9</string>
          </property>
-         <item>
-          <property name="text">
-           <string>Basic</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Simd</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>MultiThread Simd</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Cuda</string>
-          </property>
-         </item>
+        </widget>
+       </item>
+       <item row="16" column="1">
+        <widget class="QLineEdit" name="lineEdit_adamBeta2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>0.999</string>
+         </property>
+        </widget>
+       </item>
+       <item row="17" column="1">
+        <widget class="QLineEdit" name="lineEdit_adamSigma">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>0.0000001</string>
+         </property>
+        </widget>
+       </item>
+       <item row="16" column="0">
+        <widget class="QLabel" name="label_46">
+         <property name="text">
+          <string>ADAM beta2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="18" column="0">
+        <widget class="QLabel" name="label_48">
+         <property name="text">
+          <string>L2 Lamda</string>
+         </property>
         </widget>
        </item>
       </layout>

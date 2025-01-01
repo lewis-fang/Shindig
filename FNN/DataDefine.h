@@ -36,6 +36,8 @@ typedef struct image
 	size_t rows;
 	size_t cols;
 	size_t channel;
+	size_t blockSize;
+	size_t rowImgBlockSize;
 	float*** imageData;
 	float* vImageData;
 	float* rowImg;
@@ -43,6 +45,8 @@ typedef struct image
 		rows(0),
 		cols(0),
 		channel(0),
+		blockSize(0),
+		rowImgBlockSize(0),
 		imageData(NULL),
 		vImageData(NULL),
 		rowImg(NULL)
@@ -60,9 +64,13 @@ typedef struct image
 		cols = d2;
 		channel = d3;
 	}
-	bool initImage(int dataType = 0)
+	float* imageAtIndex(size_t b)
 	{
-		if ((rows > 0) & (cols > 0) & (channel > 0))
+		return vImageData + b * blockSize;
+	}
+	bool initImage(float sd = 0,int batchSize=1)
+	{
+		if ((rows > 0) && (cols > 0) && (channel > 0))
 		{
 			imageData = new float** [channel];
 			for (int ch = 0; ch < channel; ch++)
@@ -84,12 +92,10 @@ typedef struct image
 				}
 			}
 			size_t offset = AlignBytes / sizeof(float);
-			size_t block = AlignVec(rows * cols * channel, offset);
-			vImageData = (float*)_mm_malloc(block * sizeof(float), AlignBytes);
-			for (int i = 0;i < block;i++)
-			{
-				vImageData[i] = 0.0;
-			}
+			blockSize = AlignVec(rows * cols * channel, offset);
+			vImageData = (float*)_mm_malloc(batchSize * blockSize * sizeof(float), AlignBytes);
+			memset(vImageData, 0, batchSize * blockSize * sizeof(float));
+		
 			return true;
 		}
 		else
@@ -135,9 +141,44 @@ typedef struct image
 		cols = 0;
 		rows = 0;
 	}
+	void freeImageSpace()
+	{
+
+		if (imageData != NULL)
+		{
+			for (int ch = 0; ch < channel; ch++)
+			{
+				if (imageData[ch] != NULL)
+				{
+					for (int r = 0; r < rows; r++)
+					{
+						if (imageData[ch][r] != NULL)
+						{
+							delete imageData[ch][r];
+							imageData[ch][r] = NULL;
+						}
+					}
+					delete[] imageData[ch];
+					imageData[ch] = NULL;
+				}
+			}
+			delete[] imageData;
+			imageData = NULL;
+		}
+		if (vImageData != NULL)
+		{
+			_mm_free(vImageData);
+			vImageData = NULL;
+		}
+		if (rowImg != NULL)
+		{
+			_mm_free(rowImg);
+			rowImg = NULL;
+		}
+	}
 	image& operator+=(const image& im)
 	{
-		if ((channel == im.channel) & (rows == im.rows) & (cols == im.cols))
+		if ((channel == im.channel) && (rows == im.rows) && (cols == im.cols))
 		{
 			for (int ch = 0; ch < channel; ch++)
 			{
@@ -153,7 +194,7 @@ typedef struct image
 		}
 		return *this;
 	}
-	void initRowImage(trpDim kernalDim, int MovStride)
+	void initRowImage(trpDim kernalDim, int MovStride,int batchSize=1)
 	{
 		size_t kernalRows = kernalDim.row;
 		size_t kernalCols = kernalDim.col;
@@ -165,14 +206,16 @@ typedef struct image
 		size_t colstrp = (cols - kernalCols) / MovStride + 1;
 		size_t reorderRow = rowstrp * colstrp;
 
-		size_t allSize = reorderRow * reorderCol;
-		rowImg = (float*)_mm_malloc(allSize * sizeof(float), AlignBytes);
-		memset(rowImg, 0, allSize * sizeof(float));
+		rowImgBlockSize = reorderRow * reorderCol;
+		rowImg = (float*)_mm_malloc(batchSize*rowImgBlockSize * sizeof(float), AlignBytes);
+		memset(rowImg, 0, batchSize * rowImgBlockSize * sizeof(float));
 	}
-	bool im2row(trpDim kernalDim, int MovStride)
+	bool im2row(trpDim kernalDim, int MovStride, int b = 0)
 	{
 		if (rowImg != NULL)
 		{
+			float* rowImgBase = rowImg + rowImgBlockSize * b;
+			float* vImgBase = vImageData + blockSize * b;
 			size_t offset = AlignBytes / sizeof(float);
 			int tmpIndeY = (cols - kernalDim.col) / MovStride + 1;
 			int blockSize = AlignVec(kernalDim.row * kernalDim.col * kernalDim.channel, offset);
@@ -191,7 +234,7 @@ typedef struct image
 					{
 						prow = OutBuffer1IndexX * tmpIndeY + OutBuffer1IndexY;
 						innkerIK = kr * smStep;
-						memcpy(rowImg + prow * blockSize + innkerIK, vImageData + (r + kr) * kernalDim.channel * cols + c * kernalDim.channel, smStep * sizeof(float));
+						memcpy(rowImgBase + prow * blockSize + innkerIK, vImgBase + (r + kr) * kernalDim.channel * cols + c * kernalDim.channel, smStep * sizeof(float));
 					}
 					OutBuffer1IndexY++;
 
@@ -207,16 +250,16 @@ typedef struct image
 		return true;
 
 	}
-	void addSimd(const image im)
+	void addSimd(const image im,int b=0)
 	{
-		if ((channel == im.channel) & (rows == im.rows) & (cols == im.cols))
+		if ((channel == im.channel) && (rows == im.rows) && (cols == im.cols))
 		{
 			size_t offset = AlignBytes / sizeof(float);
 			int length = rows * cols * channel;
 			for (int i = 0;i < length;i += offset)
 			{
 				__m256 line1 = _mm256_load_ps(vImageData+i);
-				__m256 line2 = _mm256_load_ps(im.vImageData+i);
+				__m256 line2 = _mm256_load_ps(im.vImageData+im.blockSize*b+i);
 				__m256 sumRegister = _mm256_add_ps(line1, line2);
 				_mm256_stream_ps(vImageData + i, sumRegister);
 
@@ -229,7 +272,7 @@ typedef struct image
 	}
 	void apllyratio(double rs)
 	{
-		if ((rows > 0) & (cols > 0) & (channel > 0) & (NULL != imageData))
+		if ((rows > 0) && (cols > 0) && (channel > 0) && (NULL != imageData))
 		{
 			for (int ch = 0; ch < channel; ch++)
 			{
@@ -243,9 +286,9 @@ typedef struct image
 			}
 		}
 	}
-	void apllyratioSimd(double rs)
+	void apllyratioSimd(double rs,int b=0)
 	{
-		if ((rows > 0) & (cols > 0) & (channel > 0) & (NULL != imageData) & (NULL != vImageData))
+		if ((rows > 0) && (cols > 0) && (channel > 0) && (NULL != imageData) && (NULL != vImageData))
 		{
 			size_t offset = AlignBytes / sizeof(float);
 			size_t offset16 = AlignBytes16 / sizeof(float);
@@ -255,9 +298,9 @@ typedef struct image
 			__m128 rsRegister = _mm_set1_ps(rs);
 			for (int i = 0;i < length;i += offset)
 			{
-				__m256 line1 = _mm256_load_ps(vImageData + i);
+				__m256 line1 = _mm256_load_ps(vImageData+blockSize*b + i);
 				__m256 lineMul = _mm256_mul_ps(line1, rsRegister256);
-				_mm256_stream_ps(vImageData + i, lineMul);
+				_mm256_stream_ps(vImageData + blockSize * b + i, lineMul);
 			}
 		}
 	}
@@ -268,7 +311,7 @@ typedef struct image
 		im.rows = rows;
 		im.channel = channel;
 		im.initImage();
-		if ((rows > 0) & (cols > 0) & (channel > 0) & (NULL != imageData) & (NULL != vImageData))
+		if ((rows > 0) && (cols > 0) && (channel > 0) && (NULL != imageData) && (NULL != vImageData))
 		{
 			size_t offset = AlignBytes / sizeof(float);
 			size_t offset16 = AlignBytes16 / sizeof(float);
@@ -386,7 +429,7 @@ typedef struct kernal
 		bias = 0.0;
 		biasSimd = 0.0;
 	}
-	void FreeWts()
+	void FreeWtsSpace()
 	{
 		if (weight != NULL)
 		{
@@ -418,6 +461,35 @@ typedef struct kernal
 		col = 0;
 		channel = 0;
 	}
+	void FreeWts()
+	{
+		if (weight != NULL)
+		{
+			for (int ch = 0; ch < channel; ch++)
+			{
+				if (weight[ch] != NULL)
+				{
+					for (int r = 0; r < row; r++)
+					{
+						if (weight[ch][r] != NULL)
+						{
+							delete weight[ch][r];
+							weight[ch][r] = NULL;
+						}
+					}
+					delete[] weight[ch];
+					weight[ch] = NULL;
+				}
+			}
+			delete[] weight;
+			weight = NULL;
+		}
+		if (NULL != vWeight)
+		{
+			_mm_free(vWeight);
+			vWeight = NULL;
+		}
+	}
 	kernal copy()
 	{
 		kernal tempK;
@@ -440,7 +512,7 @@ typedef struct kernal
 	kernal& operator+=(const kernal& k1)
 	{
 
-		if ((channel == k1.channel) & (row == k1.row) & (col == k1.col))
+		if ((channel == k1.channel) && (row == k1.row) && (col == k1.col))
 		{
 			for (int ch = 0; ch < channel; ch++)
 			{
@@ -463,7 +535,7 @@ typedef struct kernal
 	}
 	void addSimd(kernal k1)
 	{
-		if ((vWeight != NULL) & (k1.vWeight != NULL) & (row * col * channel == k1.channel * k1.col * k1.row))
+		if ((vWeight != NULL) && (k1.vWeight != NULL) && (row * col * channel == k1.channel * k1.col * k1.row))
 		{
 			int length = row * col * channel;
 			int offset = AlignBytes / sizeof(float);
@@ -474,12 +546,74 @@ typedef struct kernal
 				__m256 sumline = _mm256_add_ps(line1, line2);
 				_mm256_stream_ps(vWeight + i, sumline);
 			}
+			biasSimd += k1.biasSimd;
 		}
 		else
 		{
 			std::cout << "kernal plus not equal" << std::endl;
 		}
-		biasSimd += k1.biasSimd;
+	}
+	void maxSimd(kernal k1)
+	{
+		if ((vWeight != NULL) && (k1.vWeight != NULL) && (row * col * channel == k1.channel * k1.col * k1.row))
+		{
+			int length = row * col * channel;
+			int offset = AlignBytes / sizeof(float);
+			for (int i = 0;i + offset - 1 < length;i += offset)
+			{
+				__m256 line1 = _mm256_load_ps(vWeight + i);
+				__m256 line2 = _mm256_load_ps(k1.vWeight + i);
+				__m256 maxline = _mm256_max_ps(line1, line2);
+				_mm256_stream_ps(vWeight + i, maxline);
+			}
+			biasSimd = std::max(biasSimd, k1.biasSimd);
+		}
+		else
+		{
+			std::cout << "kernal plus not equal" << std::endl;
+		}
+	}
+	void divSimd(kernal k1,float sigma)
+	{
+		if ((vWeight != NULL) && (k1.vWeight != NULL) && (row * col * channel == k1.channel * k1.col * k1.row))
+		{
+			int length = row * col * channel;
+			int offset = AlignBytes / sizeof(float);
+			__m256 sigmaR = _mm256_set1_ps(sigma);
+			for (int i = 0;i + offset - 1 < length;i += offset)
+			{
+				__m256 line1 = _mm256_load_ps(vWeight + i);
+				__m256 line2 = _mm256_load_ps(k1.vWeight + i);
+				line2=_mm256_add_ps(line2, sigmaR);
+				__m256 sumline = _mm256_div_ps(line1, line2);
+				_mm256_stream_ps(vWeight + i, sumline);
+			}
+		}
+		else
+		{
+			std::cout << "kernal div not equal" << std::endl;
+		}
+		biasSimd /= (k1.biasSimd+sigma);
+	}
+	void mulSimd(kernal k1)
+	{
+		if ((vWeight != NULL) && (k1.vWeight != NULL) && (row * col * channel == k1.channel * k1.col * k1.row))
+		{
+			int length = row * col * channel;
+			int offset = AlignBytes / sizeof(float);
+			for (int i = 0;i + offset - 1 < length;i += offset)
+			{
+				__m256 line1 = _mm256_load_ps(vWeight + i);
+				__m256 line2 = _mm256_load_ps(k1.vWeight + i);
+				__m256 sumline = _mm256_mul_ps(line1, line2);
+				_mm256_stream_ps(vWeight + i, sumline);
+			}
+		}
+		else
+		{
+			std::cout << "kernal mul not equal" << std::endl;
+		}
+		biasSimd *= k1.biasSimd;
 	}
 	void apply(float ra)
 	{
@@ -512,6 +646,40 @@ typedef struct kernal
 			biasSimd *= ra;
 		}
 	}
+	void sqrtSimd()
+	{
+		if (vWeight != NULL)
+		{
+			int length = row * col * channel;
+			int offset = AlignBytes / sizeof(float);
+			for (int i = 0;i < length;i += offset)
+			{
+				__m256 line1 = _mm256_load_ps(vWeight + i);
+				__m256 sumline = _mm256_sqrt_ps(line1);
+				_mm256_stream_ps(vWeight + i, sumline);
+			}
+			biasSimd = std::sqrt(biasSimd);
+		}
+	}
+	void copySimd(kernal k1)
+	{
+		if ((vWeight != NULL) && (k1.vWeight != NULL) && (row * col * channel == k1.channel * k1.col * k1.row))
+		{
+			int length = row * col * channel;
+			int offset = AlignBytes / sizeof(float);
+			for (int i = 0;i + offset - 1 < length;i += offset)
+			{
+				__m256 line2 = _mm256_load_ps(k1.vWeight + i);
+				_mm256_stream_ps(vWeight + i, line2);
+			}
+		}
+		else
+		{
+			std::cout << "kernal copy not equal" << std::endl;
+		}
+		biasSimd = k1.biasSimd;
+	}
+
 	void printKernal(int i,const char* kernalname)
 	{
 		std::ofstream fo(".\\weight.log", std::ios::app);

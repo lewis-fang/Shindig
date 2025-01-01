@@ -35,7 +35,7 @@ bool cifar10Reader::pullTestImages(char* path,int pullTestImages)
 		{
 			image aImage;
 			aImage.setSize(cifarSize::D1, cifarSize::D2, cifarSize::D3);
-			aImage.initImage(1);
+			aImage.initImage(0);
 			ifile.read(&whichClass, 1);
 
 			ifile.read(imageStreamRed, 1024);
@@ -100,7 +100,7 @@ bool cifar10Reader::pullTestImages1(char* path, int pullTestImages)
 		{
 			image aImage;
 			aImage.setSize(cifarSize::D1, cifarSize::D2, cifarSize::D3);
-			aImage.initImage(1);
+			aImage.initImage(0);
 			ifile.read(&whichClass, 1);
 
 			ifile.read(imageStreamRed, 1024);
