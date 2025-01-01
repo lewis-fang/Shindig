@@ -10,6 +10,7 @@ CNNModel::CNNModel()
 	lossType = 1;
 	batchSize = 1;
 	normMethod = 0;
+	L2Lamda = 0;
 	traingFlag = false;
 }
 void CNNModel::avb(int a)
@@ -34,6 +35,11 @@ bool CNNModel::createThread(int useSimd)
 		else if (useSimd == 2)
 		{
 			std::thread thr(&CNNModel::startTrainningSimdV2, this);
+			thr.detach();
+		}
+		else if (useSimd == 3)
+		{
+			std::thread thr(&CNNModel::startTrainningSimdV3, this);
 			thr.detach();
 		}
 		else
@@ -87,7 +93,17 @@ bool CNNModel::LaunchCNNModel(image image0, float* outValues, int outLentgh)
 
 	return ret;
 }
-bool CNNModel::LaunchCNNModelBySimd(image image0, float* outValues, int outLentgh)
+bool CNNModel::LaunchCNNModelBySimdNonParrallel(std::vector<image> imagen, float* outValues, int outLentgh)
+{
+	
+	bool ret = true;
+	for (image image0 : imagen)
+	{
+		bool ret = LaunchCNNModelBySimd(image0, outValues, outLentgh);
+	}
+	return ret;
+}
+bool CNNModel::LaunchCNNModelBySimd(image image0, float* outValues, int outLentgh,int b)
 {
 	bool ret = true;
 	if (CNNLayerSeries.size() == 0)
@@ -97,8 +113,8 @@ bool CNNModel::LaunchCNNModelBySimd(image image0, float* outValues, int outLentg
 	image tempIamge = image0;
 	for (CNNCalc layer : CNNLayerSeries)
 	{	
-		layer.SetInputSimd(tempIamge);
-		if (layer.LaunchConvolutionBySimd())
+		layer.SetInputSimd(tempIamge,b);
+		if (layer.LaunchConvolutionBySimd(b))
 		{
 			tempIamge = layer.getOutImage();
 			
@@ -112,9 +128,114 @@ bool CNNModel::LaunchCNNModelBySimd(image image0, float* outValues, int outLentg
 	ret &= outValues != NULL;
 	if (ret)
 	{
-		memcpy(outValues, tempIamge.vImageData, outLentgh * sizeof(float));
+		memcpy(outValues + b * outLentgh, tempIamge.imageAtIndex(b), outLentgh * sizeof(float));
 	}
 	return ret;
+}
+bool CNNModel::LaunchCNNModelBySimdV2(image image0, float* outValues, int outLentgh, int b)
+{
+	bool ret = true;
+	if (CNNLayerSeries.size() == 0)
+	{
+		ret = false;
+	}
+	CNNCalc& layer0 = CNNLayerSeries.at(0);
+	layer0.SetInputSimdV2(image0, b);
+	image tempIamge;
+	int depth = CNNLayerSeries.size();
+	for (int ly=0;ly< depth;ly++)
+	{
+		CNNCalc& layer = CNNLayerSeries.at(ly);
+		if (layer.LaunchConvolutionBySimd(b))
+		{
+			tempIamge = layer.getOutImage();
+			if (ly != (depth - 1))
+			{
+				CNNCalc& nextlayer = CNNLayerSeries.at(ly+1);			
+				nextlayer.SetInputSimd(tempIamge, b);
+			}
+		}
+		else
+		{
+			ret = false;
+			break;
+		}
+	}
+	ret &= outValues != NULL;
+	if (ret)
+	{
+		memcpy(outValues + b * outLentgh, tempIamge.imageAtIndex(b), outLentgh * sizeof(float));
+	}
+	return ret;
+}
+void CNNModel::initMemory(int batch)
+{
+	for (CNNCalc& layer : CNNLayerSeries)
+	{
+		layer.initLayerMemoryV2(batch);
+	}
+
+}void CNNModel::freeMemory()
+{
+	for (CNNCalc& layer : CNNLayerSeries)
+	{
+		layer.freeLayerMemory();
+	}
+}
+bool CNNModel::LaunchCNNModelParrallel(std::vector<image> imagen, float* outValues, int outLentgh, int batch)
+{
+
+	std::thread* thr = new std::thread[batch];
+	for (image image0 : imagen)
+	{
+		parrellelIBatchCalDone = 0;
+		for (int b = 0;b < batch;b++)
+		{
+			thr[b] = std::thread(&CNNModel::LaunchCNNModelBySimdBatch, this, image0, outValues, outLentgh, batch, b);
+			thr[b].detach();
+		}
+		std::unique_lock<std::mutex> unique(myMutexB);
+		while (parrellelIBatchCalDone < batch)
+		{
+			condB.wait(unique);
+		}
+	}
+	return true;
+}
+void CNNModel::LaunchCNNModelBySimdBatch(image image0,float* outValues,int outLentgh, int batch, int b)
+{
+	bool ret = true;
+	if (CNNLayerSeries.size() == 0)
+	{
+		ret = false;
+	}
+	image tempIamge = image0;
+	for (CNNCalc layer : CNNLayerSeries)
+	{
+		layer.SetInputSimd(tempIamge, b);
+		if (layer.LaunchConvolutionBySimd(b))
+		{
+			tempIamge = layer.getOutImage();
+
+		}
+		else
+		{
+			ret = false;
+			break;
+		}
+	}
+	ret &= outValues != NULL;
+	if (ret)
+	{
+		memcpy(outValues+b* outLentgh, tempIamge.imageAtIndex(b), outLentgh * sizeof(float));
+	}
+	std::unique_lock<std::mutex> unique(myMutexB);
+	parrellelIBatchCalDone++;
+	if (parrellelIBatchCalDone == batch)
+	{
+		condB.notify_one();
+	}
+	unique.unlock();
 }
 void CNNModel::addCNNLayer(const CNNCalc& aLayer)
 {
@@ -227,7 +348,7 @@ bool CNNModel::startTrainning()
 		std::cout << "cnn model is not bulit properly!" << std::endl;
 		ret = false;
 	}
-	if ((InputImageSeries.size() == 0) | (IdealOutput.size()==0) | (outLen==0))
+	if ((InputImageSeries.size() == 0) || (IdealOutput.size()==0) || (outLen==0))
 	{
 		std::cout << "no image is input~" << std::endl;
 		ret = false;
@@ -294,7 +415,7 @@ bool CNNModel::startTrainning()
 							image DeltaImage;
 							ret = layer.UpdateLayerLoss(DeltaImage);
 							
-							if (ret & (ly >0))
+							if (ret && (ly >0))
 							{
 								DeltaImageLayerSeries[ly-1] += DeltaImage;
 								CNNLayerSeries.at(ly - 1).setOutLossss(DeltaImage);
@@ -318,7 +439,6 @@ bool CNNModel::startTrainning()
 					{
 						CNNCalc layer = CNNLayerSeries.at(ly);
 						CNNLayerSeries.at(ly).setOutLossss(DeltaImageLayerSeries[ly]);
-						CNNLayerSeries.at(ly).resetShadowKernal();
 						for (int b = 0; b < batchSize; b++)
 						{
 							image currentIMG = normImageSeries.at(im + b);
@@ -338,7 +458,7 @@ bool CNNModel::startTrainning()
 			}
 			C = sqrt(C / NIMG) ;
 			vloss.push_back(C);
-			if ((C < minLoss) | (std::abs(C - lastC) < diffLoss))
+			if ((C < minLoss) || (std::abs(C - lastC) < diffLoss))
 			{
 				break;
 			}
@@ -376,7 +496,7 @@ bool CNNModel::startTrainningSimd()
 {
 
 	bool ret = true;
-	if ((InputImageSeries.size() == 0) | (IdealOutput.size() == 0) | (outLen == 0))
+	if ((InputImageSeries.size() == 0) || (IdealOutput.size() == 0) || (outLen == 0))
 	{
 		std::cout << "no image is input~" << std::endl;
 		ret = false;
@@ -424,7 +544,7 @@ bool CNNModel::startTrainningSimd()
 		}
 		float* outValue=(float*)_mm_malloc(sizeof(float)*outLen,AlignBytes);
 		float* dyVdx = (float*)_mm_malloc(sizeof(float) * outLen, AlignBytes);
-		while ( (iterK < maxIteration) & ret)
+		while ( (iterK < maxIteration) && ret)
 		{
 			clock_t st = clock();
 			C = 0.0;
@@ -507,11 +627,13 @@ bool CNNModel::startTrainningSimd()
 						{
 							CNNCalc layer = CNNLayerSeries.at(ly);	
 							layer.AccumulateDWSimd(learnRate, batchSize);	
+							layer.addDKernalShadow(1);
 						}
 					}
+					
 					for (CNNCalc layer: CNNLayerSeries)
 					{
-						layer.UpdateLayerWBSimd();
+						layer.UpdateLayerWBSimd(learnRate,L2Lamda,batchSize);
 					}
 				}
 				else
@@ -523,7 +645,7 @@ bool CNNModel::startTrainningSimd()
 			C = sqrt(C / NIMG) ;
 			vloss.push_back(C);
 			std::cout << "used time:" << (double)(clock() - st) << std::endl;
-			if ((C < minLoss) | (std::abs(C - lastC) < diffLoss))
+			if ((C < minLoss) || (std::abs(C - lastC) < diffLoss))
 			{
 				break;
 			}
@@ -572,7 +694,7 @@ bool CNNModel::startTrainningSimdV2()
 		std::cout << "cnn model is not bulit properly!" << std::endl;
 		ret = false;
 	}
-	if ((InputImageSeries.size() == 0) | (IdealOutput.size() == 0) | (outLen == 0))
+	if ((InputImageSeries.size() == 0) || (IdealOutput.size() == 0) || (outLen == 0))
 	{
 		std::cout << "no image is input~" << std::endl;
 		std::cout << InputImageSeries.size() << "," << IdealOutput.size() << "," << outLen << std::endl;
@@ -601,6 +723,7 @@ bool CNNModel::startTrainningSimdV2()
 			DeltaImageLayerSeries[i].cols = CNNLayerSeries[i].getOutImage().cols;
 			DeltaImageLayerSeries[i].channel = CNNLayerSeries[i].getOutImage().channel;
 			DeltaImageLayerSeries[i].initImage(1);
+			CNNLayerSeries.at(i).initLayerMemoryV2(1);
 		}
 		std::vector<image> normImageSeries;
 		for (image img : InputImageSeries)
@@ -609,7 +732,7 @@ bool CNNModel::startTrainningSimdV2()
 		}
 		float* outValue = (float*)_mm_malloc(sizeof(float) * outLen, AlignBytes);
 		float* dyVdx = (float*)_mm_malloc(sizeof(float) * outLen, AlignBytes);
-		while ((iterK < maxIteration) & ret)
+		while ((iterK < maxIteration) && ret)
 		{
 			clock_t st = clock();
 			C = 0.0;
@@ -711,7 +834,7 @@ bool CNNModel::startTrainningSimdV2()
 					}
 					for (CNNCalc layer : CNNLayerSeries)
 					{
-						layer.UpdateLayerWBSimd();
+						layer.UpdateLayerWBSimd(learnRate, L2Lamda,batchSize);
 					}
 				}
 				else
@@ -723,7 +846,7 @@ bool CNNModel::startTrainningSimdV2()
 			C = sqrt(C / NIMG);
 			vloss.push_back(C);
 			std::cout << "used time:" << (double)(clock() - st) << std::endl;
-			if ((C < minLoss) | (std::abs(C - lastC) < diffLoss))
+			if ((C < minLoss) || (std::abs(C - lastC) < diffLoss))
 			{
 				break;
 			}
@@ -754,14 +877,238 @@ bool CNNModel::startTrainningSimdV2()
 		}
 		printf("delete tmepimages\n");
 		delete[] thr;
+		for (int i = 0; i < dpth; i++)
+		{
+			CNNLayerSeries.at(i).freeLayerMemory();
+		}
 	}
 	traingFlag = false;
 	return true;
 }
+bool CNNModel::startTrainningSimdV3()
+{
+
+	bool ret = true;
+	if (CNNLayerSeries.size() > 0)
+	{
+		if ((CNNLayerSeries.back().getCurrentLayerType() != FULLYCONNECTION))
+		{
+			std::cout << "cnn model is not bulit properly!" << std::endl;
+			ret = false;
+		}
+		outLen = CNNLayerSeries.back().GetOutLength();
+	}
+	else
+	{
+		std::cout << "cnn model is not bulit properly!" << std::endl;
+		ret = false;
+	}
+	if ((InputImageSeries.size() == 0) || (IdealOutput.size() == 0) || (outLen == 0))
+	{
+		std::cout << "no image is input~" << std::endl;
+		std::cout << InputImageSeries.size() << "," << IdealOutput.size() << "," << outLen << std::endl;
+		ret = false;
+	}
+	if (InputImageSeries.size() != IdealOutput.size())
+	{
+		std::cout << "size of input images is not equal to that of output" << std::endl;
+		ret = false;
+	}
+	int NIMG = InputImageSeries.size();
+	std::cout << "start traning~" << std::endl;
+	if (ret == true)
+	{
+		int epoch = 0;
+		float C = 0.0, lastC = 0.0;
+		const  int dpth = CNNLayerSeries.size();
+		std::thread* thrTrain = new std::thread[batchSize];
+
+		for (int i = 0; i < dpth; i++)
+		{
+			CNNLayerSeries.at(i).initLayerMemoryV2(batchSize);
+		}
+		std::vector<image> normImageSeries;
+		std::vector<int> randInt;
+		for (image img : InputImageSeries)
+		{
+			normImageSeries.push_back(normliazeSimd(img));
+		}
+		for (int i = 0;i < InputImageSeries.size();i++)
+		{
+			randInt.push_back(i);
+		}
+	
+		float* outValue = (float*)_mm_malloc(sizeof(float) * outLen*batchSize, AlignBytes);
+		float* vC = (float*)_mm_malloc(sizeof(float) * batchSize, AlignBytes);
+		
+		std::cout << "-Start Traning\n" << "---BatchSize: " << batchSize << "\n---Loss: " << minLoss << "\n---Gradient Loss: " << diffLoss<<std::endl;
+		std::cout << "---Learn rate: " << learnRate << "\n---Optimizer: ";
+		switch (mOptimizer.method)
+		{
+		case NooP:
+			std::cout << "NooP\n";
+			break;
+		case SGD:
+			std::cout << "SGD\n";
+			break;
+		case SGDM:
+			std::cout << "SGDM\n";
+			break;
+		case SGDMW:
+			std::cout << "SGDMW\n";
+			break;
+		case SGNAD:
+			std::cout << "SGNAD\n";
+			break;
+		case ADAM:
+			std::cout << "ADAM\n";
+			break;
+		case ADAMW:
+			std::cout << "ADAMW\n";
+			break;
+		default:
+			std::cout << "SGD\n";
+			break;
+		}
+		int iterK = vloss.size()+1;
+	
+		while ((epoch < maxIteration) && ret)
+		{
+			std::random_shuffle(randInt.begin(), randInt.end());
+			clock_t st = clock();
+			C = 0.0;
+			std::cout << "------------------SIMD Epoch T " << epoch << "------------------" << std::endl;
+			for (int im = 0; im < NIMG; im += batchSize)
+			{			
+				clock_t st = clock();	
+				parrellelIBatchTrainDone = 0;
+				for (int b = 0; b < batchSize; b++)
+				{
+					int realIndex = randInt.at(im + b);
+					thrTrain[b] = std::thread(&CNNModel::updateLossParrallel, this, normImageSeries.at(realIndex), outValue,vC, outLen, realIndex, b);
+					thrTrain[b].detach();
+				}
+				std::unique_lock<std::mutex> uniquelock(myMutexC);
+				while (parrellelIBatchTrainDone<batchSize)
+				{
+					condC.wait(uniquelock);
+				}
+				for (int b = 0;b < batchSize;b++)
+				{
+					C += vC[b];
+				}
+				for (CNNCalc layer : CNNLayerSeries)
+				{
+					if (batchSize > 1)
+					{
+						for (int b = 1;b < batchSize;b++)
+						{
+							layer.addDKernalShadow(b);
+						}
+					}
+					
+					switch (mOptimizer.method)
+					{
+					case NooP:
+						layer.UpdateLayerWBSimd(learnRate,L2Lamda, batchSize);
+						break;
+					case SGDM:
+						layer.UpdateLayerWBSGDM(learnRate,mOptimizer.beta1, L2Lamda, iterK);
+						break;
+					case SGNAD:
+						layer.UpdateLayerWBSGNAD(learnRate, mOptimizer.beta1, L2Lamda, iterK);
+						break;
+					case SGDMW:
+						layer.UpdateLayerWBSGDMW(learnRate, mOptimizer.beta1, L2Lamda, iterK);
+						break;
+					case ADAM:
+						layer.UpdateLayerWBADAM(learnRate, mOptimizer.beta1, mOptimizer.beta2, mOptimizer.sigma, L2Lamda, iterK);
+						break;
+					case ADAMW:
+						layer.UpdateLayerWBADAMW(learnRate, mOptimizer.beta1, mOptimizer.beta2, mOptimizer.sigma,L2Lamda, iterK);
+						break;
+					default:
+						layer.UpdateLayerWBSimd(learnRate, L2Lamda, batchSize);
+					}
+					
+				}
+				iterK++;
+			}
+			C = sqrt(C / NIMG);
+			vloss.push_back(C);
+			
+			if ((C < minLoss) || (std::abs(C - lastC) < diffLoss))
+			{
+				break;
+			}
+			else
+			{
+
+				lastC = C;
+			}
+			epoch++;
+			printf("Used Time : %d\nC:%f\n", (int)(clock() - st), C);
+
+		}
+	
+		_mm_free(outValue);
+		printf("End iter: %d,C:%f\n", epoch, C);
+		for (image img : normImageSeries)
+		{
+			img.freeImage();
+		}
+
+		printf("delete tmepimages\n");
+		delete[] thrTrain;
+
+		for (int i = 0; i < dpth; i++)
+		{
+			CNNLayerSeries.at(i).freeLayerMemory();
+		}
+	}
+	traingFlag = false;
+	return true;
+}
+void CNNModel::updateLossParrallel(image bImage, float* outValue, float* vC, int outLen, int realIndex, int b)
+{
+	bool ret = LaunchCNNModelBySimdV2(bImage, outValue, outLen,b);
+	vC[b]= calculateC(outValue+b*outLen, IdealOutput.at(realIndex), outLen);
+	if (vC[b] != vC[b])
+	{
+		ret = false;
+		std::cout << b << "," << realIndex << std::endl;
+	}
+	if (ret == true)
+	{
+		image lastDxdy = CNNLayerSeries.back().getCurrentLayerIdealOutDxdy();
+		dcalculateC(IdealOutput.at(realIndex), outValue + b * outLen, lastDxdy.imageAtIndex(b), outLen);
+		int dpth = CNNLayerSeries.size();
+		for (int ly = dpth - 1; ly > 0; ly--)
+		{
+			CNNCalc layer = CNNLayerSeries.at(ly);
+			image DeltaImage = CNNLayerSeries.at(ly - 1).getCurrentLayerIdealOutDxdy();
+			ret = layer.UpdateLayerLossSimd(DeltaImage,b);
+
+		}
+	}
+	for (CNNCalc layer : CNNLayerSeries)
+	{
+		layer.AccumulateDWSimd(learnRate, batchSize, b);
+	}
+	std::unique_lock<std::mutex> unilock(myMutexC);
+	parrellelIBatchTrainDone++;
+	if (parrellelIBatchTrainDone == batchSize)
+	{
+		condC.notify_one();
+	}
+	unilock.unlock();
+}
+
 void CNNModel::layerUpdatedKernal(int layerIndex )
 {
 	CNNCalc layer = CNNLayerSeries.at(layerIndex);
 	layer.AccumulateDWSimd(learnRate, batchSize);
+	layer.addDKernalShadow(0);
 	std::unique_lock<std::mutex> unilock(myMutexA);
 	layerUpdatedKernalDone++;
 	if (layerUpdatedKernalDone == CNNLayerSeries.size() && layerIndex>0)
@@ -770,6 +1117,7 @@ void CNNModel::layerUpdatedKernal(int layerIndex )
 	}
 	unilock.unlock();
 }
+
 image CNNModel::VectorToImg(float*vec, int sz)
 {
 	image retImage;

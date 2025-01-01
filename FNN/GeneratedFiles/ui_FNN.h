@@ -107,13 +107,11 @@ public:
     QGroupBox *groupBox_6;
     QGridLayout *gridLayout_7;
     QLabel *label_13;
-    QPushButton *pushButton_ImportWts;
     QLabel *label_20;
     QPushButton *pushButton_LaunchModel;
-    QLabel *label_44;
     QLineEdit *lineEdit_testImgNum;
-    QPushButton *pushButton_ImportTestImg;
     QPushButton *pushButton_cifarTest;
+    QPushButton *pushButton_ImportWts;
     QWidget *widget_out;
     QGridLayout *gridLayout_4;
     QVBoxLayout *verticalLayout_3;
@@ -127,34 +125,40 @@ public:
     QTreeView *treeView;
     QGroupBox *groupBox_7;
     QGridLayout *gridLayout_8;
-    QLabel *label_37;
-    QLabel *label_42;
-    QPushButton *pushButton_ImportIdealOut;
-    QLineEdit *lineEdit_NormalizedSHif;
-    QLabel *label_36;
-    QLabel *label_35;
-    QFrame *line;
-    QPushButton *pushButton_importImage;
+    QLineEdit *lineEdit_L2Lamda;
     QLineEdit *lineEdit_diffLoss;
+    QLabel *label_31;
+    QLineEdit *lineEdit_maxIters;
+    QLabel *label_42;
+    QLineEdit *lineEdit_NormalizedSHif;
     QLabel *label_41;
     QLineEdit *lineEdit_Loss;
-    QLabel *label_43;
-    QLabel *label_38;
-    QLabel *label_40;
-    QPushButton *pushButton_cifarTrains;
-    QLabel *label;
-    QLabel *label_Traingmode;
-    QLineEdit *lineEdit_learnRate;
-    QLineEdit *lineEdit_NormalizedRange;
-    QPushButton *pushButton_startTraning;
-    QComboBox *comboBox_normalizedMethd;
-    QLineEdit *lineEdit_maxIters;
-    QLabel *label_26;
     QLabel *label_39;
-    QLineEdit *lineEdit_ImgNumbers;
-    QLabel *label_28;
-    QSpinBox *spinBox_batchSize;
+    QLabel *label_37;
+    QLineEdit *lineEdit_learnRate;
+    QComboBox *comboBox_normalizedMethd;
+    QFrame *line;
+    QLineEdit *lineEdit_NormalizedRange;
+    QLabel *label_36;
+    QLabel *label_43;
     QComboBox *comboBox_useSimd;
+    QLabel *label_38;
+    QLineEdit *lineEdit_ImgNumbers;
+    QLabel *label_35;
+    QPushButton *pushButton_cifarTrains;
+    QSpinBox *spinBox_batchSize;
+    QLabel *label_26;
+    QLabel *label_28;
+    QLabel *label_Traingmode;
+    QPushButton *pushButton_startTraning;
+    QComboBox *comboBox_optimizer;
+    QLabel *label_45;
+    QLabel *label_47;
+    QLineEdit *lineEdit_adamBeta1;
+    QLineEdit *lineEdit_adamBeta2;
+    QLineEdit *lineEdit_adamSigma;
+    QLabel *label_46;
+    QLabel *label_48;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -594,14 +598,7 @@ public:
         label_13 = new QLabel(groupBox_6);
         label_13->setObjectName(QStringLiteral("label_13"));
 
-        gridLayout_7->addWidget(label_13, 2, 0, 1, 1);
-
-        pushButton_ImportWts = new QPushButton(groupBox_6);
-        pushButton_ImportWts->setObjectName(QStringLiteral("pushButton_ImportWts"));
-        sizePolicy1.setHeightForWidth(pushButton_ImportWts->sizePolicy().hasHeightForWidth());
-        pushButton_ImportWts->setSizePolicy(sizePolicy1);
-
-        gridLayout_7->addWidget(pushButton_ImportWts, 2, 1, 1, 1);
+        gridLayout_7->addWidget(label_13, 1, 0, 1, 1);
 
         label_20 = new QLabel(groupBox_6);
         label_20->setObjectName(QStringLiteral("label_20"));
@@ -675,12 +672,7 @@ public:
         pushButton_LaunchModel->setPalette(palette);
         pushButton_LaunchModel->setFlat(false);
 
-        gridLayout_7->addWidget(pushButton_LaunchModel, 5, 0, 1, 2);
-
-        label_44 = new QLabel(groupBox_6);
-        label_44->setObjectName(QStringLiteral("label_44"));
-
-        gridLayout_7->addWidget(label_44, 1, 0, 1, 1);
+        gridLayout_7->addWidget(pushButton_LaunchModel, 4, 0, 1, 2);
 
         lineEdit_testImgNum = new QLineEdit(groupBox_6);
         lineEdit_testImgNum->setObjectName(QStringLiteral("lineEdit_testImgNum"));
@@ -689,15 +681,17 @@ public:
 
         gridLayout_7->addWidget(lineEdit_testImgNum, 0, 1, 1, 1);
 
-        pushButton_ImportTestImg = new QPushButton(groupBox_6);
-        pushButton_ImportTestImg->setObjectName(QStringLiteral("pushButton_ImportTestImg"));
-
-        gridLayout_7->addWidget(pushButton_ImportTestImg, 1, 1, 1, 1);
-
         pushButton_cifarTest = new QPushButton(groupBox_6);
         pushButton_cifarTest->setObjectName(QStringLiteral("pushButton_cifarTest"));
 
-        gridLayout_7->addWidget(pushButton_cifarTest, 4, 1, 1, 1);
+        gridLayout_7->addWidget(pushButton_cifarTest, 3, 1, 1, 1);
+
+        pushButton_ImportWts = new QPushButton(groupBox_6);
+        pushButton_ImportWts->setObjectName(QStringLiteral("pushButton_ImportWts"));
+        sizePolicy1.setHeightForWidth(pushButton_ImportWts->sizePolicy().hasHeightForWidth());
+        pushButton_ImportWts->setSizePolicy(sizePolicy1);
+
+        gridLayout_7->addWidget(pushButton_ImportWts, 1, 1, 1, 1);
 
 
         gridLayout->addWidget(groupBox_6, 3, 1, 2, 1);
@@ -777,112 +771,151 @@ public:
         gridLayout_8->setSpacing(6);
         gridLayout_8->setContentsMargins(11, 11, 11, 11);
         gridLayout_8->setObjectName(QStringLiteral("gridLayout_8"));
-        label_37 = new QLabel(groupBox_7);
-        label_37->setObjectName(QStringLiteral("label_37"));
+        lineEdit_L2Lamda = new QLineEdit(groupBox_7);
+        lineEdit_L2Lamda->setObjectName(QStringLiteral("lineEdit_L2Lamda"));
+        sizePolicy1.setHeightForWidth(lineEdit_L2Lamda->sizePolicy().hasHeightForWidth());
+        lineEdit_L2Lamda->setSizePolicy(sizePolicy1);
 
-        gridLayout_8->addWidget(label_37, 12, 0, 1, 1);
-
-        label_42 = new QLabel(groupBox_7);
-        label_42->setObjectName(QStringLiteral("label_42"));
-
-        gridLayout_8->addWidget(label_42, 0, 0, 1, 1);
-
-        pushButton_ImportIdealOut = new QPushButton(groupBox_7);
-        pushButton_ImportIdealOut->setObjectName(QStringLiteral("pushButton_ImportIdealOut"));
-        sizePolicy1.setHeightForWidth(pushButton_ImportIdealOut->sizePolicy().hasHeightForWidth());
-        pushButton_ImportIdealOut->setSizePolicy(sizePolicy1);
-
-        gridLayout_8->addWidget(pushButton_ImportIdealOut, 2, 1, 1, 1);
-
-        lineEdit_NormalizedSHif = new QLineEdit(groupBox_7);
-        lineEdit_NormalizedSHif->setObjectName(QStringLiteral("lineEdit_NormalizedSHif"));
-
-        gridLayout_8->addWidget(lineEdit_NormalizedSHif, 9, 1, 1, 1);
-
-        label_36 = new QLabel(groupBox_7);
-        label_36->setObjectName(QStringLiteral("label_36"));
-
-        gridLayout_8->addWidget(label_36, 11, 0, 1, 1);
-
-        label_35 = new QLabel(groupBox_7);
-        label_35->setObjectName(QStringLiteral("label_35"));
-
-        gridLayout_8->addWidget(label_35, 7, 0, 1, 1);
-
-        line = new QFrame(groupBox_7);
-        line->setObjectName(QStringLiteral("line"));
-        line->setFrameShape(QFrame::HLine);
-        line->setFrameShadow(QFrame::Sunken);
-
-        gridLayout_8->addWidget(line, 6, 0, 1, 2);
-
-        pushButton_importImage = new QPushButton(groupBox_7);
-        pushButton_importImage->setObjectName(QStringLiteral("pushButton_importImage"));
-        sizePolicy1.setHeightForWidth(pushButton_importImage->sizePolicy().hasHeightForWidth());
-        pushButton_importImage->setSizePolicy(sizePolicy1);
-
-        gridLayout_8->addWidget(pushButton_importImage, 1, 1, 1, 1);
+        gridLayout_8->addWidget(lineEdit_L2Lamda, 18, 1, 1, 1);
 
         lineEdit_diffLoss = new QLineEdit(groupBox_7);
         lineEdit_diffLoss->setObjectName(QStringLiteral("lineEdit_diffLoss"));
         sizePolicy1.setHeightForWidth(lineEdit_diffLoss->sizePolicy().hasHeightForWidth());
         lineEdit_diffLoss->setSizePolicy(sizePolicy1);
 
-        gridLayout_8->addWidget(lineEdit_diffLoss, 13, 1, 1, 1);
+        gridLayout_8->addWidget(lineEdit_diffLoss, 11, 1, 1, 1);
+
+        label_31 = new QLabel(groupBox_7);
+        label_31->setObjectName(QStringLiteral("label_31"));
+
+        gridLayout_8->addWidget(label_31, 14, 0, 1, 1);
+
+        lineEdit_maxIters = new QLineEdit(groupBox_7);
+        lineEdit_maxIters->setObjectName(QStringLiteral("lineEdit_maxIters"));
+        sizePolicy1.setHeightForWidth(lineEdit_maxIters->sizePolicy().hasHeightForWidth());
+        lineEdit_maxIters->setSizePolicy(sizePolicy1);
+
+        gridLayout_8->addWidget(lineEdit_maxIters, 12, 1, 1, 1);
+
+        label_42 = new QLabel(groupBox_7);
+        label_42->setObjectName(QStringLiteral("label_42"));
+
+        gridLayout_8->addWidget(label_42, 0, 0, 1, 1);
+
+        lineEdit_NormalizedSHif = new QLineEdit(groupBox_7);
+        lineEdit_NormalizedSHif->setObjectName(QStringLiteral("lineEdit_NormalizedSHif"));
+        sizePolicy1.setHeightForWidth(lineEdit_NormalizedSHif->sizePolicy().hasHeightForWidth());
+        lineEdit_NormalizedSHif->setSizePolicy(sizePolicy1);
+
+        gridLayout_8->addWidget(lineEdit_NormalizedSHif, 7, 1, 1, 1);
 
         label_41 = new QLabel(groupBox_7);
         label_41->setObjectName(QStringLiteral("label_41"));
 
-        gridLayout_8->addWidget(label_41, 8, 0, 1, 1);
+        gridLayout_8->addWidget(label_41, 6, 0, 1, 1);
 
         lineEdit_Loss = new QLineEdit(groupBox_7);
         lineEdit_Loss->setObjectName(QStringLiteral("lineEdit_Loss"));
         sizePolicy1.setHeightForWidth(lineEdit_Loss->sizePolicy().hasHeightForWidth());
         lineEdit_Loss->setSizePolicy(sizePolicy1);
 
-        gridLayout_8->addWidget(lineEdit_Loss, 12, 1, 1, 1);
+        gridLayout_8->addWidget(lineEdit_Loss, 10, 1, 1, 1);
 
-        label_43 = new QLabel(groupBox_7);
-        label_43->setObjectName(QStringLiteral("label_43"));
+        label_39 = new QLabel(groupBox_7);
+        label_39->setObjectName(QStringLiteral("label_39"));
 
-        gridLayout_8->addWidget(label_43, 9, 0, 1, 1);
+        gridLayout_8->addWidget(label_39, 12, 0, 1, 1);
 
-        label_38 = new QLabel(groupBox_7);
-        label_38->setObjectName(QStringLiteral("label_38"));
+        label_37 = new QLabel(groupBox_7);
+        label_37->setObjectName(QStringLiteral("label_37"));
 
-        gridLayout_8->addWidget(label_38, 13, 0, 1, 1);
-
-        label_40 = new QLabel(groupBox_7);
-        label_40->setObjectName(QStringLiteral("label_40"));
-
-        gridLayout_8->addWidget(label_40, 2, 0, 1, 1);
-
-        pushButton_cifarTrains = new QPushButton(groupBox_7);
-        pushButton_cifarTrains->setObjectName(QStringLiteral("pushButton_cifarTrains"));
-
-        gridLayout_8->addWidget(pushButton_cifarTrains, 3, 0, 1, 2);
-
-        label = new QLabel(groupBox_7);
-        label->setObjectName(QStringLiteral("label"));
-
-        gridLayout_8->addWidget(label, 1, 0, 1, 1);
-
-        label_Traingmode = new QLabel(groupBox_7);
-        label_Traingmode->setObjectName(QStringLiteral("label_Traingmode"));
-
-        gridLayout_8->addWidget(label_Traingmode, 16, 0, 1, 1);
+        gridLayout_8->addWidget(label_37, 10, 0, 1, 1);
 
         lineEdit_learnRate = new QLineEdit(groupBox_7);
         lineEdit_learnRate->setObjectName(QStringLiteral("lineEdit_learnRate"));
         sizePolicy1.setHeightForWidth(lineEdit_learnRate->sizePolicy().hasHeightForWidth());
         lineEdit_learnRate->setSizePolicy(sizePolicy1);
 
-        gridLayout_8->addWidget(lineEdit_learnRate, 11, 1, 1, 1);
+        gridLayout_8->addWidget(lineEdit_learnRate, 9, 1, 1, 1);
+
+        comboBox_normalizedMethd = new QComboBox(groupBox_7);
+        comboBox_normalizedMethd->setObjectName(QStringLiteral("comboBox_normalizedMethd"));
+
+        gridLayout_8->addWidget(comboBox_normalizedMethd, 5, 1, 1, 1);
+
+        line = new QFrame(groupBox_7);
+        line->setObjectName(QStringLiteral("line"));
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+
+        gridLayout_8->addWidget(line, 4, 0, 1, 2);
 
         lineEdit_NormalizedRange = new QLineEdit(groupBox_7);
         lineEdit_NormalizedRange->setObjectName(QStringLiteral("lineEdit_NormalizedRange"));
+        sizePolicy1.setHeightForWidth(lineEdit_NormalizedRange->sizePolicy().hasHeightForWidth());
+        lineEdit_NormalizedRange->setSizePolicy(sizePolicy1);
 
-        gridLayout_8->addWidget(lineEdit_NormalizedRange, 8, 1, 1, 1);
+        gridLayout_8->addWidget(lineEdit_NormalizedRange, 6, 1, 1, 1);
+
+        label_36 = new QLabel(groupBox_7);
+        label_36->setObjectName(QStringLiteral("label_36"));
+
+        gridLayout_8->addWidget(label_36, 9, 0, 1, 1);
+
+        label_43 = new QLabel(groupBox_7);
+        label_43->setObjectName(QStringLiteral("label_43"));
+
+        gridLayout_8->addWidget(label_43, 7, 0, 1, 1);
+
+        comboBox_useSimd = new QComboBox(groupBox_7);
+        comboBox_useSimd->setObjectName(QStringLiteral("comboBox_useSimd"));
+        comboBox_useSimd->setStyleSheet(QStringLiteral("background-color: rgb(218, 203, 218);"));
+
+        gridLayout_8->addWidget(comboBox_useSimd, 13, 1, 1, 1);
+
+        label_38 = new QLabel(groupBox_7);
+        label_38->setObjectName(QStringLiteral("label_38"));
+
+        gridLayout_8->addWidget(label_38, 11, 0, 1, 1);
+
+        lineEdit_ImgNumbers = new QLineEdit(groupBox_7);
+        lineEdit_ImgNumbers->setObjectName(QStringLiteral("lineEdit_ImgNumbers"));
+        sizePolicy1.setHeightForWidth(lineEdit_ImgNumbers->sizePolicy().hasHeightForWidth());
+        lineEdit_ImgNumbers->setSizePolicy(sizePolicy1);
+
+        gridLayout_8->addWidget(lineEdit_ImgNumbers, 0, 1, 1, 1);
+
+        label_35 = new QLabel(groupBox_7);
+        label_35->setObjectName(QStringLiteral("label_35"));
+
+        gridLayout_8->addWidget(label_35, 5, 0, 1, 1);
+
+        pushButton_cifarTrains = new QPushButton(groupBox_7);
+        pushButton_cifarTrains->setObjectName(QStringLiteral("pushButton_cifarTrains"));
+
+        gridLayout_8->addWidget(pushButton_cifarTrains, 1, 0, 1, 2);
+
+        spinBox_batchSize = new QSpinBox(groupBox_7);
+        spinBox_batchSize->setObjectName(QStringLiteral("spinBox_batchSize"));
+        spinBox_batchSize->setMaximum(32);
+        spinBox_batchSize->setValue(8);
+
+        gridLayout_8->addWidget(spinBox_batchSize, 8, 1, 1, 1);
+
+        label_26 = new QLabel(groupBox_7);
+        label_26->setObjectName(QStringLiteral("label_26"));
+
+        gridLayout_8->addWidget(label_26, 13, 0, 1, 1);
+
+        label_28 = new QLabel(groupBox_7);
+        label_28->setObjectName(QStringLiteral("label_28"));
+
+        gridLayout_8->addWidget(label_28, 8, 0, 1, 1);
+
+        label_Traingmode = new QLabel(groupBox_7);
+        label_Traingmode->setObjectName(QStringLiteral("label_Traingmode"));
+
+        gridLayout_8->addWidget(label_Traingmode, 19, 0, 1, 1);
 
         pushButton_startTraning = new QPushButton(groupBox_7);
         pushButton_startTraning->setObjectName(QStringLiteral("pushButton_startTraning"));
@@ -947,54 +980,53 @@ public:
         pushButton_startTraning->setPalette(palette1);
         pushButton_startTraning->setStyleSheet(QStringLiteral("color: rgb(245, 226, 255);"));
 
-        gridLayout_8->addWidget(pushButton_startTraning, 16, 1, 1, 1);
+        gridLayout_8->addWidget(pushButton_startTraning, 19, 1, 1, 1);
 
-        comboBox_normalizedMethd = new QComboBox(groupBox_7);
-        comboBox_normalizedMethd->setObjectName(QStringLiteral("comboBox_normalizedMethd"));
+        comboBox_optimizer = new QComboBox(groupBox_7);
+        comboBox_optimizer->setObjectName(QStringLiteral("comboBox_optimizer"));
 
-        gridLayout_8->addWidget(comboBox_normalizedMethd, 7, 1, 1, 1);
+        gridLayout_8->addWidget(comboBox_optimizer, 14, 1, 1, 1);
 
-        lineEdit_maxIters = new QLineEdit(groupBox_7);
-        lineEdit_maxIters->setObjectName(QStringLiteral("lineEdit_maxIters"));
-        sizePolicy1.setHeightForWidth(lineEdit_maxIters->sizePolicy().hasHeightForWidth());
-        lineEdit_maxIters->setSizePolicy(sizePolicy1);
+        label_45 = new QLabel(groupBox_7);
+        label_45->setObjectName(QStringLiteral("label_45"));
 
-        gridLayout_8->addWidget(lineEdit_maxIters, 14, 1, 1, 1);
+        gridLayout_8->addWidget(label_45, 15, 0, 1, 1);
 
-        label_26 = new QLabel(groupBox_7);
-        label_26->setObjectName(QStringLiteral("label_26"));
+        label_47 = new QLabel(groupBox_7);
+        label_47->setObjectName(QStringLiteral("label_47"));
 
-        gridLayout_8->addWidget(label_26, 15, 0, 1, 1);
+        gridLayout_8->addWidget(label_47, 17, 0, 1, 1);
 
-        label_39 = new QLabel(groupBox_7);
-        label_39->setObjectName(QStringLiteral("label_39"));
+        lineEdit_adamBeta1 = new QLineEdit(groupBox_7);
+        lineEdit_adamBeta1->setObjectName(QStringLiteral("lineEdit_adamBeta1"));
+        sizePolicy1.setHeightForWidth(lineEdit_adamBeta1->sizePolicy().hasHeightForWidth());
+        lineEdit_adamBeta1->setSizePolicy(sizePolicy1);
 
-        gridLayout_8->addWidget(label_39, 14, 0, 1, 1);
+        gridLayout_8->addWidget(lineEdit_adamBeta1, 15, 1, 1, 1);
 
-        lineEdit_ImgNumbers = new QLineEdit(groupBox_7);
-        lineEdit_ImgNumbers->setObjectName(QStringLiteral("lineEdit_ImgNumbers"));
-        sizePolicy1.setHeightForWidth(lineEdit_ImgNumbers->sizePolicy().hasHeightForWidth());
-        lineEdit_ImgNumbers->setSizePolicy(sizePolicy1);
+        lineEdit_adamBeta2 = new QLineEdit(groupBox_7);
+        lineEdit_adamBeta2->setObjectName(QStringLiteral("lineEdit_adamBeta2"));
+        sizePolicy1.setHeightForWidth(lineEdit_adamBeta2->sizePolicy().hasHeightForWidth());
+        lineEdit_adamBeta2->setSizePolicy(sizePolicy1);
 
-        gridLayout_8->addWidget(lineEdit_ImgNumbers, 0, 1, 1, 1);
+        gridLayout_8->addWidget(lineEdit_adamBeta2, 16, 1, 1, 1);
 
-        label_28 = new QLabel(groupBox_7);
-        label_28->setObjectName(QStringLiteral("label_28"));
+        lineEdit_adamSigma = new QLineEdit(groupBox_7);
+        lineEdit_adamSigma->setObjectName(QStringLiteral("lineEdit_adamSigma"));
+        sizePolicy1.setHeightForWidth(lineEdit_adamSigma->sizePolicy().hasHeightForWidth());
+        lineEdit_adamSigma->setSizePolicy(sizePolicy1);
 
-        gridLayout_8->addWidget(label_28, 10, 0, 1, 1);
+        gridLayout_8->addWidget(lineEdit_adamSigma, 17, 1, 1, 1);
 
-        spinBox_batchSize = new QSpinBox(groupBox_7);
-        spinBox_batchSize->setObjectName(QStringLiteral("spinBox_batchSize"));
-        spinBox_batchSize->setMaximum(128);
-        spinBox_batchSize->setValue(1);
+        label_46 = new QLabel(groupBox_7);
+        label_46->setObjectName(QStringLiteral("label_46"));
 
-        gridLayout_8->addWidget(spinBox_batchSize, 10, 1, 1, 1);
+        gridLayout_8->addWidget(label_46, 16, 0, 1, 1);
 
-        comboBox_useSimd = new QComboBox(groupBox_7);
-        comboBox_useSimd->setObjectName(QStringLiteral("comboBox_useSimd"));
-        comboBox_useSimd->setStyleSheet(QStringLiteral("background-color: rgb(218, 203, 218);"));
+        label_48 = new QLabel(groupBox_7);
+        label_48->setObjectName(QStringLiteral("label_48"));
 
-        gridLayout_8->addWidget(comboBox_useSimd, 15, 1, 1, 1);
+        gridLayout_8->addWidget(label_48, 18, 0, 1, 1);
 
 
         gridLayout->addWidget(groupBox_7, 1, 6, 4, 1);
@@ -1014,7 +1046,8 @@ public:
         retranslateUi(FNNClass);
 
         comboBox_normalizedMethd->setCurrentIndex(2);
-        comboBox_useSimd->setCurrentIndex(2);
+        comboBox_useSimd->setCurrentIndex(3);
+        comboBox_optimizer->setCurrentIndex(6);
 
 
         QMetaObject::connectSlotsByName(FNNClass);
@@ -1077,52 +1110,65 @@ public:
         label_17->setText(QApplication::translate("FNNClass", "start row", Q_NULLPTR));
         groupBox_6->setTitle(QApplication::translate("FNNClass", "Model Controller", Q_NULLPTR));
         label_13->setText(QApplication::translate("FNNClass", "Import Model", Q_NULLPTR));
-        pushButton_ImportWts->setText(QString());
         label_20->setText(QApplication::translate("FNNClass", "test img num", Q_NULLPTR));
         pushButton_LaunchModel->setText(QApplication::translate("FNNClass", "Launch Model", Q_NULLPTR));
-        label_44->setText(QApplication::translate("FNNClass", "Import test Img", Q_NULLPTR));
         lineEdit_testImgNum->setText(QApplication::translate("FNNClass", "10000", Q_NULLPTR));
-        pushButton_ImportTestImg->setText(QString());
         pushButton_cifarTest->setText(QApplication::translate("FNNClass", "Import Cifar Test Group", Q_NULLPTR));
+        pushButton_ImportWts->setText(QString());
         label_pITURE->setText(QApplication::translate("FNNClass", "PICTURE", Q_NULLPTR));
         groupBox_7->setTitle(QApplication::translate("FNNClass", "train", Q_NULLPTR));
-        label_37->setText(QApplication::translate("FNNClass", "Loss", Q_NULLPTR));
-        label_42->setText(QApplication::translate("FNNClass", "Img Number", Q_NULLPTR));
-        pushButton_ImportIdealOut->setText(QString());
-        lineEdit_NormalizedSHif->setText(QApplication::translate("FNNClass", "1", Q_NULLPTR));
-        label_36->setText(QApplication::translate("FNNClass", "learn rate", Q_NULLPTR));
-        label_35->setText(QApplication::translate("FNNClass", "Normalized Mthd", Q_NULLPTR));
-        pushButton_importImage->setText(QString());
+        lineEdit_L2Lamda->setText(QApplication::translate("FNNClass", "0.001", Q_NULLPTR));
         lineEdit_diffLoss->setText(QApplication::translate("FNNClass", "0.00000001", Q_NULLPTR));
+        label_31->setText(QApplication::translate("FNNClass", "Optimizer", Q_NULLPTR));
+        lineEdit_maxIters->setText(QApplication::translate("FNNClass", "20", Q_NULLPTR));
+        label_42->setText(QApplication::translate("FNNClass", "Img Number", Q_NULLPTR));
+        lineEdit_NormalizedSHif->setText(QApplication::translate("FNNClass", "0", Q_NULLPTR));
         label_41->setText(QApplication::translate("FNNClass", "range", Q_NULLPTR));
         lineEdit_Loss->setText(QApplication::translate("FNNClass", "0.001", Q_NULLPTR));
-        label_43->setText(QApplication::translate("FNNClass", "shift", Q_NULLPTR));
-        label_38->setText(QApplication::translate("FNNClass", "Diff Loss", Q_NULLPTR));
-        label_40->setText(QApplication::translate("FNNClass", "Import Ideal Out", Q_NULLPTR));
-        pushButton_cifarTrains->setText(QApplication::translate("FNNClass", "Import Cifar Train Group", Q_NULLPTR));
-        label->setText(QApplication::translate("FNNClass", "Import Img", Q_NULLPTR));
-        label_Traingmode->setText(QApplication::translate("FNNClass", "start", Q_NULLPTR));
+        label_39->setText(QApplication::translate("FNNClass", "Max iter", Q_NULLPTR));
+        label_37->setText(QApplication::translate("FNNClass", "Loss", Q_NULLPTR));
         lineEdit_learnRate->setText(QApplication::translate("FNNClass", "0.001", Q_NULLPTR));
-        lineEdit_NormalizedRange->setText(QApplication::translate("FNNClass", "255", Q_NULLPTR));
-        pushButton_startTraning->setText(QString());
         comboBox_normalizedMethd->clear();
         comboBox_normalizedMethd->insertItems(0, QStringList()
          << QApplication::translate("FNNClass", "None", Q_NULLPTR)
          << QApplication::translate("FNNClass", "global norm", Q_NULLPTR)
          << QApplication::translate("FNNClass", "self norm", Q_NULLPTR)
         );
-        lineEdit_maxIters->setText(QApplication::translate("FNNClass", "20", Q_NULLPTR));
-        label_26->setText(QApplication::translate("FNNClass", "use simd", Q_NULLPTR));
-        label_39->setText(QApplication::translate("FNNClass", "Max iter", Q_NULLPTR));
-        lineEdit_ImgNumbers->setText(QApplication::translate("FNNClass", "100", Q_NULLPTR));
-        label_28->setText(QApplication::translate("FNNClass", "Batch Size", Q_NULLPTR));
+        lineEdit_NormalizedRange->setText(QApplication::translate("FNNClass", "1", Q_NULLPTR));
+        label_36->setText(QApplication::translate("FNNClass", "learn rate", Q_NULLPTR));
+        label_43->setText(QApplication::translate("FNNClass", "shift", Q_NULLPTR));
         comboBox_useSimd->clear();
         comboBox_useSimd->insertItems(0, QStringList()
          << QApplication::translate("FNNClass", "Basic", Q_NULLPTR)
          << QApplication::translate("FNNClass", "Simd", Q_NULLPTR)
-         << QApplication::translate("FNNClass", "MultiThread Simd", Q_NULLPTR)
-         << QApplication::translate("FNNClass", "Cuda", Q_NULLPTR)
+         << QApplication::translate("FNNClass", "MultiThread Simd Layer", Q_NULLPTR)
+         << QApplication::translate("FNNClass", "MultiThread Simd Batch", Q_NULLPTR)
         );
+        label_38->setText(QApplication::translate("FNNClass", "Diff Loss", Q_NULLPTR));
+        lineEdit_ImgNumbers->setText(QApplication::translate("FNNClass", "160", Q_NULLPTR));
+        label_35->setText(QApplication::translate("FNNClass", "Normalized Mthd", Q_NULLPTR));
+        pushButton_cifarTrains->setText(QApplication::translate("FNNClass", "Import Cifar Train Group", Q_NULLPTR));
+        label_26->setText(QApplication::translate("FNNClass", "use simd", Q_NULLPTR));
+        label_28->setText(QApplication::translate("FNNClass", "Batch Size", Q_NULLPTR));
+        label_Traingmode->setText(QApplication::translate("FNNClass", "start", Q_NULLPTR));
+        pushButton_startTraning->setText(QString());
+        comboBox_optimizer->clear();
+        comboBox_optimizer->insertItems(0, QStringList()
+         << QApplication::translate("FNNClass", "NooP", Q_NULLPTR)
+         << QApplication::translate("FNNClass", "SGD", Q_NULLPTR)
+         << QApplication::translate("FNNClass", "SGDM", Q_NULLPTR)
+         << QApplication::translate("FNNClass", "SGDW", Q_NULLPTR)
+         << QApplication::translate("FNNClass", "SGNAD", Q_NULLPTR)
+         << QApplication::translate("FNNClass", "ADAM", Q_NULLPTR)
+         << QApplication::translate("FNNClass", "ADAMW", Q_NULLPTR)
+        );
+        label_45->setText(QApplication::translate("FNNClass", "SGD/ADAM beta1", Q_NULLPTR));
+        label_47->setText(QApplication::translate("FNNClass", "ADAM sigma", Q_NULLPTR));
+        lineEdit_adamBeta1->setText(QApplication::translate("FNNClass", "0.9", Q_NULLPTR));
+        lineEdit_adamBeta2->setText(QApplication::translate("FNNClass", "0.999", Q_NULLPTR));
+        lineEdit_adamSigma->setText(QApplication::translate("FNNClass", "0.0000001", Q_NULLPTR));
+        label_46->setText(QApplication::translate("FNNClass", "ADAM beta2", Q_NULLPTR));
+        label_48->setText(QApplication::translate("FNNClass", "L2 Lamda", Q_NULLPTR));
     } // retranslateUi
 
 };
