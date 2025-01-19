@@ -8,7 +8,7 @@ FNN::FNN(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	connect(ui.pushButton_ImportWts, SIGNAL(clicked()), this, SLOT(ImpotWts()), Qt::AutoConnection);
+//	connect(ui.pushButton_ImportWts, SIGNAL(clicked()), this, SLOT(ImpotWts()), Qt::AutoConnection);
 //	connect(ui.comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(ChangeTrainMode(int)), Qt::AutoConnection);
 //	connect(ui.pushButton_LaunchCNNLayer, SIGNAL(clicked()), this, SLOT(Launch()), Qt::AutoConnection);
 	connect(ui.spinBox_inputImageIndex, SIGNAL(valueChanged(int)), this, SLOT(ViewiNPUT(int)), Qt::AutoConnection);
@@ -435,46 +435,47 @@ void FNN::LauchCNNModelParrallel()
 				}
 				batchImage.push_back(bImage);
 			}
-#ifdef CHECKSPEED
-			clock_t st2 = clock();
-			MyCNNModel.initMemory(1);
-			MyCNNModel.LaunchCNNModelBySimdNonParrallel(normImgSimdSeries, outVector, expectedOutLen);
-			MyCNNModel.freeMemory();
-			std::cout << "time simd:" << double(clock() - st2) << std::endl;
-			std::cout << std::setprecision(6) << "out simd:" << outVector[0] << std::endl;
-			
-			clock_t st3 = clock();
-			if (loopImg % batch == 0)
+			bool checkspeed = ui.checkBox_checkSpeed->isChecked();
+			if (checkspeed)
 			{
-				int batcImageNum = loopImg / batch;
-				float* outVectorP = new float[batch*expectedOutLen];
-				MyCNNModel.initMemory(batch);
-				MyCNNModel.LaunchCNNModelParrallel(batchImage, outVectorP, expectedOutLen, batch);
+				clock_t st2 = clock();
+				MyCNNModel.initMemory(1);
+				MyCNNModel.LaunchCNNModelBySimdNonParrallel(normImgSimdSeries, outVector, expectedOutLen);
 				MyCNNModel.freeMemory();
-				std::cout << "parrallel time simd:" << double(clock() - st3) << std::endl;
-				std::cout << std::setprecision(6) << "out simd:" << outVectorP[0] << std::endl;
-			}
+				std::cout << "time simd:" << double(clock() - st2) << std::endl;
+				std::cout << std::setprecision(6) << "out simd:" << outVector[0] << std::endl;
 
-			
-#else
-			int traingflag = ui.comboBox_useSimd->currentIndex();
-			MyCNNModel.initMemory(1);
-			if (traingflag == 1 || traingflag == 2 || traingflag == 3)
-			{
-				image normImgSimd = MyCNNModel.normliazeSimd(ImportImages.at(indexImg));
-				MyCNNModel.LaunchCNNModelBySimd(normImgSimd, outVector, expectedOutLen);
-				normImgSimd.freeImage();
+				clock_t st3 = clock();
+				if (loopImg % batch == 0)
+				{
+					int batcImageNum = loopImg / batch;
+					float* outVectorP = new float[batch * expectedOutLen];
+					MyCNNModel.initMemory(batch);
+
+					MyCNNModel.LaunchCNNModelParrallel(batchImage, outVectorP, expectedOutLen, batch);
+					MyCNNModel.freeMemory();
+					std::cout << "parrallel time simd:" << int(clock() - st3) << std::endl;
+					std::cout << std::setprecision(6) << "out simd:" << outVectorP[0] << std::endl;
+				}
 			}
 			else
 			{
-				image normImgSimd = MyCNNModel.normliaze(ImportImages.at(indexImg));
-				MyCNNModel.LaunchCNNModel(normImgSimd, outVector, expectedOutLen);
-				normImgSimd.freeImage();
+				int traingflag = ui.comboBox_useSimd->currentIndex();
+				MyCNNModel.initMemory(1);
+				if (traingflag == 1 || traingflag == 2 || traingflag == 3)
+				{
+					image normImgSimd = MyCNNModel.normliazeSimd(ImportImages.at(indexImg));
+					MyCNNModel.LaunchCNNModelBySimd(normImgSimd, outVector, expectedOutLen);
+					normImgSimd.freeImage();
+				}
+				else
+				{
+					image normImgSimd = MyCNNModel.normliaze(ImportImages.at(indexImg));
+					MyCNNModel.LaunchCNNModel(normImgSimd, outVector, expectedOutLen);
+					normImgSimd.freeImage();
+				}
+				MyCNNModel.freeMemory();
 			}
-			MyCNNModel.freeMemory();
-#endif
-
-
 
 			ui.textBrowser->append("CNN calc successfully!");
 			for (int i = 0; i < expectedOutLen; i++)
@@ -649,7 +650,7 @@ void FNN::LaunchTraingThread()
 	MyCNNModel.setLearnRate(ui.lineEdit_learnRate->text().toDouble());
 	MyCNNModel.setBatchSize(batchSize);
 	MyCNNModel.setL2Lamda(L2Lamda);
-
+	MyCNNModel.setLossType(ui.comboBox_lossFunction->currentIndex());
 	Optimizer mo;
 	mo.method = (OptiMethod)ui.comboBox_optimizer->currentIndex();
 	mo.beta1 = ui.lineEdit_adamBeta1->text().toFloat();
@@ -716,6 +717,7 @@ void FNN::ImportCifarTrain()
 	int pictureNum= ui.lineEdit_ImgNumbers->text().toInt();
 	QString fileName = QFileDialog::getOpenFileName(this, tr("import cifar train"), "", tr("BIN(*.bin)")); //Ñ¡ÔñÂ·¾¶
 	std::cout << fileName.toLocal8Bit().data() << std::endl;
+	int outlen=10;
 	if(cifar.pullTestImages(fileName.toLocal8Bit().data(), pictureNum))
 	{
 		MyCNNModel.clearInputImage();
@@ -723,9 +725,10 @@ void FNN::ImportCifarTrain()
 		{
 			for( int i = 0;i< cifar.testGroup.size();i++)
 			{
-				float* o = new float[1];
-				o[0] = 1.0*cifar.animalType.at(i)/10;
-				if (!MyCNNModel.addInputImage(cifar.testGroup.at(i), o, 1))
+				float* o = new float[outlen];
+				memset(o, 0, outlen * sizeof(float));
+				o[cifar.animalType.at(i)] = 1;
+				if (!MyCNNModel.addInputImage(cifar.testGroup.at(i), o, outlen))
 				{
 					std::cout << "add image to model error" << std::endl;
 					MyCNNModel.clearInputImage();
@@ -758,12 +761,14 @@ void FNN::ImportCifarTest()
 			}
 		}
 		IdealOut.clear();
+		int outlen = 10;
 		if (cifar.checkSizeImageAndOut1())
 		{
 			for (int i = 0;i < cifar.testGroup1.size();i++)
 			{
-				float* o = new float[1];
-				o[0] = 1.0 * cifar.animalType1.at(i) / 10;
+				float* o = new float[outlen];
+				memset(o, 0, outlen * sizeof(float));
+				o[cifar.animalType1.at(i)] = 1;
 				IdealOut.push_back(o);
 				ImportImages.push_back(cifar.testGroup1.at(i));
 			}

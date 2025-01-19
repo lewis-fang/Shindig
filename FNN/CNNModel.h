@@ -62,6 +62,7 @@ public:
 	void setNormMethod(int normod, double range, double shift);
 	void setBatchSize(int bz) { batchSize = bz; }
 	void setL2Lamda(float l2Lamda) { L2Lamda = l2Lamda; }
+	void setLossType(float losstype) { lossType = losstype+1; }
 
 	void setOptimizer(Optimizer mo) { memcpy(&mOptimizer, &mo, sizeof(Optimizer)); }
 	///////////////////training: backward propagation

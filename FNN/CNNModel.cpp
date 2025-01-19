@@ -7,7 +7,7 @@ CNNModel::CNNModel()
 	minLoss = 0.01;
 	learnRate = 0.01;
 	diffLoss = 0.001;
-	lossType = 1;
+	lossType = 2;
 	batchSize = 1;
 	normMethod = 0;
 	L2Lamda = 0;
@@ -1034,7 +1034,14 @@ bool CNNModel::startTrainningSimdV3()
 				}
 				iterK++;
 			}
-			C = sqrt(C / NIMG);
+			if (lossType == 1)
+			{
+				C = sqrt(C / NIMG);
+			}
+			else
+			{
+				C /=  NIMG;
+			}
 			vloss.push_back(C);
 			
 			if ((C < minLoss) || (std::abs(C - lastC) < diffLoss))
@@ -1083,6 +1090,7 @@ void CNNModel::updateLossParrallel(image bImage, float* outValue, float* vC, int
 		image lastDxdy = CNNLayerSeries.back().getCurrentLayerIdealOutDxdy();
 		dcalculateC(IdealOutput.at(realIndex), outValue + b * outLen, lastDxdy.imageAtIndex(b), outLen);
 		int dpth = CNNLayerSeries.size();
+		CNNLayerSeries.back().setIdealOut(IdealOutput.at(realIndex), outLen,b);
 		for (int ly = dpth - 1; ly > 0; ly--)
 		{
 			CNNCalc layer = CNNLayerSeries.at(ly);
@@ -1149,18 +1157,23 @@ float CNNModel::calculateC(float* y, float*x, int sz)
 {//a:label b:out
 
 	float sum = 0.0;
-	for (int i = 0; i < sz; i++)
+	if (lossType == 1)
 	{
-		if (lossType == 1)
-		{//square
-			sum += 0.5*(y[i] - x[i])*(y[i] - x[i]);
+		for (int i = 0; i < sz; i++)
+		{
+			sum += 0.5 * (y[i] - x[i]) * (y[i] - x[i]);
 		}
-		else
-		{//cross entropy
-			sum += -(y[i]*std::log(x[i])+(1-y[i])*std::log(1-x[i]));
-		}
+		return sum / sz;
 	}
-	return sum / sz;
+	else
+	{
+		for (int i = 0; i < sz; i++)
+		{//cross entropy
+			sum += - x[i]*std::log(0.00001+y[i]);
+		//	std::cout << "xi"<<i<<"----->" << x[i] << std::endl;
+		}
+		return sum ;
+	}
 }
 template< typename  T>
 void CNNModel::dcalculateC(T* x, T*y, T*dyVdx, int sz)
@@ -1174,7 +1187,8 @@ void CNNModel::dcalculateC(T* x, T*y, T*dyVdx, int sz)
 		}
 		else
 		{//cross entropy
-			dyVdx[i] = -(y[i] / x[i] - (1 - y[i]) / (1 - x[i]));
+			//dyVdx[i] = -x[i]/y[i] ;
+			dyVdx[i] = 1;
 		}
 	}
 	

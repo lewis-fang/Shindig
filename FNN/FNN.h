@@ -14,8 +14,8 @@
 #include "readCifar10.h"
 #include <thread>
 #include"DataDefine.h"
-#define loopImg 1000
-//#define CHECKSPEED
+#define loopImg 10000
+#define CHECKSPEED
 using namespace QtCharts;
 
 class FNN : public QMainWindow
