@@ -87,7 +87,8 @@ public:
 	bool VectorToImgSimd(float* vec, int sz, image& outdxdy);
 	void initMemory(int batch);
 	void freeMemory();
-	bool saveModel(char* path, bool isSimdTrained);
+//	bool saveModel(char* path, bool isSimdTrained);
+	bool saveModel();
 	bool readModel(char* path, bool isSimdTrained);
 
 	bool createThread(int useSimd);

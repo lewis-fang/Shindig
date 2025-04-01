@@ -1072,6 +1072,7 @@ bool CNNModel::startTrainningSimdV3()
 		{
 			CNNLayerSeries.at(i).freeLayerMemory();
 		}
+
 	}
 	traingFlag = false;
 	return true;
@@ -1096,7 +1097,6 @@ void CNNModel::updateLossParrallel(image bImage, float* outValue, float* vC, int
 			CNNCalc layer = CNNLayerSeries.at(ly);
 			image DeltaImage = CNNLayerSeries.at(ly - 1).getCurrentLayerIdealOutDxdy();
 			ret = layer.UpdateLayerLossSimd(DeltaImage,b);
-
 		}
 	}
 	for (CNNCalc layer : CNNLayerSeries)
@@ -1409,40 +1409,40 @@ void CNNModel::clearInputImage()
 	IdealOutput.clear();
 
 }
-bool CNNModel::saveModel(char* path, bool isSimdTrained)
-{
-	std::ofstream of(path,std::ios::binary);
-	char* chrModelHead = (char*)_mm_malloc(sizeof(modelHead), AlignBytes);
-	char* chrLayerHead = (char*)_mm_malloc(sizeof(layerHead), AlignBytes);
-	of << chrModelHead;//weights
-	
-	for (CNNCalc layer : CNNLayerSeries)
-	{
-		kernal* allkernals = layer.getAllKernals();
-		layerHead nlayerHead;
-		float* VBias = (float*)_mm_malloc(sizeof(float)* layer.getKernalNum(), AlignBytes);
-		char* chrBias = (char*)_mm_malloc(sizeof(float) * layer.getKernalNum(), AlignBytes);
-		size_t sz = allkernals[0].row * allkernals[0].col * allkernals[0].channel;
-		char* chrWeights = (char*)_mm_malloc(sizeof(float) * sz, AlignBytes);
-		for (int n = 0;n < layer.getKernalNum();n++)
-		{		
-			memcpy(chrLayerHead, &nlayerHead, sizeof(layerHead));
-			of << chrLayerHead;//layer head information
-			float* vweights = allkernals[n].vWeight;		
-			memcpy(chrWeights, vweights, sizeof(float) * sz);
-			of << chrWeights;//weights
-			VBias[n] = allkernals[n].biasSimd;
-		}		
-		memcpy(chrBias, VBias, sizeof(float) * layer.getKernalNum());
-		of << chrBias;//weights
-		_mm_free(chrWeights);
-		_mm_free(chrBias);
-		_mm_free(VBias);
-	}
-	_mm_free(chrLayerHead);
-	of.close();
-	return true;
-}
+//bool CNNModel::saveModel(char* path, bool isSimdTrained)
+//{
+//	std::ofstream of(path,std::ios::binary);
+//	char* chrModelHead = (char*)_mm_malloc(sizeof(modelHead), AlignBytes);
+//	char* chrLayerHead = (char*)_mm_malloc(sizeof(layerHead), AlignBytes);
+//	of << chrModelHead;//weights
+//	
+//	for (CNNCalc layer : CNNLayerSeries)
+//	{
+//		kernal* allkernals = layer.getAllKernals();
+//		layerHead nlayerHead;
+//		float* VBias = (float*)_mm_malloc(sizeof(float)* layer.getKernalNum(), AlignBytes);
+//		char* chrBias = (char*)_mm_malloc(sizeof(float) * layer.getKernalNum(), AlignBytes);
+//		size_t sz = allkernals[0].row * allkernals[0].col * allkernals[0].channel;
+//		char* chrWeights = (char*)_mm_malloc(sizeof(float) * sz, AlignBytes);
+//		for (int n = 0;n < layer.getKernalNum();n++)
+//		{		
+//			memcpy(chrLayerHead, &nlayerHead, sizeof(layerHead));
+//			of << chrLayerHead;//layer head information
+//			float* vweights = allkernals[n].vWeight;		
+//			memcpy(chrWeights, vweights, sizeof(float) * sz);
+//			of << chrWeights;//weights
+//			VBias[n] = allkernals[n].biasSimd;
+//		}		
+//		memcpy(chrBias, VBias, sizeof(float) * layer.getKernalNum());
+//		of << chrBias;//weights
+//		_mm_free(chrWeights);
+//		_mm_free(chrBias);
+//		_mm_free(VBias);
+//	}
+//	_mm_free(chrLayerHead);
+//	of.close();
+//	return true;
+//}
 bool CNNModel::readModel(char* path, bool isSimdTrained)
 {
 	std::ofstream of(path, std::ios::binary);
@@ -1474,6 +1474,44 @@ bool CNNModel::readModel(char* path, bool isSimdTrained)
 		of << '|' ;
 	}
 	_mm_free(chrLayerHead);
+	of.close();
+	return true;
+}
+bool CNNModel::saveModel()
+{
+	std::ofstream of("./outModel.onet", std::ios::trunc);
+	int layerIndex = 1;
+	for (CNNCalc layer : CNNLayerSeries)
+	{
+		kernal* allkernals = layer.getAllKernals();
+		layerHead nlayerHead;
+		size_t sz = allkernals[0].row * allkernals[0].col * allkernals[0].channel;
+		of << "<Layer_" << layerIndex << ">" << std::endl;;
+		layerIndex++;
+		for (int n = 0;n < layer.getKernalNum();n++)
+		{
+			float* vweights = allkernals[n].vWeight;
+			of << "<Kernal_" << n << ">";
+			for (int r = 0;r < allkernals[0].row;r++)
+			{
+				for (int c = 0;c< allkernals[0].col;c++)
+				{
+					for (int ch= 0;ch < allkernals[0].channel;ch++)
+					{
+						float w = vweights[r * allkernals[0].channel * allkernals[0].col + c * allkernals[0].channel + ch];
+						of << w << ",";
+					}
+				}
+			}
+			of << std::endl;		
+		}
+		of << "<Bias>";
+		for (int n = 0;n < layer.getKernalNum();n++)
+		{
+			of << allkernals[n].biasSimd;
+		}
+		of << std::endl;
+	}
 	of.close();
 	return true;
 }

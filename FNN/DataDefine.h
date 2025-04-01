@@ -15,6 +15,8 @@
 #define TESTLOOP 1000
 #define LOGPRE 4
 #define AlignVec(x,V) ((x)%(V)==0?(x):((x)/(V)+1)*(V))
+
+static std::default_random_engine gen;
 typedef struct trpDim
 {
 	int row;
@@ -395,7 +397,8 @@ typedef struct kernal
 		}
 		if (sd > 0)
 		{
-			std::default_random_engine gen;
+			
+
 			std::normal_distribution<float> nd(0, sd);
 			for (int ch = 0; ch < channel; ch++)
 			{
@@ -718,7 +721,7 @@ typedef enum
 
 }layerType;
 
-#pragma  pack(1)
+
 typedef struct layerHead
 {
 	char layerType;
@@ -764,4 +767,3 @@ typedef struct modelHead
 	char outNormMethod;
 
 }modelHead;
-#pragma  pack(pop)

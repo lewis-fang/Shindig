@@ -15,16 +15,6 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="7" rowspan="4">
-     <widget class="QTreeView" name="treeView">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-     </widget>
-    </item>
     <item row="1" column="5" rowspan="2">
      <widget class="QGroupBox" name="groupBox_5">
       <property name="title">
@@ -778,21 +768,6 @@
       </layout>
      </widget>
     </item>
-    <item row="5" column="7">
-     <widget class="QWidget" name="widget_Loss" native="true">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_6">
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_Loss"/>
-       </item>
-      </layout>
-     </widget>
-    </item>
     <item row="5" column="1">
      <widget class="QWidget" name="widget_out" native="true">
       <layout class="QGridLayout" name="gridLayout_4">
@@ -836,438 +811,12 @@
       </layout>
      </widget>
     </item>
-    <item row="1" column="2" rowspan="5" colspan="3">
-     <widget class="QGroupBox" name="groupBox">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="title">
-       <string>kernal</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_2">
-       <item row="17" column="1">
-        <widget class="QSpinBox" name="spinBox_poolingDim1">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="singleStep">
-          <number>2</number>
-         </property>
-         <property name="value">
-          <number>2</number>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="1">
-        <widget class="QSpinBox" name="spinBox_NeuroNums">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="maximum">
-          <number>512</number>
-         </property>
-         <property name="value">
-          <number>3</number>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Row/Dim1</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QSpinBox" name="spinBox_Strides">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-        </widget>
-       </item>
-       <item row="20" column="1">
-        <widget class="QSpinBox" name="spinBox_poolingFun">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item row="20" column="0">
-        <widget class="QLabel" name="label_14">
-         <property name="text">
-          <string>Pooling Fun</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QSpinBox" name="spinBox_WtsRows">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="value">
-          <number>3</number>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QSpinBox" name="spinBox_WtsCols">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="value">
-          <number>3</number>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0">
-        <widget class="QLabel" name="label_residualLink">
-         <property name="text">
-          <string>Residual Link</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="1">
-        <widget class="QSpinBox" name="spinBox_3">
-         <property name="value">
-          <number>0</number>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="2">
-        <widget class="Line" name="line_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="comboBox_padding">
-         <property name="currentText">
-          <string>smaller</string>
-         </property>
-         <item>
-          <property name="text">
-           <string>smaller</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>same</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Col/Dim2</string>
-         </property>
-        </widget>
-       </item>
-       <item row="19" column="0">
-        <widget class="QLabel" name="label_12">
-         <property name="text">
-          <string>Pooling Stride</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Neuro Num</string>
-         </property>
-        </widget>
-       </item>
-       <item row="17" column="0">
-        <widget class="QLabel" name="label_10">
-         <property name="text">
-          <string>Pooling Row/Dim1</string>
-         </property>
-        </widget>
-       </item>
-       <item row="15" column="1">
-        <widget class="QSpinBox" name="spinBox_actFunction">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="singleStep">
-          <number>1</number>
-         </property>
-         <property name="value">
-          <number>4</number>
-         </property>
-        </widget>
-       </item>
-       <item row="18" column="1">
-        <widget class="QSpinBox" name="spinBox_poolingDim2">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="singleStep">
-          <number>2</number>
-         </property>
-         <property name="value">
-          <number>2</number>
-         </property>
-        </widget>
-       </item>
-       <item row="18" column="0">
-        <widget class="QLabel" name="label_11">
-         <property name="text">
-          <string>Pooling Col/Dim2</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Stride</string>
-         </property>
-        </widget>
-       </item>
-       <item row="19" column="1">
-        <widget class="QSpinBox" name="spinBox_poolingStride">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="value">
-          <number>2</number>
-         </property>
-        </widget>
-       </item>
-       <item row="15" column="0">
-        <widget class="QLabel" name="label_15">
-         <property name="text">
-          <string>Activate Fun</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0">
-        <widget class="QLabel" name="label_24">
-         <property name="text">
-          <string>Init SD</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0" colspan="2">
-        <widget class="Line" name="line_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="0">
-        <widget class="QLabel" name="label_22">
-         <property name="text">
-          <string>bias</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="1">
-        <widget class="QLineEdit" name="lineEdit_bias">
-         <property name="text">
-          <string>0</string>
-         </property>
-        </widget>
-       </item>
-       <item row="16" column="0" colspan="2">
-        <widget class="Line" name="line_4">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="1">
-        <widget class="QLineEdit" name="lineEdit_initSd">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>1</string>
-         </property>
-        </widget>
-       </item>
-       <item row="25" column="0" colspan="2">
-        <widget class="Line" name="line_5">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="27" column="1">
-        <widget class="QPushButton" name="pushButton_addLayer">
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(225, 225, 255);</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="27" column="0">
-        <widget class="QLabel" name="label_29">
-         <property name="text">
-          <string>Set &amp; Add</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_33">
-         <property name="text">
-          <string>padding</string>
-         </property>
-        </widget>
-       </item>
-       <item row="26" column="0">
-        <widget class="QLabel" name="label_34">
-         <property name="text">
-          <string>LayerType</string>
-         </property>
-        </widget>
-       </item>
-       <item row="26" column="1">
-        <widget class="QComboBox" name="comboBox_LayerType">
-         <item>
-          <property name="text">
-           <string>CONVOLUTION</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>FULLYCONNECTION</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="3" column="5" rowspan="3">
-     <widget class="QGroupBox" name="groupBox_4">
-      <property name="title">
-       <string>Test Layer</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_5">
-       <item row="6" column="1" colspan="2">
-        <widget class="QTextBrowser" name="textBrowser">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QLabel" name="label_18">
-         <property name="text">
-          <string>view out Image</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="2">
-        <widget class="QSpinBox" name="spinBox_inputImageIndex">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="2">
-        <widget class="QSpinBox" name="spinBox_viewOutTest">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLabel" name="label_25">
-         <property name="text">
-          <string>input image</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="1" column="6" rowspan="5">
+    <item row="1" column="6" rowspan="3">
      <widget class="QGroupBox" name="groupBox_7">
       <property name="title">
        <string>train</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_8">
-       <item row="19" column="1">
-        <widget class="QLineEdit" name="lineEdit_L2Lamda">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>0.001</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label_42">
          <property name="text">
@@ -1301,13 +850,6 @@
          </property>
         </widget>
        </item>
-       <item row="15" column="0">
-        <widget class="QLabel" name="label_31">
-         <property name="text">
-          <string>Optimizer</string>
-         </property>
-        </widget>
-       </item>
        <item row="13" column="1">
         <widget class="QLineEdit" name="lineEdit_maxIters">
          <property name="sizePolicy">
@@ -1318,19 +860,6 @@
          </property>
          <property name="text">
           <string>20</string>
-         </property>
-        </widget>
-       </item>
-       <item row="18" column="1">
-        <widget class="QLineEdit" name="lineEdit_adamSigma">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>0.0000001</string>
          </property>
         </widget>
        </item>
@@ -1374,43 +903,6 @@
         <widget class="QLabel" name="label_36">
          <property name="text">
           <string>learn rate</string>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="1">
-        <widget class="QComboBox" name="comboBox_useSimd">
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(218, 203, 218);</string>
-         </property>
-         <property name="currentIndex">
-          <number>3</number>
-         </property>
-         <item>
-          <property name="text">
-           <string>Basic</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Simd</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>MultiThread Simd Layer</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>MultiThread Simd Batch</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="8" column="0">
-        <widget class="QLabel" name="label_28">
-         <property name="text">
-          <string>Batch Size</string>
          </property>
         </widget>
        </item>
@@ -1860,37 +1352,10 @@
          </property>
         </widget>
        </item>
-       <item row="18" column="0">
-        <widget class="QLabel" name="label_47">
-         <property name="text">
-          <string>ADAM sigma</string>
-         </property>
-        </widget>
-       </item>
        <item row="10" column="0">
         <widget class="QLabel" name="label_37">
          <property name="text">
           <string>Loss</string>
-         </property>
-        </widget>
-       </item>
-       <item row="17" column="1">
-        <widget class="QLineEdit" name="lineEdit_adamBeta2">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>0.999</string>
-         </property>
-        </widget>
-       </item>
-       <item row="17" column="0">
-        <widget class="QLabel" name="label_46">
-         <property name="text">
-          <string>ADAM beta2</string>
          </property>
         </widget>
        </item>
@@ -1914,27 +1379,10 @@
          </property>
         </widget>
        </item>
-       <item row="19" column="0">
-        <widget class="QLabel" name="label_48">
-         <property name="text">
-          <string>L2 Lamda</string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0" colspan="2">
         <widget class="QPushButton" name="pushButton_cifarTrains">
          <property name="text">
           <string>Import Cifar Train Group</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="1">
-        <widget class="QSpinBox" name="spinBox_batchSize">
-         <property name="maximum">
-          <number>32</number>
-         </property>
-         <property name="value">
-          <number>8</number>
          </property>
         </widget>
        </item>
@@ -1948,13 +1396,6 @@
          </property>
          <property name="text">
           <string>0.001</string>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="0">
-        <widget class="QLabel" name="label_26">
-         <property name="text">
-          <string>use simd</string>
          </property>
         </widget>
        </item>
@@ -1978,7 +1419,505 @@
          </property>
         </widget>
        </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineEdit_ImgNumbers">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>160</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Loss Function</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="1">
+        <widget class="QComboBox" name="comboBox_lossFunction">
+         <item>
+          <property name="text">
+           <string>square</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>cross entropy</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="4" column="6" rowspan="2" colspan="2">
+     <widget class="QWidget" name="widget_Loss" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_Loss"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="1" column="2" rowspan="4">
+     <widget class="QGroupBox" name="groupBox">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="title">
+       <string>kernal</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="17" column="1">
+        <widget class="QSpinBox" name="spinBox_poolingDim1">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="singleStep">
+          <number>2</number>
+         </property>
+         <property name="value">
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QSpinBox" name="spinBox_NeuroNums">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>512</number>
+         </property>
+         <property name="value">
+          <number>3</number>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Row/Dim1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QSpinBox" name="spinBox_Strides">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="20" column="1">
+        <widget class="QSpinBox" name="spinBox_poolingFun">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item row="20" column="0">
+        <widget class="QLabel" name="label_14">
+         <property name="text">
+          <string>Pooling Fun</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QSpinBox" name="spinBox_WtsRows">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="value">
+          <number>3</number>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QSpinBox" name="spinBox_WtsCols">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="value">
+          <number>3</number>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QLabel" name="label_residualLink">
+         <property name="text">
+          <string>Residual Link</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="1">
+        <widget class="QSpinBox" name="spinBox_3">
+         <property name="value">
+          <number>0</number>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="comboBox_padding">
+         <property name="currentText">
+          <string>smaller</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>smaller</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>same</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Col/Dim2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="19" column="0">
+        <widget class="QLabel" name="label_12">
+         <property name="text">
+          <string>Pooling Stride</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Neuro Num</string>
+         </property>
+        </widget>
+       </item>
+       <item row="17" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Pooling Row/Dim1</string>
+         </property>
+        </widget>
+       </item>
        <item row="15" column="1">
+        <widget class="QSpinBox" name="spinBox_actFunction">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="singleStep">
+          <number>1</number>
+         </property>
+         <property name="value">
+          <number>4</number>
+         </property>
+        </widget>
+       </item>
+       <item row="18" column="1">
+        <widget class="QSpinBox" name="spinBox_poolingDim2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="singleStep">
+          <number>2</number>
+         </property>
+         <property name="value">
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item row="18" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Pooling Col/Dim2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Stride</string>
+         </property>
+        </widget>
+       </item>
+       <item row="19" column="1">
+        <widget class="QSpinBox" name="spinBox_poolingStride">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="value">
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="0">
+        <widget class="QLabel" name="label_15">
+         <property name="text">
+          <string>Activate Fun</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_24">
+         <property name="text">
+          <string>Init SD</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0" colspan="2">
+        <widget class="Line" name="line_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="label_22">
+         <property name="text">
+          <string>bias</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1">
+        <widget class="QLineEdit" name="lineEdit_bias">
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="16" column="0" colspan="2">
+        <widget class="Line" name="line_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QLineEdit" name="lineEdit_initSd">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="25" column="0" colspan="2">
+        <widget class="Line" name="line_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="27" column="1">
+        <widget class="QPushButton" name="pushButton_addLayer">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(225, 225, 255);</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="27" column="0">
+        <widget class="QLabel" name="label_29">
+         <property name="text">
+          <string>Set &amp; Add</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_33">
+         <property name="text">
+          <string>padding</string>
+         </property>
+        </widget>
+       </item>
+       <item row="26" column="0">
+        <widget class="QLabel" name="label_34">
+         <property name="text">
+          <string>LayerType</string>
+         </property>
+        </widget>
+       </item>
+       <item row="26" column="1">
+        <widget class="QComboBox" name="comboBox_LayerType">
+         <item>
+          <property name="text">
+           <string>CONVOLUTION</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>FULLYCONNECTION</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="5" column="2">
+     <widget class="QTextBrowser" name="textBrowser">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="5">
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="title">
+       <string>Test Layer</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="4" column="1">
+        <widget class="QLabel" name="label_18">
+         <property name="text">
+          <string>view out Image</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QSpinBox" name="spinBox_inputImageIndex">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QSpinBox" name="spinBox_viewOutTest">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLabel" name="label_25">
+         <property name="text">
+          <string>input image</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="4" column="5" rowspan="2">
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="title">
+       <string>optimizer</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_10">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_26">
+         <property name="text">
+          <string>use simd</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="lineEdit_adamBeta2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>0.999</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_46">
+         <property name="text">
+          <string>ADAM beta2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
         <widget class="QComboBox" name="comboBox_optimizer">
          <property name="currentIndex">
           <number>6</number>
@@ -2020,15 +1959,29 @@
          </item>
         </widget>
        </item>
-       <item row="16" column="0">
-        <widget class="QLabel" name="label_45">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_31">
          <property name="text">
-          <string>SGD/ADAM beta1</string>
+          <string>Optimizer</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="lineEdit_ImgNumbers">
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_47">
+         <property name="text">
+          <string>ADAM sigma</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_48">
+         <property name="text">
+          <string>L2 Lamda</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="lineEdit_adamSigma">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -2036,11 +1989,61 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>160</string>
+          <string>0.0000001</string>
          </property>
         </widget>
        </item>
-       <item row="16" column="1">
+       <item row="0" column="1">
+        <widget class="QComboBox" name="comboBox_useSimd">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(218, 203, 218);</string>
+         </property>
+         <property name="currentIndex">
+          <number>3</number>
+         </property>
+         <item>
+          <property name="text">
+           <string>Basic</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Simd</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>MultiThread Simd Layer</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>MultiThread Simd Batch</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="lineEdit_L2Lamda">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_45">
+         <property name="text">
+          <string>SGD/ADAM beta1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
         <widget class="QLineEdit" name="lineEdit_adamBeta1">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -2053,28 +2056,34 @@
          </property>
         </widget>
        </item>
-       <item row="12" column="0">
-        <widget class="QLabel" name="label">
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_28">
          <property name="text">
-          <string>Loss Function</string>
+          <string>Batch Size</string>
          </property>
         </widget>
        </item>
-       <item row="12" column="1">
-        <widget class="QComboBox" name="comboBox_lossFunction">
-         <item>
-          <property name="text">
-           <string>square</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>cross entropy</string>
-          </property>
-         </item>
+       <item row="6" column="1">
+        <widget class="QSpinBox" name="spinBox_batchSize">
+         <property name="maximum">
+          <number>32</number>
+         </property>
+         <property name="value">
+          <number>8</number>
+         </property>
         </widget>
        </item>
       </layout>
+     </widget>
+    </item>
+    <item row="1" column="7" rowspan="3">
+     <widget class="QTreeView" name="treeView">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
      </widget>
     </item>
    </layout>
@@ -2088,6 +2097,13 @@
      <height>26</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuBuild_Default_Model">
+    <property name="title">
+     <string>Model</string>
+    </property>
+    <addaction name="actionDefault_1_Cifia"/>
+   </widget>
+   <addaction name="menuBuild_Default_Model"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -2098,6 +2114,11 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionDefault_1_Cifia">
+   <property name="text">
+    <string>Default 1 Cifia</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

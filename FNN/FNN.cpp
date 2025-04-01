@@ -24,7 +24,7 @@ FNN::FNN(QWidget *parent)
 	connect(ui.pushButton_cifarTrains, SIGNAL(clicked()), this, SLOT(ImportCifarTrain()), Qt::AutoConnection);
 	connect(ui.pushButton_cifarTest, SIGNAL(clicked()), this, SLOT(ImportCifarTest()), Qt::AutoConnection);
 
-	
+	connect(ui.actionDefault_1_Cifia, SIGNAL(triggered()), this, SLOT(buildDefault1CifarModel()), Qt::AutoConnection);
 	//ui.pushButton_addLayer->setfill
 	isDataImported = false;
 
@@ -75,6 +75,89 @@ void FNN::ChangeTrainMode(int mode)
 {
 
 }
+void FNN::buildDefault1CifarModel()
+{
+	MyCNNModel.clearModel();
+	MyCNNModel.clearInputImage();
+	CNNCalc CurrentLayer1;
+	CurrentLayer1.initKernals(3, 3, 3, 32, 1, 1.0/sqrt(3*3*3), 0);
+	//sd /= sqrt(WtsRow * WtsCol * WtsChannel);
+	CurrentLayer1.setHiddenNum(MyCNNModel.getLastLayerNum());
+	CurrentLayer1.SetPoolings(2, 2, 2, 0);
+	CurrentLayer1.SetActivateFun(4);
+	CurrentLayer1.setlayerType((layerType)(1));
+	CurrentLayer1.setPaddingMethod((PaddingMethod)0);
+	CurrentLayer1.initLayerSize(32, 32, 3);
+	MyCNNModel.addCNNLayer(CurrentLayer1);
+	UpdateCNNTreeView();
+	CNNCalc CurrentLayer2;
+	CurrentLayer2.initKernals(3, 3, 32, 32, 1, 1.0 / sqrt(3 * 3 * 32), 0);
+	CurrentLayer2.setHiddenNum(MyCNNModel.getLastLayerNum());
+	CurrentLayer2.SetPoolings(2, 2, 2, 0);
+	CurrentLayer2.SetActivateFun(4);
+	CurrentLayer2.setlayerType((layerType)(1));
+	CurrentLayer2.setPaddingMethod((PaddingMethod)0);
+	int lastRow = 0;
+	int lastCol = 0;
+	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
+	if ((lastRow == 0) || (lastCol == 0))
+	{
+		lastRow = ui.spinBox_rows->value();
+		lastCol = ui.spinBox_cols->value();
+	}
+	CurrentLayer2.initLayerSize(lastRow, lastCol, 32);
+	MyCNNModel.addCNNLayer(CurrentLayer2);
+	UpdateCNNTreeView();
+	CNNCalc CurrentLayer3;
+	CurrentLayer3.initKernals(6, 6, 32, 32, 1, 1.0 / sqrt(6 * 6 * 32), 0);
+	CurrentLayer3.setHiddenNum(MyCNNModel.getLastLayerNum());
+	CurrentLayer3.SetActivateFun(4);
+	CurrentLayer3.setlayerType((layerType)(2));
+	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
+	if ((lastRow == 0) || (lastCol == 0))
+	{
+		lastRow = ui.spinBox_rows->value();
+		lastCol = ui.spinBox_cols->value();
+	}
+	CurrentLayer3.initLayerSize(lastRow, lastCol, 32);
+	MyCNNModel.addCNNLayer(CurrentLayer3);
+	UpdateCNNTreeView();
+	CNNCalc CurrentLayer4;
+	CurrentLayer4.initKernals(1, 1, 32, 32, 1, 1.0 / sqrt(32), 0);
+	CurrentLayer4.setHiddenNum(MyCNNModel.getLastLayerNum());
+	CurrentLayer4.SetActivateFun(4);
+	CurrentLayer4.setlayerType((layerType)(2));
+	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
+	if ((lastRow == 0) || (lastCol == 0))
+	{
+		lastRow = ui.spinBox_rows->value();
+		lastCol = ui.spinBox_cols->value();
+	}
+	CurrentLayer4.initLayerSize(lastRow, lastCol, 32);
+	MyCNNModel.addCNNLayer(CurrentLayer4);
+	UpdateCNNTreeView();
+	CNNCalc CurrentLayer5;
+	CurrentLayer5.initKernals(1, 1, 32, 10, 1, 1.0 / sqrt(32), 0);
+	CurrentLayer5.setHiddenNum(MyCNNModel.getLastLayerNum());
+	CurrentLayer5.SetActivateFun(9);
+	CurrentLayer5.setlayerType((layerType)(2));
+
+	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
+	if ((lastRow == 0) || (lastCol == 0))
+	{
+		lastRow = ui.spinBox_rows->value();
+		lastCol = ui.spinBox_cols->value();
+	}
+	CurrentLayer5.initLayerSize(lastRow, lastCol, 32);
+	MyCNNModel.addCNNLayer(CurrentLayer5);
+	UpdateCNNTreeView();
+
+	ui.comboBox_lossFunction->setCurrentIndex(1);
+	ui.lineEdit_maxIters->setText(QString::number(100));
+	ui.lineEdit_ImgNumbers->setText(QString::number(320));
+
+	ImportCifarTrain("./cifar-10-binary/cifar-10-batches-bin/data_batch_1.bin");
+}
 void FNN::SetInputSize()
 {
 }
@@ -121,7 +204,7 @@ void FNN::ImpotWts()
 			}
 		}
 	}
-	if ((kernalSeries.size() == neuroNum) & (GoodLine == true))
+	if ((kernalSeries.size() == neuroNum) && (GoodLine == true))
 	{
 		for (int kn = 0; kn < neuroNum; kn++)
 		{
@@ -268,7 +351,7 @@ void FNN::AddLayer()
 		{//first layer
 			WtsChannel = ui.spinBox_chans->value();
 		}
-		sd /= (WtsRow * WtsCol * WtsChannel);
+		sd /=sqrt (WtsRow * WtsCol * WtsChannel);
 		CNNCalc CurrentLayer;
 		CurrentLayer.initKernals(WtsRow, WtsCol, WtsChannel, neuroNum, strd,sd,bs);
 	
@@ -477,18 +560,24 @@ void FNN::LauchCNNModelParrallel()
 				MyCNNModel.freeMemory();
 			}
 
-			ui.textBrowser->append("CNN calc successfully!");
+			printf("CNN calc successfully!");
+			printf("------------------------------------------\nModel Out: ");
 			for (int i = 0; i < expectedOutLen; i++)
 			{
-				ui.textBrowser->append("Model Out is:" + QString::number(outVector[i], 'f', 2));
-				ui.textBrowser->append("Expected Out is:" + QString::number(IdealOut.at(indexImg)[i], 'f', 2));
+				printf("%f, ", outVector[i]);
 			}
+			printf("\nIdeal Out: ");
+			for (int i = 0; i < expectedOutLen; i++)
+			{
+				printf("%f, ", IdealOut.at(indexImg)[i]);
+			}
+			printf("\n------------------------------------------\n");
 		}
 		else
 		{
 			ui.textBrowser->append("CNN calc faily!");
 		}
-		delete outVector;
+		delete [] outVector;
 	}
 	else
 	{
@@ -712,10 +801,14 @@ void FNN::LaunchTraing()
 		std::cout << "training fail" << std::endl;
 	}
 }
-void FNN::ImportCifarTrain()
+void FNN::ImportCifarTrain(QString fileName)
 {
 	int pictureNum= ui.lineEdit_ImgNumbers->text().toInt();
-	QString fileName = QFileDialog::getOpenFileName(this, tr("import cifar train"), "", tr("BIN(*.bin)")); //选择路径
+	if (fileName.isEmpty())
+	{
+		fileName = QFileDialog::getOpenFileName(this, tr("import cifar train"), "", tr("BIN(*.bin)")); //选择路径
+
+	}
 	std::cout << fileName.toLocal8Bit().data() << std::endl;
 	int outlen=10;
 	if(cifar.pullTestImages(fileName.toLocal8Bit().data(), pictureNum))
@@ -882,4 +975,5 @@ void FNN::updateLoss()
 			
 		}
 	}
+	MyCNNModel.saveModel();
 }
