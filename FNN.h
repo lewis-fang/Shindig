@@ -62,8 +62,10 @@ public slots:
 	void ChangeTrainMode(int);
 	void LaunchTraing();
 //	void ImportIdlO();
-	void ImportCifarTrain();
+	void ImportCifarTrain(QString fileName ="");
 	void ImportCifarTest();
 	void LaunchTraingThread();
 	void LauchCNNModelParrallel();
+
+	void buildDefault1CifarModel();
 };

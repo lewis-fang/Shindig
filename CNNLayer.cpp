@@ -718,7 +718,7 @@ void CNNCalc::initKernals(int wtsRow, int wtsCol, int wtsChannel, int ns,int str
 	BL.aKernal.channel = neuroNums;
 	BL.aKernal.initKernal(0);
 	isSetConfig = true;
-	
+	BL.TMatrixKernalSimd(CNNKernals, CNNKernalsRotate180Simd, neuroNums);
 }
 
 
@@ -987,7 +987,7 @@ bool CNNCalc::UpdateLayerLossSimd(image& retImage,int b)
 	ret=BL.dActivateOperateSimd(bzactImage, actImage, b);
 	if (thisLayerType == layerType::CONVOLUTION)
 	{
-		BL.TMatrixKernalSimd(CNNKernals, CNNKernalsRotate180Simd, neuroNums);
+		//BL.TMatrixKernalSimd(CNNKernals, CNNKernalsRotate180Simd, neuroNums);//IT should be put out of detached thread
 		ret = BL.dPoolingSimd(actImage, BL.dIdealOutVSdO, poolingRow, poolingCol, poolingStride, dpoolingIMG,b);	
 		if (ret)
 		{
@@ -1139,6 +1139,7 @@ void CNNCalc::UpdateLayerWBSimd(float learnrate, float l2Lamda,int bs)
 		}
 		CNNKernals[k].addSimd(dkernalSeries.at(0)[k]);
 	}
+	BL.TMatrixKernalSimd(CNNKernals, CNNKernalsRotate180Simd, neuroNums);
 }
 
 void CNNCalc::UpdateLayerWBSGDM(float learnrate,float beta1, float l2Lamda,int t)
@@ -1194,6 +1195,7 @@ void CNNCalc::UpdateLayerWBSGNAD(float learnrate, float beta1, float l2Lamda, in
 		dkernalSeries.at(0)[k].applySimd(-learnrate*beta1);// m(t)'*(alpha*beta) 
 		CNNKernals[k].addSimd(dkernalSeries.at(0)[k]);//w(t)-alpha*(beta)*m(t)'
 	}
+	BL.TMatrixKernalSimd(CNNKernals, CNNKernalsRotate180Simd, neuroNums);
 }
 void CNNCalc::UpdateLayerWBADAM(float learnrate, float beta1, float beta2, float sigma, float l2Lamda, int t)
 {//SGNAD
@@ -1229,6 +1231,7 @@ void CNNCalc::UpdateLayerWBADAM(float learnrate, float beta1, float beta2, float
 
 		dkernalSeries.at(1)[k].applySimd(0);
 	}
+	BL.TMatrixKernalSimd(CNNKernals, CNNKernalsRotate180Simd, neuroNums);
 }
 void CNNCalc::UpdateLayerWBADAMW(float learnrate, float beta1,float beta2,float sigma, float l2Lamda, int t)
 {//SGNAD
@@ -1265,6 +1268,7 @@ void CNNCalc::UpdateLayerWBADAMW(float learnrate, float beta1,float beta2,float 
 		dkernalSeries.at(1)[k].applySimd(0);
 		dkernalSeries.at(2)[k].applySimd(0);
 	}
+	BL.TMatrixKernalSimd(CNNKernals, CNNKernalsRotate180Simd, neuroNums);
 }
 bool CNNCalc::BackLayer::dConvolutionX(image inPa, image outZ,image bzactImage, kernal* K180, int Kn, int stride, image& dImage)
 {//(4) 
