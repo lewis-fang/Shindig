@@ -1,6 +1,0 @@
-﻿   Qt/MSBuild: 3.3.1.1
-   Qt: 5.9.9
-  FNN.cpp
-E:\2-C++\FNN5-simd 1.5 - multiThread 3\Shindig\FNN\CNNLayer.h(10,1): warning C4103: 包括标题后更改了对齐方式，可能是由于缺少 #pragma pack(pop)
-E:\2-C++\FNN5-simd 1.5 - multiThread 3\Shindig\FNN\FNN.h(9,1): warning C4103: 包括标题后更改了对齐方式，可能是由于缺少 #pragma pack(pop)
-  FNN.vcxproj -> E:\2-C++\FNN5-simd 1.5 - multiThread 3\Shindig\x64\Release\FNN.exe
