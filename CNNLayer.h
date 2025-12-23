@@ -27,7 +27,7 @@ private:
 public:
 
 	CyclicBarrier():count(0), threshold(0), generation(0), release(0){};
-	CyclicBarrier(const CyclicBarrier&) {};
+	CyclicBarrier(const CyclicBarrier&){};
 	~CyclicBarrier() {};
 	void initBarrier(int bs) { count = bs; threshold = bs;generation = 0;release = 0; };
 	void wait()
@@ -121,6 +121,7 @@ public:
 	image getDbzActImage() { return BL.dbzImage; }
 	void updateBNParas(image preImage);
 	void layerBNCalc(image preImage, int toi,int b);
+	void initBNParas();
 private:
 	size_t HideLayerNumth;
 	image inputImage;

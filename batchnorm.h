@@ -19,6 +19,7 @@ public:
 	void linkImage(const image preImage);
 	void setBatchNorm(int len, BNPosition bnp, float sv);
 
+	void initParas();
 	void initSpace(int bs);
 	void deleteSpace();
 	void preCalcParas();

@@ -664,8 +664,24 @@ void CNNCalc::initKernals(int wtsRow, int wtsCol, int wtsChannel, int ns,int str
 	BL.aKernal.initKernal(0);
 	isSetConfig = true;
 	BL.TMatrixKernalSimd(CNNKernals, CNNKernalsRotate180Simd, neuroNums);
+
+	
 }
 
+void CNNCalc::initBNParas()
+{
+	myBatchNorm.initParas();
+	if (myBatchNorm.getPos() == 1)
+	{
+		myBatchNorm.linkImage(bzactImage);
+
+	}
+	else if (myBatchNorm.getPos() == 2)
+	{
+		myBatchNorm.linkImage(actImage);
+	}
+	myBatchNorm.preCalcParas();
+}
 
 void CNNCalc::initLayerMemory(int inRows, int inCols, int inChannel)
 {
@@ -868,20 +884,6 @@ void CNNCalc::initLayerMemoryV2(int batchSize)
 //	std::cout << "activated image is initialized~" << std::endl;
 	setOutBuffer2(batchSize);
 //	std::cout << "Out image is initialized~" << std::endl;
-	if (myBatchNorm.getPos() == 1)
-	{
-		
-		myBatchNorm.linkImage(bzactImage);
-		myBatchNorm.initSpace(batchSize);
-		myBatchNorm.preCalcParas();
-	}
-	else if (myBatchNorm.getPos() == 2)
-	{
-		
-		myBatchNorm.linkImage(actImage);
-		myBatchNorm.initSpace(batchSize);
-		myBatchNorm.preCalcParas();
-	}
 
 	dkernalSeries.clear();
 	for (int b = 0;b < std::max(3,batchSize);b++)
@@ -899,6 +901,8 @@ void CNNCalc::initLayerMemoryV2(int batchSize)
 	int offset = AlignBytes / sizeof(float);
 	BL.IdealOut= (float*)_mm_malloc(batchSize *outImage.blockSize * sizeof(float), AlignBytes);
 	BL.VBias = (float*)_mm_malloc(batchSize*AlignVec(neuroNums, offset) * sizeof(float), AlignBytes);
+
+	myBatchNorm.initSpace(batchSize);
 
 	isBufferInitiated = true;
 }

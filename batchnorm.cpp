@@ -29,8 +29,6 @@ void batchnorm::setBatchNorm(int len, BNPosition bnp, float sv)
 
 	BNPos = bnp;//default: postActivate
 	smallvalue = sv;
-
-	
 }
 void batchnorm::linkImage(const image preImage)
 {
@@ -38,7 +36,7 @@ void batchnorm::linkImage(const image preImage)
 	batchnormInputImage.cols = preImage.cols;
 	batchnormInputImage.channel = preImage.channel;	
 }
-void batchnorm::initSpace(int bs)
+void batchnorm::initParas()
 {
 	int offset = AlignBytes / sizeof(float);
 	int spaceLen = AlignVec(featureLen, offset);
@@ -46,8 +44,6 @@ void batchnorm::initSpace(int bs)
 	sigma = (float*)_mm_malloc(spaceLen * sizeof(float), AlignBytes);
 	mavmu = (float*)_mm_malloc(spaceLen * sizeof(float), AlignBytes);
 	mavsigma = (float*)_mm_malloc(spaceLen * sizeof(float), AlignBytes);
-	//gamma = (float*)_mm_malloc(spaceLen * sizeof(float), AlignBytes);
-	//beta = (float*)_mm_malloc(spaceLen * sizeof(float), AlignBytes);
 
 	paraw = (float*)_mm_malloc(spaceLen * sizeof(float), AlignBytes);
 	parab = (float*)_mm_malloc(spaceLen * sizeof(float), AlignBytes);
@@ -71,26 +67,6 @@ void batchnorm::initSpace(int bs)
 	beta.col = 1;
 	beta.row = 1;
 	beta.initKernal(0);
-
-	for (int b = 0;b < bs;b++)
-	{
-		kernal idg,idb;
-		idg.channel = featureLen;
-		idg.col = 1;
-		idg.row = 1;
-		idg.initKernal(0);
-
-		idb.channel = featureLen;
-		idb.col = 1;
-		idb.row = 1;
-		idb.initKernal(0);
-
-		dg.push_back(idg);
-		db.push_back(idb);
-	}
-
-	batchSize = bs;
-	printf("BN batch size is set to %d\n", batchSize);
 
 	shadowGM.channel = featureLen;
 	shadowGM.col = 1;
@@ -117,7 +93,28 @@ void batchnorm::initSpace(int bs)
 	tmp2.col = 1;
 	tmp2.row = 1;
 	tmp2.initKernal(0);
+}
+void batchnorm::initSpace(int bs)
+{
+	for (int b = 0;b < bs;b++)
+	{
+		kernal idg,idb;
+		idg.channel = featureLen;
+		idg.col = 1;
+		idg.row = 1;
+		idg.initKernal(0);
 
+		idb.channel = featureLen;
+		idb.col = 1;
+		idb.row = 1;
+		idb.initKernal(0);
+
+		dg.push_back(idg);
+		db.push_back(idb);
+	}
+
+	batchSize = bs;
+	printf("BN batch size is set to %d\n", batchSize);
 	batchnormInputImage.initImage(0.0,batchSize);
 }
 void batchnorm::preCalcParas()
@@ -128,9 +125,9 @@ void batchnorm::preCalcParas()
 	float* betadata = beta.vWeight;
 	for (int i = 0;i < spaceLen;i += offset)
 	{
-		__m256 regSigma = _mm256_load_ps(sigma + i);
+		__m256 regSigma = _mm256_load_ps(mavsigma + i);
 		__m256 regGamma = _mm256_load_ps(gammadata + i);
-		__m256 regMu = _mm256_load_ps(mu + i);
+		__m256 regMu = _mm256_load_ps(mavmu + i);
 		__m256 regBeta = _mm256_load_ps(betadata + i);
 
 		regSigma = _mm256_fmadd_ps(regSigma, regSigma, _mm256_set1_ps(smallvalue));
@@ -322,7 +319,7 @@ bool batchnorm::updateBNParas(image preImage)
 		movmureg = (premovstep + postmovstep);
 		*(mavmu + ch) = movmureg;
 
-		sumreg2 = (sumreg * Nreg);
+		sumreg2 = (sumreg2 * Nreg);
 		sumreg = (sumreg * sumreg);
 		sumreg2 = (sumreg2 - sumreg);
 		sumreg2 = std::sqrt(sumreg2);
@@ -386,6 +383,8 @@ bool batchnorm::calcBatchNormTrain(image preImage, int b)
 		__m256 regsigma = _mm256_load_ps(sigma + ch);
 		__m256 reggamma = _mm256_load_ps(gammadata + ch);
 		__m256 regbeta = _mm256_load_ps(betadata + ch);
+		regsigma = _mm256_fmadd_ps(regsigma, regsigma, regSv);
+		regsigma = _mm256_sqrt_ps(regsigma);
 		for (int r = 0;r < row;r++)
 		{
 			for (int c = 0;c < col;c++)
@@ -393,10 +392,6 @@ bool batchnorm::calcBatchNormTrain(image preImage, int b)
 				int posShift = r * col * channel + c * channel + ch;
 				__m256 regInData = _mm256_loadu_ps(curInputPos + posShift);
 				__m256 reg = _mm256_sub_ps(regInData, regmu);
-
-				regsigma = _mm256_fmadd_ps(regsigma, regsigma, regSv);
-				regsigma = _mm256_sqrt_ps(regsigma);
-
 				reg = _mm256_div_ps(reg, regsigma);
 				reg = _mm256_mul_ps(reg, reggamma);
 				reg = _mm256_add_ps(reg, regbeta);
@@ -412,6 +407,8 @@ bool batchnorm::calcBatchNormTrain(image preImage, int b)
 		__m128 regsigma = _mm_load_ps(sigma + ch);
 		__m128 reggamma = _mm_load_ps(gammadata + ch);
 		__m128 regbeta = _mm_load_ps(betadata + ch);
+		regsigma = _mm_fmadd_ps(regsigma, regsigma, regSv16);
+		regsigma = _mm_sqrt_ps(regsigma);
 		for (int r = 0;r < row;r++)
 		{
 			for (int c = 0;c < col;c++)
@@ -419,9 +416,6 @@ bool batchnorm::calcBatchNormTrain(image preImage, int b)
 				int posShift = r * col * channel + c * channel + ch;
 				__m128 regInData = _mm_loadu_ps(curInputPos + posShift);
 				__m128 reg = _mm_sub_ps(regInData, regmu);
-
-				regsigma = _mm_fmadd_ps(regsigma, regsigma, regSv16);
-				regsigma = _mm_sqrt_ps(regsigma);
 
 				reg = _mm_div_ps(reg, regsigma);
 				reg = _mm_mul_ps(reg, reggamma);
@@ -437,13 +431,14 @@ bool batchnorm::calcBatchNormTrain(image preImage, int b)
 		float regsigma = *(sigma + ch);
 		float reggamma = *(gammadata + ch);
 		float regbeta = *(betadata + ch);
+		regsigma = std::sqrt(regsigma * regsigma + smallvalue);
 		for (int r = 0;r < row;r++)
 		{
 			for (int c = 0;c < col;c++)
 			{
 				int posShift = r * col * channel + c * channel + ch;
 				float regInData = *(curInputPos + posShift);
-				regsigma = std::sqrt(regsigma * regsigma + smallvalue);
+				
 				float reg = (regInData - regmu) / regsigma * reggamma + regbeta;
 				*(curOutPos + posShift) = reg;
 			}
@@ -530,7 +525,7 @@ bool batchnorm::calcBatchNormInference(image preImage, int b)
 }
 
 bool batchnorm::derivativeDLDx(image dLdy, image& dLdx, int b)
-{
+{//=dL / dyi / P - sum(dL / dyj) / N/P- (xi-u)* sum(dL/dyj *(xj-u))/N /PPP
 	int bs = batchSize;
 	int offset = AlignBytes / sizeof(float);
 	int offset16 = AlignBytes16 / sizeof(float);
@@ -547,12 +542,14 @@ bool batchnorm::derivativeDLDx(image dLdy, image& dLdx, int b)
 		__m256 sum1 = _mm256_setzero_ps();
 		__m256 sum2 = _mm256_setzero_ps();
 		__m256 Nreg = _mm256_set1_ps(1.0 / N);
-
+		__m256 gammareg = _mm256_load_ps(gamma.vWeight + ch);
 		__m256 mureg = _mm256_load_ps(mu + ch);
-		__m256 musigma = _mm256_load_ps(sigma + ch);
-		musigma = _mm256_add_ps(musigma, svreg);
-		__m256 	P = _mm256_fmadd_ps(musigma, musigma, svreg);
+		__m256 sigmareg = _mm256_load_ps(sigma + ch);
+
+		__m256 	P = _mm256_fmadd_ps(sigmareg, sigmareg, svreg);
+		P = _mm256_sqrt_ps(P);
 		__m256 	PP = _mm256_mul_ps(P, P);
+		__m256 	PPP = _mm256_mul_ps(PP, P);
 		for (int b = 0; b < bs;b++)
 		{
 			float* datareg = dLdy.imageAtIndex(b);
@@ -566,13 +563,17 @@ bool batchnorm::derivativeDLDx(image dLdy, image& dLdx, int b)
 					__m256 regInData = _mm256_loadu_ps(inputreg + posShift);
 					regInData = _mm256_sub_ps(regInData, mureg);
 					__m256 tmp = _mm256_mul_ps(reglossData, regInData);
-					sum1 = _mm256_add_ps(tmp, sum1);
-					sum2 = _mm256_add_ps(reglossData, sum2);
+					
+					sum1 = _mm256_add_ps(reglossData, sum1);
+					sum2 = _mm256_add_ps(tmp, sum2);
 				}
 			}
 		}
-		sum1 = _mm256_mul_ps(sum1, Nreg);
+		sum1 = _mm256_mul_ps(sum1, Nreg);//second item
 		sum1 = _mm256_div_ps(sum1, P);
+
+		sum2 = _mm256_mul_ps(sum2, Nreg);//third item
+		sum2 = _mm256_div_ps(sum2, PPP);
 		for (int b = 0; b < bs;b++)
 		{
 			float* datareg = dLdy.imageAtIndex(b);
@@ -584,16 +585,17 @@ bool batchnorm::derivativeDLDx(image dLdy, image& dLdx, int b)
 					int posShift = r * col * channel + c * channel + ch;
 					__m256 reglossData = _mm256_loadu_ps(datareg + posShift);
 					__m256 regInData = _mm256_loadu_ps(inputreg + posShift);
-					reglossData = _mm256_div_ps(reglossData, P);
+					reglossData = _mm256_div_ps(reglossData, P);//first item
+
+					__m256 tmp = _mm256_sub_ps(reglossData, sum1);
 
 					regInData = _mm256_sub_ps(regInData, mureg);
-					regInData = _mm256_mul_ps(regInData, Nreg);
-					regInData = _mm256_div_ps(regInData, PP);
-					regInData = _mm256_sub_ps(_mm256_set1_ps(1.0), regInData);
-					regInData = _mm256_mul_ps(regInData, sum1);
-					__m256 tmp = _mm256_sub_ps(reglossData, regInData);
+					__m256 thirdItem = _mm256_mul_ps(regInData, sum2);
+
+					tmp = _mm256_sub_ps(tmp, thirdItem);
+					tmp = _mm256_mul_ps(tmp, gammareg);
 					float* outlosss = dLdx.imageAtIndex(b) + posShift;
-					_mm256_stream_ps(outlosss, tmp);
+					_mm256_storeu_ps(outlosss, tmp);
 				}
 			}
 		}
@@ -603,12 +605,15 @@ bool batchnorm::derivativeDLDx(image dLdy, image& dLdx, int b)
 		__m128 sum1 = _mm_setzero_ps();
 		__m128 sum2 = _mm_setzero_ps();
 		__m128 Nreg = _mm_set1_ps(1.0 / N);
+		__m128 gammareg = _mm_load_ps(gamma.vWeight + ch);
 
 		__m128 mureg = _mm_load_ps(mu + ch);
-		__m128 musigma = _mm_load_ps(sigma + ch);
-		musigma = _mm_add_ps(musigma, svreg16);
-		__m128 	P = _mm_fmadd_ps(musigma, musigma, svreg16);
+		__m128 sigmareg = _mm_load_ps(sigma + ch);
+
+		__m128 	P = _mm_fmadd_ps(sigmareg, sigmareg, svreg16);
+		P = _mm_sqrt_ps(P);
 		__m128 	PP = _mm_mul_ps(P, P);
+		__m128 	PPP = _mm_mul_ps(PP, P);
 		for (int b = 0; b < bs;b++)
 		{
 			float* datareg = dLdy.imageAtIndex(b);
@@ -622,13 +627,17 @@ bool batchnorm::derivativeDLDx(image dLdy, image& dLdx, int b)
 					__m128 regInData = _mm_loadu_ps(inputreg + posShift);
 					regInData = _mm_sub_ps(regInData, mureg);
 					__m128 tmp = _mm_mul_ps(reglossData, regInData);
-					sum1 = _mm_add_ps(tmp, sum1);
-					sum2 = _mm_add_ps(reglossData, sum2);
+					
+					sum1 = _mm_add_ps(reglossData, sum1);
+					sum2 = _mm_add_ps(tmp, sum2);
 				}
 			}
 		}
 		sum1 = _mm_mul_ps(sum1, Nreg);
 		sum1 = _mm_div_ps(sum1, P);
+
+		sum2 = _mm_mul_ps(sum2, Nreg);
+		sum2 = _mm_div_ps(sum2, PPP);
 		for (int b = 0; b < bs;b++)
 		{
 			float* datareg = dLdy.imageAtIndex(b);
@@ -641,15 +650,15 @@ bool batchnorm::derivativeDLDx(image dLdy, image& dLdx, int b)
 					__m128 reglossData = _mm_loadu_ps(datareg + posShift);
 					__m128 regInData = _mm_loadu_ps(inputreg + posShift);
 					reglossData = _mm_div_ps(reglossData, P);
+					__m128 tmp = _mm_sub_ps(reglossData, sum1);
 
 					regInData = _mm_sub_ps(regInData, mureg);
-					regInData = _mm_mul_ps(regInData, Nreg);
-					regInData = _mm_div_ps(regInData, PP);
-					regInData = _mm_sub_ps(_mm_set1_ps(1.0), regInData);
-					regInData = _mm_mul_ps(regInData, sum1);
-					__m128 tmp = _mm_sub_ps(reglossData, regInData);
+					__m128 thirdItem = _mm_mul_ps(regInData, sum2);
+	
+					tmp = _mm_sub_ps(tmp,thirdItem);
+					tmp = _mm_mul_ps(tmp, gammareg);
 					float* outlosss = dLdx.imageAtIndex(b) + posShift;
-					_mm_stream_ps(outlosss, tmp);
+					_mm_storeu_ps(outlosss, tmp);
 				}
 			}
 		}
@@ -659,12 +668,14 @@ bool batchnorm::derivativeDLDx(image dLdy, image& dLdx, int b)
 		float sum1 = 0.0;
 		float sum2 = 0.0;
 		float Nreg = (1.0 / N);
-
+		float gammareg = *(gamma.vWeight + ch);
 		float mureg = *(mu + ch);
-		float musigma = *(sigma + ch);
-		musigma = (musigma + smallvalue);
-		float 	P = (musigma + musigma * smallvalue);
+		float sigmareg = *(sigma + ch);
+
+		float 	P = (sigmareg * sigmareg + smallvalue);
+		P = sqrt(P);
 		float 	PP = (P * P);
+		float 	PPP = (PP * P);
 		for (int b = 0; b < bs;b++)
 		{
 			float* datareg = dLdy.imageAtIndex(b);
@@ -678,13 +689,17 @@ bool batchnorm::derivativeDLDx(image dLdy, image& dLdx, int b)
 					float regInData = *(inputreg + posShift);
 					regInData = (regInData - mureg);
 					float tmp = (reglossData * regInData);
-					sum1 = (tmp + sum1);
-					sum2 = (reglossData + sum2);
+					
+					sum1 = (reglossData + sum1);
+					sum2 = (tmp + sum2);
 				}
 			}
 		}
 		sum1 = (sum1 * Nreg);
 		sum1 = (sum1 / P);
+
+		sum2 = (sum2 * Nreg);
+		sum2 = (sum2 / PPP);
 		for (int b = 0; b < bs;b++)
 		{
 			float* datareg = dLdy.imageAtIndex(b);
@@ -697,13 +712,13 @@ bool batchnorm::derivativeDLDx(image dLdy, image& dLdx, int b)
 					float reglossData = *(datareg + posShift);
 					float regInData = *(inputreg + posShift);
 					reglossData = (reglossData / P);
+					float tmp = (reglossData - sum1);
 
 					regInData = (regInData - mureg);
-					regInData = (regInData * Nreg);
-					regInData = (regInData / PP);
-					regInData = ((1.0) - regInData);
-					regInData = (regInData * sum1);
-					float tmp = (reglossData - regInData);
+					regInData = (regInData * sum2);
+
+					tmp = tmp - regInData;
+					tmp *= gammareg;
 					float* outlosss = dLdx.imageAtIndex(b) + posShift;
 					*(outlosss) = tmp;
 				}
@@ -714,19 +729,18 @@ bool batchnorm::derivativeDLDx(image dLdy, image& dLdx, int b)
 }
 /* N=bs*row* col
 * u=sum(x)/N   dim=channel
-* s=sum(x*x)-sum(x)*sum(x)
+* s=sum(x*x)/N-ave(x)*ave(x) 
 * xx=(x-u)/sqrt(s+sv)
 * y=xx*g+b
 * dL/dxi=sum(dL/dyj*dyj/dxxj * dxxj/dxi)=sum(dL/dyj *gamma *dxxj/dxi )=gamma*sum(dL/dyj * dxxj/dxi)
-*				i=j:			dxxi/dxi=(1-1/N)*sqrt(s+sv)-(xj-u)*(-1/2)/sqrt(s+sv)*2*(xi-u)/N      ///(s+sv)
- *				i!=j:			dxxj/dxi=-1/N*sqrt(s+sv)-(xj-u)*(-1/2)/sqrt(s+sv)*2*(xi-u)/N           ///(s+sv)
+*				i=j:			dxxi/dxi=(1-1/N)*sqrt(s+sv)-(xj-u)*(1/2)/sqrt(s+sv)*2*(xi-u)/N      ///(s+sv)
+ *				i!=j:			dxxj/dxi=-1/N*sqrt(s+sv)-(xj-u)*(1/2)/sqrt(s+sv)*2*(xi-u)/N           ///(s+sv)
 *                            P=sqrt(s+sv)
 *						i=j		=(1-1/N)*P+(xj-u)/P/N     ///(PP)
-*						i!=j       =-1/N*P+		(xj-u)/P/N   ///(PP)
+*						i!=j       =-1/N*P+		(xi-u)(xj-u)/P/N   ///(PP)
 *
-*                      =dL/dyi*P///PP-1/N*P*sum(dL/dyj)///(PP)   +sum(dL/dyj *(xi-u))/P/N ///PP
-*						=dL/dyi*P///PP-sum(dL/dyj)/N///(P)   +sum(dL/dyj *(xi-u))/N ///PPP
-*						=dL / dyi // P - sum(dL / dyj) / N///(P)  (1-  (xi-u))/N ///PP)
+*                      =dL/dyi*P///PP-1/N*P*sum(dL/dyj)///(PP)   -(xi-u)*sum(dL/dyj *(xj-u))/P/N ///PP
+*						=dL / dyi / P - sum(dL / dyj) / N/P- (xi-u)* sum(dL/dyj *(xj-u))/N /PPP
 
 * */
 
@@ -740,11 +754,16 @@ bool batchnorm::derivativeDLDw(image dLdy, int b)
 	float* datareg = dLdy.imageAtIndex(b);
 	float* inputreg = batchnormInputImage.imageAtIndex(b);
 	int ch = 0;
-
+	__m256 regSv = _mm256_set1_ps(smallvalue);
+	__m128 regSv16 = _mm_set1_ps(smallvalue);
 	for (;ch + offset - 1 < featureLen;ch += offset)
 	{
 		__m256 sumdg = _mm256_setzero_ps();
 		__m256 sumdb = _mm256_setzero_ps();
+		__m256 regmu = _mm256_load_ps(mu + ch);
+		__m256 regsigma = _mm256_load_ps(sigma + ch);
+		regsigma = _mm256_fmadd_ps(regsigma, regsigma, regSv);
+		regsigma = _mm256_sqrt_ps(regsigma);
 		for (int r = 0;r < row;r++)
 		{
 			for (int c = 0;c < col;c++)
@@ -752,6 +771,9 @@ bool batchnorm::derivativeDLDw(image dLdy, int b)
 				int posShift = r * col * channel + c * channel + ch;
 				__m256 reglossData = _mm256_loadu_ps(datareg + posShift);
 				__m256 regInData = _mm256_loadu_ps(inputreg + posShift);
+				regInData = _mm256_sub_ps(regInData, regmu);
+				regInData = _mm256_div_ps(regInData, regsigma);
+
 				sumdg = _mm256_fmadd_ps(reglossData, regInData, sumdg);
 				sumdb = _mm256_add_ps(reglossData, sumdb);
 			}
@@ -763,6 +785,10 @@ bool batchnorm::derivativeDLDw(image dLdy, int b)
 	{
 		__m128 sumdg = _mm_setzero_ps();
 		__m128 sumdb = _mm_setzero_ps();
+		__m128 regmu = _mm_load_ps(mu + ch);
+		__m128 regsigma = _mm_load_ps(sigma + ch);
+		regsigma = _mm_fmadd_ps(regsigma, regsigma, regSv16);
+		regsigma = _mm_sqrt_ps(regsigma);
 		for (int r = 0;r < row;r++)
 		{
 			for (int c = 0;c < col;c++)
@@ -770,6 +796,8 @@ bool batchnorm::derivativeDLDw(image dLdy, int b)
 				int posShift = r * col * channel + c * channel + ch;
 				__m128 reglossData = _mm_loadu_ps(datareg + posShift);
 				__m128 regInData = _mm_loadu_ps(inputreg + posShift);
+				regInData = _mm_sub_ps(regInData, regmu);
+				regInData = _mm_div_ps(regInData, regsigma);
 				sumdg = _mm_fmadd_ps(reglossData, regInData, sumdg);
 				sumdb = _mm_add_ps(reglossData, sumdb);
 			}
@@ -781,6 +809,10 @@ bool batchnorm::derivativeDLDw(image dLdy, int b)
 	{
 		float sumdg = 0.0;
 		float sumdb = 0.0;
+		float regmu = *(mu + ch);
+		float regsigma = *(sigma + ch);
+		regsigma = (regsigma* regsigma+ smallvalue);
+		regsigma = sqrt(regsigma);
 		for (int r = 0;r < row;r++)
 		{
 			for (int c = 0;c < col;c++)
@@ -788,6 +820,8 @@ bool batchnorm::derivativeDLDw(image dLdy, int b)
 				int posShift = r * col * channel + c * channel + ch;
 				float reglossData = *(inputreg + posShift);
 				float regInData = *(datareg + posShift);
+				regInData = (regInData - regmu);
+				regInData = (regInData / regsigma);
 				sumdg += reglossData * regInData;
 				sumdb += reglossData;
 			}
@@ -799,7 +833,7 @@ bool batchnorm::derivativeDLDw(image dLdy, int b)
 }
 
 /*
-*dL / gc = sum(dL / dyj * dyi / dg) = sum(dL / dyj * xxj)
+*dL / dg = sum(dL / dyj * dyi / dg) = sum(dL / dyj * xxj)
 * dL / db = sum(dL / dyj * dyi / db) = sum(dL / dyj)
 * */
 bool batchnorm::mysweetfc(float learnrate, float beta1, float beta2, float sigma, float l2Lamda, int t)
