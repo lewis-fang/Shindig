@@ -93,6 +93,8 @@ public:
 	 image getActImage(){ return actImage; }
 	 image getInputImage(){ return inputImage; }
 	 image getPaddingImage(){ return padImage; }
+	int getActFun() { return activateType; }
+	int getBNPos() { return myBatchNorm.getPos(); }
 	bool LaunchConvolutionBySimd(int b=0);
 	void SetInputSimd(image imago,int b=0);
 	bool UpdateLayerLossSimd(image& retImage, int b=0);
@@ -114,11 +116,11 @@ public:
 
 //	void initBatchNorm(int len, int bnp, float sv, int batchsize);
 	void setBatchNorm(int len, int bnp, float sv);
-	void setReslink(int pre) {}
+	void setReslink(int pre) { myResLink.setResLink(pre); }
 	void linkPreImageRes(image resImage);
 	bool LaunchConvolutionBySimdBN(int trainOrInference, int b);
 	int getResLink() { return myResLink.getPreLayerNumth(); }
-	image getDbzActImage() { return BL.dbzImage; }
+	image getDbzActImage() { return BL.dbzImageBe4pad; }
 	void updateBNParas(image preImage);
 	void layerBNCalc(image preImage, int toi,int b);
 	void initBNParas();

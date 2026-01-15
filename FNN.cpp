@@ -27,6 +27,8 @@ FNN::FNN(QWidget *parent)
 	connect(ui.actionDefault_1_Cifia, SIGNAL(triggered()), this, SLOT(buildDefault1CifarModel()), Qt::AutoConnection);
 	
 	connect(ui.actionDefault_1_Cifia_BN, SIGNAL(triggered()), this, SLOT(buildDefault1CifarModelBN()), Qt::AutoConnection);
+	//actionDefault_1_Cifia_BN_Res
+	connect(ui.actionDefault_1_Cifia_BN_Res, SIGNAL(triggered()), this, SLOT(buildDefault1CifarModelBNResNet()), Qt::AutoConnection);
 
 	isDataImported = false;
 
@@ -162,22 +164,26 @@ void FNN::buildDefault1CifarModel()
 }
 void FNN::buildDefault1CifarModelBN()
 {
+	float sd = 0.5;
 	MyCNNModel.clearModel();
 	MyCNNModel.clearInputImage();
 	CNNCalc CurrentLayer1;
-	CurrentLayer1.initKernals(3, 3, 3, 32, 1, 1.0 / sqrt(3 * 3 * 3), 0);
+	CurrentLayer1.initKernals(3, 3, 3, 32, 1, sd / sqrt(3 * 3 * 3), 0);
 	//sd /= sqrt(WtsRow * WtsCol * WtsChannel);
 	CurrentLayer1.setHiddenNum(MyCNNModel.getLastLayerNum());
 	CurrentLayer1.SetPoolings(2, 2, 2, 0);
-	CurrentLayer1.setBatchNorm(32, 1, 1e-5);
+
+	
 	CurrentLayer1.SetActivateFun(4);
 	CurrentLayer1.setlayerType((layerType)(1));
 	CurrentLayer1.setPaddingMethod((PaddingMethod)1);
 	CurrentLayer1.initLayerSize(32, 32, 3);
+	CurrentLayer1.setBatchNorm(32, 1, 1e-5);
+	CurrentLayer1.initBNParas();
 	MyCNNModel.addCNNLayer(CurrentLayer1);
 	UpdateCNNTreeView();
 	CNNCalc CurrentLayer2;
-	CurrentLayer2.initKernals(3, 3, 32, 32, 1, 1.0 / sqrt(3 * 3 * 32), 0);
+	CurrentLayer2.initKernals(3, 3, 32, 32, 1, sd / sqrt(3 * 3 * 32), 0);
 	CurrentLayer2.setHiddenNum(MyCNNModel.getLastLayerNum());
 	CurrentLayer2.SetPoolings(2, 2, 2, 0);
 	CurrentLayer2.SetActivateFun(4);
@@ -192,10 +198,12 @@ void FNN::buildDefault1CifarModelBN()
 		lastCol = ui.spinBox_cols->value();
 	}
 	CurrentLayer2.initLayerSize(lastRow, lastCol, 32);
+	CurrentLayer2.setBatchNorm(32, 2, 1e-5);
+	CurrentLayer2.initBNParas();
 	MyCNNModel.addCNNLayer(CurrentLayer2);
 	UpdateCNNTreeView();
 	CNNCalc CurrentLayer3;
-	CurrentLayer3.initKernals(8, 8, 32, 32, 1, 1.0 / sqrt(6 * 6 * 32), 0);
+	CurrentLayer3.initKernals(8, 8, 32, 32, 1,  sd / sqrt(8 * 8 * 32), 0);
 	CurrentLayer3.setHiddenNum(MyCNNModel.getLastLayerNum());
 	CurrentLayer3.SetActivateFun(4);
 	CurrentLayer3.setlayerType((layerType)(2));
@@ -209,7 +217,7 @@ void FNN::buildDefault1CifarModelBN()
 	MyCNNModel.addCNNLayer(CurrentLayer3);
 	UpdateCNNTreeView();
 	CNNCalc CurrentLayer4;
-	CurrentLayer4.initKernals(1, 1, 32, 32, 1, 1.0 / sqrt(32), 0);
+	CurrentLayer4.initKernals(1, 1, 32, 32, 1, sd / sqrt(32), 0);
 	CurrentLayer4.setHiddenNum(MyCNNModel.getLastLayerNum());
 	CurrentLayer4.SetActivateFun(4);
 	CurrentLayer4.setlayerType((layerType)(2));
@@ -223,7 +231,7 @@ void FNN::buildDefault1CifarModelBN()
 	MyCNNModel.addCNNLayer(CurrentLayer4);
 	UpdateCNNTreeView();
 	CNNCalc CurrentLayer5;
-	CurrentLayer5.initKernals(1, 1, 32, 10, 1, 1.0 / sqrt(32), 0);
+	CurrentLayer5.initKernals(1, 1, 32, 10, 1, sd / sqrt(32), 0);
 	CurrentLayer5.setHiddenNum(MyCNNModel.getLastLayerNum());
 	CurrentLayer5.SetActivateFun(9);
 	CurrentLayer5.setlayerType((layerType)(2));
@@ -244,6 +252,7 @@ void FNN::buildDefault1CifarModelBN()
 
 	ImportCifarTrain("./cifar-10-binary/cifar-10-batches-bin/data_batch_1.bin");
 }
+
 void FNN::SetInputSize()
 {
 }
@@ -804,12 +813,50 @@ void FNN::UpdateCNNTreeView()
 				QStandardItem* newItemRol31 = new QStandardItem;
 				QStandardItem* newItemRol32 = new QStandardItem;
 				QStandardItem* newItemRol33 = new QStandardItem;
-				newItemRol30->setText("Convolution & Activate Image");
+				newItemRol30->setText("Convolution");
 				newItemRol31->setText(QString::number(currentLayer.getActImage().rows));
 				newItemRol32->setText(QString::number(currentLayer.getActImage().cols));
 				newItemRol33->setText(QString::number(currentLayer.getActImage().channel));
 				ActRow << newItemRol30 << newItemRol31 << newItemRol32 << newItemRol33;
 				newItemRow0->appendRow(ActRow);
+			}
+			if (currentLayer.getBNPos()==1)
+			{
+				QList<QStandardItem*> bnItem;
+				QStandardItem* newItemRol50 = new QStandardItem;
+				QStandardItem* newItemRol51 = new QStandardItem;
+				newItemRol50->setText("BatchNorm");
+				newItemRol51->setText(QString::number(currentLayer.getBNPos()));
+				bnItem << newItemRol50 << newItemRol51;
+				newItemRow0->appendRow(bnItem);
+			}
+			if (currentLayer.getResLink() > -1)
+			{
+				QList<QStandardItem*> reslinkItem;
+				QStandardItem* newItemRol50 = new QStandardItem;
+				QStandardItem* newItemRol51 = new QStandardItem;
+				newItemRol50->setText("reslink");
+				newItemRol51->setText(QString::number(currentLayer.getResLink()));
+				reslinkItem << newItemRol50 << newItemRol51;
+				newItemRow0->appendRow(reslinkItem);
+			}
+			QList<QStandardItem*> ActivateFun;
+			QStandardItem* newItemRol50 = new QStandardItem;
+			QStandardItem* newItemRol51 = new QStandardItem;
+			newItemRol50->setText("ActivateFun");
+			newItemRol51->setText(QString::number(currentLayer.getActFun()));
+			ActivateFun << newItemRol50 << newItemRol51 ;
+			newItemRow0->appendRow(ActivateFun);
+
+			if (currentLayer.getBNPos() == 2)
+			{
+				QList<QStandardItem*> bnItem;
+				QStandardItem* newItemRol50 = new QStandardItem;
+				QStandardItem* newItemRol51 = new QStandardItem;
+				newItemRol50->setText("BatchNorm");
+				newItemRol51->setText(QString::number(currentLayer.getBNPos()));
+				bnItem << newItemRol50 << newItemRol51;
+				newItemRow0->appendRow(bnItem);
 			}
 			//output image
 			QList<QStandardItem*> outRow;
@@ -1197,10 +1244,10 @@ void FNN::buildDefault1CifarModelBNResNet()
 	MyCNNModel.clearModel();
 	MyCNNModel.clearInputImage();
 	CNNCalc CurrentLayer1;
-	CurrentLayer1.initKernals(3, 3, 3, 32, 1, 1.0 / sqrt(3 * 3 * 3), 0);
+	CurrentLayer1.initKernals(3, 3, 3, 16, 1, 1.0 / sqrt(3 * 3 * 3), 0);
 	//sd /= sqrt(WtsRow * WtsCol * WtsChannel);
 	CurrentLayer1.setHiddenNum(MyCNNModel.getLastLayerNum());
-	CurrentLayer1.SetPoolings(1, 1, 1, 0);
+	CurrentLayer1.SetPoolings(2, 2,2, 0);
 	CurrentLayer1.SetActivateFun(4);
 	CurrentLayer1.setlayerType((layerType)(1));
 	CurrentLayer1.setPaddingMethod((PaddingMethod)1);
@@ -1210,7 +1257,7 @@ void FNN::buildDefault1CifarModelBNResNet()
 
 	////////////////////////////////layer 2
 	CNNCalc CurrentLayer2;
-	CurrentLayer2.initKernals(3, 3, 32, 32, 1, 1.0 / sqrt(3 * 3 * 32), 0);
+	CurrentLayer2.initKernals(3, 3, 16, 16, 1, 1.0 / sqrt(3 * 3 * 16), 0);
 	CurrentLayer2.setHiddenNum(MyCNNModel.getLastLayerNum());
 	CurrentLayer2.SetPoolings(1, 1, 1, 0);
 	CurrentLayer2.SetActivateFun(4);
@@ -1219,13 +1266,14 @@ void FNN::buildDefault1CifarModelBNResNet()
 	int lastRow = 0;
 	int lastCol = 0;
 	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
-	CurrentLayer2.initLayerSize(lastRow, lastCol, 32);
+	CurrentLayer2.initLayerSize(lastRow, lastCol, 16);
+
 	MyCNNModel.addCNNLayer(CurrentLayer2);
 	UpdateCNNTreeView();
 	
 	////////////////////////////////layer 3
 	CNNCalc CurrentLayer3;
-	CurrentLayer3.initKernals(3, 3, 32, 32, 1, 1.0 / sqrt(3 * 3 * 32), 0);
+	CurrentLayer3.initKernals(3, 3, 16, 16, 1, 1.0 / sqrt(3 * 3 * 16), 0);
 	CurrentLayer3.setHiddenNum(MyCNNModel.getLastLayerNum());
 	CurrentLayer3.SetPoolings(1, 1, 1, 0);
 	CurrentLayer3.SetActivateFun(4);
@@ -1234,62 +1282,66 @@ void FNN::buildDefault1CifarModelBNResNet()
 
 	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
 
-	CurrentLayer3.initLayerSize(lastRow, lastCol, 32);
+	CurrentLayer3.initLayerSize(lastRow, lastCol, 16);
+	CurrentLayer3.setBatchNorm(16, 1, 1e-5);
+	CurrentLayer3.initBNParas();
 	MyCNNModel.addCNNLayer(CurrentLayer3);
 	UpdateCNNTreeView();
 
 
 	////////////////////////////////layer 4
 	CNNCalc CurrentLayer4;
-	CurrentLayer4.initKernals(3, 3, 32, 32, 1, 1.0 / sqrt(3 * 3 * 32), 0);
+	CurrentLayer4.initKernals(3, 3, 16, 16, 1, 1.0 / sqrt(3 * 3 * 16), 0);
 	CurrentLayer4.setHiddenNum(MyCNNModel.getLastLayerNum());
 	CurrentLayer4.SetPoolings(1, 1, 1, 0);
 	CurrentLayer4.SetActivateFun(4);
 	CurrentLayer4.setlayerType((layerType)(1));
 	CurrentLayer4.setPaddingMethod((PaddingMethod)1);
-	CurrentLayer3.setBatchNorm(32, 1, 1e-6);
-	//CurrentLayer4.setReslink(1);
 
 	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
 
-	CurrentLayer4.initLayerSize(lastRow, lastCol, 32);
+	CurrentLayer4.initLayerSize(lastRow, lastCol, 16);
+	CurrentLayer4.setBatchNorm(16, 1, 1e-6);
+	CurrentLayer4.initBNParas();
+
+	CurrentLayer4.setReslink(1);
 	MyCNNModel.addCNNLayer(CurrentLayer4);
 	UpdateCNNTreeView();
 
 	////////////////////////////////layer 5
 	CNNCalc CurrentLayer5;
-	CurrentLayer5.initKernals(32, 32, 32, 32, 1, 1.0 / sqrt(6 * 6 * 32), 0);
+	CurrentLayer5.initKernals(16, 16, 16, 16, 1, 1.0 / sqrt(16 * 16 * 16), 0);
 	CurrentLayer5.setHiddenNum(MyCNNModel.getLastLayerNum());
 	CurrentLayer5.SetActivateFun(4);
 	CurrentLayer5.setlayerType((layerType)(2));
 	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
 
-	CurrentLayer5.initLayerSize(lastRow, lastCol, 32);
+	CurrentLayer5.initLayerSize(lastRow, lastCol, 16);
 	MyCNNModel.addCNNLayer(CurrentLayer5);
 	UpdateCNNTreeView();
 
 	////////////////////////////////layer 6
 	CNNCalc CurrentLayer6;
-	CurrentLayer6.initKernals(1, 1, 32, 32, 1, 1.0 / sqrt(32), 0);
+	CurrentLayer6.initKernals(1, 1, 16, 16, 1, 1.0 / sqrt(16), 0);
 	CurrentLayer6.setHiddenNum(MyCNNModel.getLastLayerNum());
 	CurrentLayer6.SetActivateFun(4);
 	CurrentLayer6.setlayerType((layerType)(2));
 	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
-	CurrentLayer6.initLayerSize(lastRow, lastCol, 32);
+	CurrentLayer6.initLayerSize(lastRow, lastCol, 16);
 	MyCNNModel.addCNNLayer(CurrentLayer6);
 	UpdateCNNTreeView();
 
 
 	////////////////////////////////layer 7
 	CNNCalc CurrentLayer7;
-	CurrentLayer7.initKernals(1, 1, 32, 10, 1, 1.0 / sqrt(32), 0);
+	CurrentLayer7.initKernals(1, 1, 16, 10, 1, 1.0 / sqrt(16), 0);
 	CurrentLayer7.setHiddenNum(MyCNNModel.getLastLayerNum());
 	CurrentLayer7.SetActivateFun(9);
 	CurrentLayer7.setlayerType((layerType)(2));
 
 	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
 
-	CurrentLayer7.initLayerSize(lastRow, lastCol, 32);
+	CurrentLayer7.initLayerSize(lastRow, lastCol, 16);
 	MyCNNModel.addCNNLayer(CurrentLayer7);
 	UpdateCNNTreeView();
 

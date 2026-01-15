@@ -265,16 +265,18 @@ typedef struct image
 			int length = rows * cols * channel;
 			for (int i = 0;i < length;i += offset)
 			{
-				__m256 line1 = _mm256_load_ps(vImageData+i);
+				__m256 line1 = _mm256_load_ps(vImageData + blockSize * b +i);
 				__m256 line2 = _mm256_load_ps(im.vImageData+im.blockSize*b+i);
 				__m256 sumRegister = _mm256_add_ps(line1, line2);
-				_mm256_stream_ps(vImageData + i, sumRegister);
+				_mm256_stream_ps(vImageData + blockSize * b + i, sumRegister);
 
 			}
 		}
 		else
 		{
 			std::cout << "error: funcion add, images those are not same in size operate adding" << std::endl;
+			std::cout << channel<<","<<rows<<","<<cols << std::endl;
+			std::cout << im.channel << "," << im.rows << "," << im.cols << std::endl;
 		}
 	}
 	void apllyratio(double rs)
@@ -547,7 +549,7 @@ typedef struct kernal
 		{
 			int length = row * col * channel;
 			int offset = AlignBytes / sizeof(float);
-			for (int i = 0;i + offset - 1 < length;i += offset)
+			for (int i = 0;i  < length;i += offset)
 			{
 				__m256 line1 = _mm256_load_ps(vWeight + i);
 				__m256 line2 = _mm256_load_ps(k1.vWeight + i);
@@ -567,7 +569,7 @@ typedef struct kernal
 		{
 			int length = row * col * channel;
 			int offset = AlignBytes / sizeof(float);
-			for (int i = 0;i + offset - 1 < length;i += offset)
+			for (int i = 0;i< length;i += offset)
 			{
 				__m256 line1 = _mm256_load_ps(vWeight + i);
 				__m256 line2 = _mm256_load_ps(k1.vWeight + i);
@@ -588,7 +590,7 @@ typedef struct kernal
 			int length = row * col * channel;
 			int offset = AlignBytes / sizeof(float);
 			__m256 sigmaR = _mm256_set1_ps(sigma);
-			for (int i = 0;i + offset - 1 < length;i += offset)
+			for (int i = 0;i < length;i += offset)
 			{
 				__m256 line1 = _mm256_load_ps(vWeight + i);
 				__m256 line2 = _mm256_load_ps(k1.vWeight + i);
@@ -609,7 +611,7 @@ typedef struct kernal
 		{
 			int length = row * col * channel;
 			int offset = AlignBytes / sizeof(float);
-			for (int i = 0;i + offset - 1 < length;i += offset)
+			for (int i = 0;i< length;i += offset)
 			{
 				__m256 line1 = _mm256_load_ps(vWeight + i);
 				__m256 line2 = _mm256_load_ps(k1.vWeight + i);
@@ -675,7 +677,7 @@ typedef struct kernal
 		{
 			int length = row * col * channel;
 			int offset = AlignBytes / sizeof(float);
-			for (int i = 0;i + offset - 1 < length;i += offset)
+			for (int i = 0;i < length;i += offset)
 			{
 				__m256 line2 = _mm256_load_ps(k1.vWeight + i);
 				_mm256_stream_ps(vWeight + i, line2);

@@ -223,7 +223,7 @@ void CNNModel::initMemoryV2(int batch)
 		if (reslinkPre  > -1)
 		{
 			CNNCalc& preLayer = CNNLayerSeries.at(reslinkPre );
-			image preImage = preLayer.getOutImage();
+			image preImage = preLayer.getInputImage();
 			layer.linkPreImageRes(preImage);
 		}
 		if (layer.getHiddenNum() > 0 && i > 0)
@@ -986,18 +986,6 @@ bool CNNModel::startTrainningSimdV3()
 		std::thread* thrTrain = new std::thread[batchSize];
 
 		initMemoryV2(batchSize);
-		for (int i = 0; i < dpth; i++)
-		{
-			CNNCalc& iLayer = CNNLayerSeries.at(i);
-			
-			int reslinkPre = iLayer.getResLink();
-			if (reslinkPre > 0)
-			{
-				CNNCalc& preLayer = CNNLayerSeries.at(reslinkPre - 1);
-				image preImage = preLayer.getOutImage();
-				iLayer.linkPreImageRes(preImage);
-			}
-		}
 		std::vector<image> normImageSeries;
 		std::vector<int> randInt;
 		for (image img : InputImageSeries)
@@ -1150,7 +1138,6 @@ bool CNNModel::startTrainningSimdV3()
 void CNNModel::updateLossParrallel(image bImage, float* outValue, float* vC, int outLen, int realIndex, int b)
 {
 	bool ret = LaunchCNNModelBySimdTrian(bImage, outValue, outLen,b);
-
 	vC[b]= calculateC(outValue+b*outLen, IdealOutput.at(realIndex), outLen);
 	if (vC[b] != vC[b])
 	{
@@ -1178,7 +1165,7 @@ void CNNModel::updateLossParrallel(image bImage, float* outValue, float* vC, int
 			}		
 			if (ly == reslink)
 			{
-				DeltaImage.addSimd(resDbzactImage, b);
+				DeltaImage.addSimd(resDbzactImage, b);	
 				reslink = -1;
 			}
 		}

@@ -19,14 +19,11 @@ void reslink::setResInput(image resPre)
 }
 bool reslink::resAdd(image resImage, int b)
 {
-
 	if (resLink)
 	{
 		float* bzactImageData=resImage.imageAtIndex(b);
 		float* resImageData = resInput.imageAtIndex(b);
 		int offset = AlignBytes / sizeof(float);
-		
-
 		for (int i = 0;i < resImage.blockSize;i += offset)
 		{
 			__m256 reg1 = _mm256_load_ps(bzactImageData + i);

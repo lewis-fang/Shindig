@@ -86,7 +86,7 @@
     <item row="0" column="0" rowspan="4" colspan="4">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -2171,6 +2171,7 @@
     </property>
     <addaction name="actionDefault_1_Cifia"/>
     <addaction name="actionDefault_1_Cifia_BN"/>
+    <addaction name="actionDefault_1_Cifia_BN_Res"/>
    </widget>
    <addaction name="menuBuild_Default_Model"/>
   </widget>
@@ -2191,6 +2192,11 @@
   <action name="actionDefault_1_Cifia_BN">
    <property name="text">
     <string>Default 1 Cifia BN</string>
+   </property>
+  </action>
+  <action name="actionDefault_1_Cifia_BN_Res">
+   <property name="text">
+    <string>Default 1 Cifia BN Res</string>
    </property>
   </action>
  </widget>

@@ -811,7 +811,7 @@ bool CNNCalc::LaunchConvolutionBySimdBN(int toi, int b)
 			{
 				layerBNCalc(bzactImage, toi, b);
 			}
-		//	myResLink.resAdd(bzactImage,b);
+		    myResLink.resAdd(bzactImage,b);
 			activateOperateSimd(b);
 			if (myBatchNorm.getPos() == 2)
 			{
@@ -867,11 +867,11 @@ void CNNCalc::freeLayerMemory()
 	{
 		BL.dIdealInoutVSdO.freeImageSpace();
 	}
-	myBatchNorm.deleteSpace();
+	//myBatchNorm.deleteSpace();
 	_mm_free(BL.IdealOut);
 	_mm_free(BL.VBias);
 }
-void CNNCalc::initLayerMemoryV2(int batchSize)
+void CNNCalc::initLayerMemoryV2( int batchSize)
 {
 	barrier.initBarrier(batchSize);
 
