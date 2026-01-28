@@ -39,7 +39,6 @@ public:
 	CNNModel();
 	~CNNModel(){};
 
-	bool LaunchCNNModel(image image0, float* outValues, int outLentgh);
 	void addCNNLayer( CNNCalc& aLayer);
 
 	void popLayer();
@@ -67,7 +66,6 @@ public:
 	void setOptimizer(Optimizer mo) { memcpy(&mOptimizer, &mo, sizeof(Optimizer)); }
 	///////////////////training: backward propagation
 	bool addInputImage(image im, float* theOutput, int outLenth);
-	bool startTrainning();
 	void clearInputImage() ;
 	int getImageNum() { return InputImageSeries.size(); }
 	image getImage(int i) {	return InputImageSeries.at(i);
@@ -78,8 +76,6 @@ public:
 
 	bool LaunchCNNModelBySimd(image image0, float* outValues, int outLentgh,int b=0);
 	bool LaunchCNNModelBySimdNonParrallel(std::vector<image> imagen, float* outValues, int outLentgh);
-	bool startTrainningSimd();
-	bool startTrainningSimdV2();
 	bool startTrainningSimdV3();
 	bool LaunchCNNModelParrallel(std::vector<image> imagen, float* outValues, int outLentgh, int batch);
 
@@ -115,8 +111,6 @@ private:
 	double normGlobalValueOrRange;
 	double normShift;
 
-	void globalNorm( image& iniputImage);
-	void rangeorm(image& iniputImage);
 	///////////////////////////
 	
 	std::vector<image> InputImageSeries;

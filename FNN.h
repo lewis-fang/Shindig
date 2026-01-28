@@ -51,7 +51,6 @@ private:
 	void updateLoss();
 public slots:
 //	void ImpotsDatas();
-	void ImpotWts();
 	void SetInputSize();
 	void Launch();
 	void ViewOut(int);
@@ -61,7 +60,6 @@ public slots:
 	void uiSetFCPara(int fc);
 	void popBack();
 	void ChangeTrainMode(int);
-	void LaunchTraing();
 //	void ImportIdlO();
 	void ImportCifarTrain(QString fileName ="");
 	void ImportCifarTest();

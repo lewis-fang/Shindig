@@ -43,7 +43,6 @@ typedef struct image
 	size_t blockSize;
 	size_t rowImgBlockSize;
 	int bs;
-	float*** imageData;
 	float* vImageData;
 	float* rowImg;
 	image() :
@@ -52,7 +51,6 @@ typedef struct image
 		channel(0),
 		blockSize(0),
 		rowImgBlockSize(0),
-		imageData(NULL),
 		vImageData(NULL),
 		rowImg(NULL),
 		bs(1)
@@ -78,25 +76,7 @@ typedef struct image
 	{
 		if ((rows > 0) && (cols > 0) && (channel > 0))
 		{
-			imageData = new float** [channel];
-			for (int ch = 0; ch < channel; ch++)
-			{
-				imageData[ch] = new float* [rows];
-				for (int r = 0; r < rows; r++)
-				{
-					imageData[ch][r] = new float[cols];
-				}
-			}
-			for (int ch = 0; ch < channel; ch++)
-			{
-				for (int r = 0; r < rows; r++)
-				{
-					for (int c = 0; c < cols; c++)
-					{
-						imageData[ch][r][c] = 0.0;
-					}
-				}
-			}
+
 			size_t offset = AlignBytes / sizeof(float);
 		//	blockSize = AlignVec(rows * cols * channel, offset);
 			blockSize = AlignVec(rows * cols * channel, offset);
@@ -112,28 +92,6 @@ typedef struct image
 	}
 	void freeImage()
 	{
-
-		if (imageData != NULL)
-		{
-			for (int ch = 0; ch < channel; ch++)
-			{
-				if (imageData[ch] != NULL)
-				{
-					for (int r = 0; r < rows; r++)
-					{
-						if (imageData[ch][r] != NULL)
-						{
-							delete imageData[ch][r];
-							imageData[ch][r] = NULL;
-						}
-					}
-					delete[] imageData[ch];
-					imageData[ch] = NULL;
-				}
-			}
-			delete[] imageData;
-			imageData = NULL;
-		}
 		if (vImageData != NULL)
 		{
 			_mm_free(vImageData);
@@ -150,28 +108,6 @@ typedef struct image
 	}
 	void freeImageSpace()
 	{
-
-		if (imageData != NULL)
-		{
-			for (int ch = 0; ch < channel; ch++)
-			{
-				if (imageData[ch] != NULL)
-				{
-					for (int r = 0; r < rows; r++)
-					{
-						if (imageData[ch][r] != NULL)
-						{
-							delete imageData[ch][r];
-							imageData[ch][r] = NULL;
-						}
-					}
-					delete[] imageData[ch];
-					imageData[ch] = NULL;
-				}
-			}
-			delete[] imageData;
-			imageData = NULL;
-		}
 		if (vImageData != NULL)
 		{
 			_mm_free(vImageData);
@@ -182,24 +118,6 @@ typedef struct image
 			_mm_free(rowImg);
 			rowImg = NULL;
 		}
-	}
-	image& operator+=(const image& im)
-	{
-		if ((channel == im.channel) && (rows == im.rows) && (cols == im.cols))
-		{
-			for (int ch = 0; ch < channel; ch++)
-			{
-				for (int r = 0; r < rows; r++)
-				{
-					for (int c = 0; c < cols; c++)
-					{
-						imageData[ch][r][c] += im.imageData[ch][r][c];
-					}
-				}
-			}
-
-		}
-		return *this;
 	}
 	void initRowImage(trpDim kernalDim, int MovStride,int batchSize=1)
 	{
@@ -279,25 +197,9 @@ typedef struct image
 			std::cout << im.channel << "," << im.rows << "," << im.cols << std::endl;
 		}
 	}
-	void apllyratio(double rs)
-	{
-		if ((rows > 0) && (cols > 0) && (channel > 0) && (NULL != imageData))
-		{
-			for (int ch = 0; ch < channel; ch++)
-			{
-				for (int r = 0; r < rows; r++)
-				{
-					for (int c = 0; c < cols; c++)
-					{
-						imageData[ch][r][c] *= rs;
-					}
-				}
-			}
-		}
-	}
 	void apllyratioSimd(double rs,int b=0)
 	{
-		if ((rows > 0) && (cols > 0) && (channel > 0) && (NULL != imageData) && (NULL != vImageData))
+		if ((rows > 0) && (cols > 0) && (channel > 0)  && (NULL != vImageData))
 		{
 			size_t offset = AlignBytes / sizeof(float);
 			size_t offset16 = AlignBytes16 / sizeof(float);
@@ -320,7 +222,7 @@ typedef struct image
 		im.rows = rows;
 		im.channel = channel;
 		im.initImage();
-		if ((rows > 0) && (cols > 0) && (channel > 0) && (NULL != imageData) && (NULL != vImageData))
+		if ((rows > 0) && (cols > 0) && (channel > 0)  && (NULL != vImageData))
 		{
 			size_t offset = AlignBytes / sizeof(float);
 			size_t offset16 = AlignBytes16 / sizeof(float);
@@ -349,15 +251,7 @@ typedef struct image
 			{
 				for (int c = 0; c < cols; c++)
 				{
-					if (fg == 0)
-					{
-						fo << std::setprecision(LOGPRE) << imageData[ch][r][c] << ",";
-					}
-					else
-					{
-						fo << std::setprecision(LOGPRE) << vImageData[ch + r * channel * cols + c * channel] << ",";
-					}
-
+					fo << std::setprecision(LOGPRE) << vImageData[ch + r * channel * cols + c * channel] << ",";
 				}
 			}
 			fo << std::endl << std::endl;
@@ -370,7 +264,6 @@ typedef struct kernal
 	size_t row;
 	size_t col;
 	size_t channel;
-	float*** weight;
 	float* vWeight;
 	float bias;
 	float biasSimd;
@@ -379,21 +272,12 @@ typedef struct kernal
 		col(0),
 		channel(0),
 		bias(0.0),
-		weight(NULL),
 		vWeight(NULL),
 		biasSimd(0.0)
 	{}
 	void initKernal(float sd)
 	{
-		weight = new float** [channel];
-		for (int j = 0; j < channel; j++)
-		{
-			weight[j] = new float* [row];
-			for (int i = 0; i < row; i++)
-			{
-				weight[j][i] = new float[col];
-			}
-		}
+	
 		size_t offset = AlignBytes / sizeof(float);
 		size_t blockSoze = AlignVec(row * channel * col, offset);
 		//std::cout << blockSoze << std::endl;
@@ -414,7 +298,6 @@ typedef struct kernal
 					for (int c = 0; c < col;c++)
 					{
 						float randfloat = nd(gen);
-						weight[ch][r][c] = randfloat;
 						vWeight[r * channel * col + c * channel + ch] = randfloat;
 
 					}
@@ -429,7 +312,6 @@ typedef struct kernal
 				{
 					for (int c = 0; c < col;c++)
 					{
-						weight[ch][r][c] = 0.0;
 						vWeight[r * channel * col + c * channel + ch] = 0.0;
 
 					}
@@ -441,27 +323,6 @@ typedef struct kernal
 	}
 	void FreeWtsSpace()
 	{
-		if (weight != NULL)
-		{
-			for (int ch = 0; ch < channel; ch++)
-			{
-				if (weight[ch] != NULL)
-				{
-					for (int r = 0; r < row; r++)
-					{
-						if (weight[ch][r] != NULL)
-						{
-							delete weight[ch][r];
-							weight[ch][r] = NULL;
-						}
-					}
-					delete[] weight[ch];
-					weight[ch] = NULL;
-				}
-			}
-			delete[] weight;
-			weight = NULL;
-		}
 		if (NULL != vWeight)
 		{
 			_mm_free(vWeight);
@@ -473,75 +334,12 @@ typedef struct kernal
 	}
 	void FreeWts()
 	{
-		if (weight != NULL)
-		{
-			for (int ch = 0; ch < channel; ch++)
-			{
-				if (weight[ch] != NULL)
-				{
-					for (int r = 0; r < row; r++)
-					{
-						if (weight[ch][r] != NULL)
-						{
-							delete weight[ch][r];
-							weight[ch][r] = NULL;
-						}
-					}
-					delete[] weight[ch];
-					weight[ch] = NULL;
-				}
-			}
-			delete[] weight;
-			weight = NULL;
-		}
+
 		if (NULL != vWeight)
 		{
 			_mm_free(vWeight);
 			vWeight = NULL;
 		}
-	}
-	kernal copy()
-	{
-		kernal tempK;
-		tempK.channel = this->channel;
-		tempK.col = this->col;
-		tempK.row = this->row;
-		tempK.initKernal(0);
-		for (int ch = 0; ch < this->channel; ch++)
-		{
-			for (int r = 0; r < this->row; r++)
-			{
-				for (int c = 0; c < this->col; c++)
-				{
-					tempK.weight[ch][r][c] = this->weight[ch][r][c];
-				}
-			}
-		}
-		return tempK;
-	}
-	kernal& operator+=(const kernal& k1)
-	{
-
-		if ((channel == k1.channel) && (row == k1.row) && (col == k1.col))
-		{
-			for (int ch = 0; ch < channel; ch++)
-			{
-				for (int r = 0; r < row; r++)
-				{
-					for (int c = 0; c < col; c++)
-					{
-						weight[ch][r][c] += k1.weight[ch][r][c];
-					}
-				}
-			}
-		}
-		else
-		{
-			std::cout << "kernal plus not equal" << std::endl;
-		}
-		
-		bias += k1.bias;
-		return *this;
 	}
 	void addSimd(kernal k1)
 	{
@@ -625,21 +423,6 @@ typedef struct kernal
 		}
 		biasSimd *= k1.biasSimd;
 	}
-	void apply(float ra)
-	{
-
-		for (int ch = 0; ch < channel; ch++)
-		{
-			for (int r = 0; r < row; r++)
-			{
-				for (int c = 0; c < col; c++)
-				{
-					weight[ch][r][c] *= ra;
-				}
-			}
-		}
-		bias *= ra;
-	}
 	void applySimd(float ra)
 	{
 		if (vWeight != NULL)
@@ -701,8 +484,7 @@ typedef struct kernal
 			{
 				for (int c = 0; c < col; c++)
 				{
-					if (i == 0)	fo << std::setprecision(LOGPRE) << weight[ch][r][c] << ",";
-					else fo << std::setprecision(LOGPRE) << vWeight[ch + r * col * channel + c * channel] << ",";
+					 fo << std::setprecision(LOGPRE) << vWeight[ch + r * col * channel + c * channel] << ",";
 				}
 			}
 			fo << std::endl;

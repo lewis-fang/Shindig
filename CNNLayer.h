@@ -67,19 +67,12 @@ public:
 	void initLayerSize(int inRows, int inCols, int inChannel);
 	void freeLayerMemory();
 	void initKernals(int wtsRow, int wtsCol, int wtsChannel, int ns,int strd,float sd,float bs);
-	void SetInput(image imago);//must set
 	bool SetKernals(std::vector<kernal> kernals, int kernalrow, int kernalcol, int padsz, int strd, int ns);// must set
 	void SetPoolings(int pldim1, int pldim2, int plStrd, int plFun);//can be set
 	void SetActivateFun(int Act);//can be set
 	void setlayerType(layerType lt){ thisLayerType = lt; }
 	void setPaddingMethod(PaddingMethod pm){ padMoethod = pm; }
 	void setHiddenNum(int hn){ HideLayerNumth = hn; }
-	bool setOutLossss(image umg);
-
-	void UpdateLayerWB();
-	void AccumulateDW(float learnrate, int bs);
-	bool UpdateLayerLoss(image& retImage);
-	bool LaunchConvolution();
 
 	int GetOutLength(){ return neuroNums; }//outlen is same to number of neuros
 	int getHiddenNum(){ return HideLayerNumth; }
@@ -97,7 +90,6 @@ public:
 	int getBNPos() { return myBatchNorm.getPos(); }
 	bool LaunchConvolutionBySimd(int b=0);
 	void SetInputSimd(image imago,int b=0);
-	bool UpdateLayerLossSimd(image& retImage, int b=0);
 	bool UpdateLayerLossSimd( int b = 0);
 	image& getCurrentLayerIdealOutDxdy() { return BL.dIdealOutVSdO; }
 	image& getCurrentLayerIdealInoutDxdy() { return BL.dIdealInoutVSdO; }
@@ -161,14 +153,6 @@ private:
 	bool isSetData;
 	bool isSetConfig;
 	bool isBufferInitiated;
-	//calculate order
-
-	void padding();   //2nd
-	void Convolution();  //3rd
-	
-	inline float activate(float a, int fun);
-
-	void pooling();   //4th
 	void setOutBuffer(int batchSize=1);//prior to the convolution step
 	void setOutBuffer2(int batchSize = 1);
 
@@ -197,8 +181,6 @@ class BackLayer
 		__m256  dactivateSimd(__m256 a, int fun);
 		__m128  dactivateSimd128(__m128 a, int fun);
 		
-		float dactivate(float a, int fun);
-
 		kernal* ShadowMoment;
 		kernal* ShadowVelocity;
 	public:
@@ -220,14 +202,6 @@ class BackLayer
 			kernal aKernal;
 
 			void initDKernals() {};
-			bool dConvolutionX(image inPa, image outZ, image bzactImage, kernal* K180, int Kn, int stride, image& dImage);
-			bool dConvolutionW(image inPa, image outZ, image bzactImage,kernal*& dkernal, int Kn,int stride);
-			bool dPooling(image actImage,image DyDxoutImage,int poolingdim1,int poolingdim2,int poolingstride, image &dPoolingImage);
-			void dPadding(image BeforePaddingZ, image& AfterPaddingZ, int padSizeR, int padSizeC);
-			
-			bool TMatrixKernal(const kernal* kernalSeris, kernal* retKernal180, int neuroNums);
-			void innerPadding(image beforePaddingZ, image& AfterPaddingZ ,int innerSizeRow, int innerSizeCol);
-			bool outPadding(image beforePaddingZ, image& AfterPaddingZ, int targetRow, int targetCol);
 			
 			//simd version function
 			bool TMatrixKernalSimd(const kernal* kernalSeris, kernal* retKernal180, int neuroNums);
