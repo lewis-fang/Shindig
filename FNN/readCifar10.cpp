@@ -50,12 +50,9 @@ bool cifar10Reader::pullTestImages(char* path,int pullTestImages)
 			{
 				for (int c = 0;c < cifarSize::D2;c++)
 				{
-					aImage.imageData[0][r][c] = imageStreamRed[c +  r* 32];
-					aImage.imageData[1][r][c] = imageStreamGreen[c + r * 32];
-					aImage.imageData[2][r][c] = imageStreamBlue[c + r * 32];
-					aImage.vImageData[c * 3 + r * 3 * cifarSize::D2 + 0] = aImage.imageData[0][r][c];
-					aImage.vImageData[c * 3 + r * 3 * cifarSize::D2 + 1] = aImage.imageData[1][r][c];
-					aImage.vImageData[c * 3 + r * 3 * cifarSize::D2 + 2] = aImage.imageData[2][r][c];
+					aImage.vImageData[c * 3 + r * 3 * cifarSize::D2 + 0] = imageStreamRed[c + r * 32];
+					aImage.vImageData[c * 3 + r * 3 * cifarSize::D2 + 1] = imageStreamGreen[c + r * 32];
+					aImage.vImageData[c * 3 + r * 3 * cifarSize::D2 + 2] = imageStreamBlue[c + r * 32];
 				}
 				
 			}
@@ -115,12 +112,9 @@ bool cifar10Reader::pullTestImages1(char* path, int pullTestImages)
 			{
 				for (int c = 0;c < cifarSize::D2;c++)
 				{
-					aImage.imageData[0][r][c] = imageStreamRed[c + r * 32];
-					aImage.imageData[1][r][c] = imageStreamGreen[c + r * 32];
-					aImage.imageData[2][r][c] = imageStreamBlue[c + r * 32];
-					aImage.vImageData[c * 3 + r * 3 * cifarSize::D2 + 0] = aImage.imageData[0][r][c];
-					aImage.vImageData[c * 3 + r * 3 * cifarSize::D2 + 1] = aImage.imageData[1][r][c];
-					aImage.vImageData[c * 3 + r * 3 * cifarSize::D2 + 2] = aImage.imageData[2][r][c];
+					aImage.vImageData[c * 3 + r * 3 * cifarSize::D2 + 0] = imageStreamRed[c + r * 32];
+					aImage.vImageData[c * 3 + r * 3 * cifarSize::D2 + 1] = imageStreamGreen[c + r * 32];
+					aImage.vImageData[c * 3 + r * 3 * cifarSize::D2 + 2] = imageStreamBlue[c + r * 32];
 				}
 
 			}

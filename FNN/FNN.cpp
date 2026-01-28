@@ -16,7 +16,7 @@ FNN::FNN(QWidget *parent)
 	connect(ui.spinBox_viewOutTest, SIGNAL(valueChanged(int)), this, SLOT(ViewOut(int)), Qt::AutoConnection);
 	//view test image and out
 	connect(ui.pushButton_addLayer, SIGNAL(clicked()), this, SLOT(AddLayer()), Qt::AutoConnection);
-	connect(ui.pushButton_LaunchModel, SIGNAL(clicked()), this, SLOT(LauchCNNModelParrallel()), Qt::AutoConnection);
+	connect(ui.pushButton_LaunchModel, SIGNAL(clicked()), this, SLOT(egonicTestImages()), Qt::AutoConnection);
 	connect(ui.comboBox_LayerType, SIGNAL(currentIndexChanged(int)), this, SLOT(uiSetFCPara(int)), Qt::AutoConnection);
 	connect(ui.pushButton_popBackLayer, SIGNAL(clicked()), this, SLOT(popBack()), Qt::AutoConnection);
 //	connect(ui.pushButton_TraainingMode, SIGNAL(clicked()), this, SLOT(LaunchTraing()),Qt::AutoConnection);
@@ -25,7 +25,11 @@ FNN::FNN(QWidget *parent)
 	connect(ui.pushButton_cifarTest, SIGNAL(clicked()), this, SLOT(ImportCifarTest()), Qt::AutoConnection);
 
 	connect(ui.actionDefault_1_Cifia, SIGNAL(triggered()), this, SLOT(buildDefault1CifarModel()), Qt::AutoConnection);
-	//ui.pushButton_addLayer->setfill
+	
+	connect(ui.actionDefault_1_Cifia_BN, SIGNAL(triggered()), this, SLOT(buildDefault1CifarModelBN()), Qt::AutoConnection);
+	//actionDefault_1_Cifia_BN_Res
+	connect(ui.actionDefault_1_Cifia_BN_Res, SIGNAL(triggered()), this, SLOT(buildDefault1CifarModelBNResNet()), Qt::AutoConnection);
+
 	isDataImported = false;
 
 	treeViewModel = new QStandardItemModel;
@@ -86,7 +90,7 @@ void FNN::buildDefault1CifarModel()
 	CurrentLayer1.SetPoolings(2, 2, 2, 0);
 	CurrentLayer1.SetActivateFun(4);
 	CurrentLayer1.setlayerType((layerType)(1));
-	CurrentLayer1.setPaddingMethod((PaddingMethod)0);
+	CurrentLayer1.setPaddingMethod((PaddingMethod)1);
 	CurrentLayer1.initLayerSize(32, 32, 3);
 	MyCNNModel.addCNNLayer(CurrentLayer1);
 	UpdateCNNTreeView();
@@ -96,7 +100,7 @@ void FNN::buildDefault1CifarModel()
 	CurrentLayer2.SetPoolings(2, 2, 2, 0);
 	CurrentLayer2.SetActivateFun(4);
 	CurrentLayer2.setlayerType((layerType)(1));
-	CurrentLayer2.setPaddingMethod((PaddingMethod)0);
+	CurrentLayer2.setPaddingMethod((PaddingMethod)1);
 	int lastRow = 0;
 	int lastCol = 0;
 	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
@@ -109,7 +113,7 @@ void FNN::buildDefault1CifarModel()
 	MyCNNModel.addCNNLayer(CurrentLayer2);
 	UpdateCNNTreeView();
 	CNNCalc CurrentLayer3;
-	CurrentLayer3.initKernals(6, 6, 32, 32, 1, 1.0 / sqrt(6 * 6 * 32), 0);
+	CurrentLayer3.initKernals(8, 8, 32, 32, 1, 1.0 / sqrt(6 * 6 * 32), 0);
 	CurrentLayer3.setHiddenNum(MyCNNModel.getLastLayerNum());
 	CurrentLayer3.SetActivateFun(4);
 	CurrentLayer3.setlayerType((layerType)(2));
@@ -155,82 +159,102 @@ void FNN::buildDefault1CifarModel()
 	ui.comboBox_lossFunction->setCurrentIndex(1);
 	ui.lineEdit_maxIters->setText(QString::number(100));
 	ui.lineEdit_ImgNumbers->setText(QString::number(320));
+	ui.spinBox_batchSize->setValue(8);
+	ImportCifarTrain("./cifar-10-binary/cifar-10-batches-bin/data_batch_1.bin");
+}
+void FNN::buildDefault1CifarModelBN()
+{
+	float sd = 0.5;
+	MyCNNModel.clearModel();
+	MyCNNModel.clearInputImage();
+	CNNCalc CurrentLayer1;
+	CurrentLayer1.initKernals(3, 3, 3, 32, 1, sd / sqrt(3 * 3 * 3), 0);
+	//sd /= sqrt(WtsRow * WtsCol * WtsChannel);
+	CurrentLayer1.setHiddenNum(MyCNNModel.getLastLayerNum());
+	CurrentLayer1.SetPoolings(2, 2, 2, 0);
+
+	
+	CurrentLayer1.SetActivateFun(4);
+	CurrentLayer1.setlayerType((layerType)(1));
+	CurrentLayer1.setPaddingMethod((PaddingMethod)1);
+	CurrentLayer1.initLayerSize(32, 32, 3);
+	CurrentLayer1.setBatchNorm(32, 1, 1e-5);
+	CurrentLayer1.initBNParas();
+	MyCNNModel.addCNNLayer(CurrentLayer1);
+	UpdateCNNTreeView();
+	CNNCalc CurrentLayer2;
+	CurrentLayer2.initKernals(3, 3, 32, 32, 1, sd / sqrt(3 * 3 * 32), 0);
+	CurrentLayer2.setHiddenNum(MyCNNModel.getLastLayerNum());
+	CurrentLayer2.SetPoolings(2, 2, 2, 0);
+	CurrentLayer2.SetActivateFun(4);
+	CurrentLayer2.setlayerType((layerType)(1));
+	CurrentLayer2.setPaddingMethod((PaddingMethod)1);
+	int lastRow = 0;
+	int lastCol = 0;
+	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
+	if ((lastRow == 0) || (lastCol == 0))
+	{
+		lastRow = ui.spinBox_rows->value();
+		lastCol = ui.spinBox_cols->value();
+	}
+	CurrentLayer2.initLayerSize(lastRow, lastCol, 32);
+	CurrentLayer2.setBatchNorm(32, 2, 1e-5);
+	CurrentLayer2.initBNParas();
+	MyCNNModel.addCNNLayer(CurrentLayer2);
+	UpdateCNNTreeView();
+	CNNCalc CurrentLayer3;
+	CurrentLayer3.initKernals(8, 8, 32, 32, 1,  sd / sqrt(8 * 8 * 32), 0);
+	CurrentLayer3.setHiddenNum(MyCNNModel.getLastLayerNum());
+	CurrentLayer3.SetActivateFun(4);
+	CurrentLayer3.setlayerType((layerType)(2));
+	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
+	if ((lastRow == 0) || (lastCol == 0))
+	{
+		lastRow = ui.spinBox_rows->value();
+		lastCol = ui.spinBox_cols->value();
+	}
+	CurrentLayer3.initLayerSize(lastRow, lastCol, 32);
+	MyCNNModel.addCNNLayer(CurrentLayer3);
+	UpdateCNNTreeView();
+	CNNCalc CurrentLayer4;
+	CurrentLayer4.initKernals(1, 1, 32, 32, 1, sd / sqrt(32), 0);
+	CurrentLayer4.setHiddenNum(MyCNNModel.getLastLayerNum());
+	CurrentLayer4.SetActivateFun(4);
+	CurrentLayer4.setlayerType((layerType)(2));
+	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
+	if ((lastRow == 0) || (lastCol == 0))
+	{
+		lastRow = ui.spinBox_rows->value();
+		lastCol = ui.spinBox_cols->value();
+	}
+	CurrentLayer4.initLayerSize(lastRow, lastCol, 32);
+	MyCNNModel.addCNNLayer(CurrentLayer4);
+	UpdateCNNTreeView();
+	CNNCalc CurrentLayer5;
+	CurrentLayer5.initKernals(1, 1, 32, 10, 1, sd / sqrt(32), 0);
+	CurrentLayer5.setHiddenNum(MyCNNModel.getLastLayerNum());
+	CurrentLayer5.SetActivateFun(9);
+	CurrentLayer5.setlayerType((layerType)(2));
+
+	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
+	if ((lastRow == 0) || (lastCol == 0))
+	{
+		lastRow = ui.spinBox_rows->value();
+		lastCol = ui.spinBox_cols->value();
+	}
+	CurrentLayer5.initLayerSize(lastRow, lastCol, 32);
+	MyCNNModel.addCNNLayer(CurrentLayer5);
+	UpdateCNNTreeView();
+
+	ui.comboBox_lossFunction->setCurrentIndex(1);
+	ui.lineEdit_maxIters->setText(QString::number(100));
+	ui.lineEdit_ImgNumbers->setText(QString::number(320));
 
 	ImportCifarTrain("./cifar-10-binary/cifar-10-batches-bin/data_batch_1.bin");
 }
+
 void FNN::SetInputSize()
 {
-}
-void FNN::ImpotWts()
-{
-	//FreeWts();
-	int neuroNum = ui.spinBox_NeuroNums->value();
-	QString fileName = QFileDialog::getOpenFileName(this, tr("import Dts"), "", tr("CSV(*.csv)")); //Ñ¡ÔñÂ·¾¶
-	std::cout << fileName.toLocal8Bit().data() << std::endl;
-	QFile Wts(fileName);
-	bool GoodLine = true;
-	int row = ui.spinBox_WtsRows->value();
-	int col = ui.spinBox_WtsCols->value();
-	int padsize = 0;
-	int strd = ui.spinBox_Strides->value();
-	if (Wts.open(QIODevice::ReadOnly | QIODevice::Text))
-	{
-		QString qLine;
-		QTextStream qstream(&Wts);
-		while (!qstream.atEnd())
-		{
-			qLine = qstream.readLine();
-			QStringList qstrlist = qLine.split(',');
-			if (qstrlist.size() == row*col)
-			{
-				kernal tempKernal;
-				tempKernal.channel = 1;
-				tempKernal.row = row;
-				tempKernal.col = col;
-				tempKernal.initKernal(1);
-				for (int r = 0; r < row; r++)
-				{
-					for (int c = 0; c < col; c++)
-					{
-						tempKernal.weight[0][r][c] = qstrlist.at(r* col + c).toDouble();
-					}
-				}
-				kernalSeries.push_back(tempKernal);
-			}
-			else
-			{
-				std::cout << "a bad line is read~" << std::endl;
-				GoodLine = false;
-			}
-		}
-	}
-	if ((kernalSeries.size() == neuroNum) && (GoodLine == true))
-	{
-		for (int kn = 0; kn < neuroNum; kn++)
-		{
-			QString aLne;
-			for (int r = 0; r < kernalSeries.at(kn).row; r++)
-			{			
-				for (int c = 0; c < kernalSeries.at(kn).col; c++)
-				{
-					aLne += QString::number(kernalSeries.at(kn).weight[0][r][c]) + ',';
-
-				}
-				
-			}
-			ui.textBrowser->append(aLne);
-		}
-
-//		ui.lineEdit_WtsReady->setText("Yes");
-		ui.textBrowser->append("Wts are read!");
-		//CNNLayer.SetKernals(kernalSeries, row, col, padsize, strd, neuroNum);
-		ui.textBrowser->append("Wts are tranported to CNN Layer!");
-	}
-	else
-	{
-		std::cout << "read neros:" << kernalSeries.size() << std::endl;
-//		ui.lineEdit_WtsReady->setText("No");
-	}
 }
 void FNN::FreeDts()
 {
@@ -266,7 +290,10 @@ void FNN::ViewOut(int)
 		{
 			for (int c = 0;c < sizeDim;c++)
 			{
-				imageStream[ch + r * sizeDim * 3 + c * 3] = (unsigned char)im.imageData[ch][r / (sizeDim / cifarSize::D1)][c / (sizeDim / cifarSize::D2)];
+				int rr = r / (sizeDim / cifarSize::D1);
+				int cc = c / (sizeDim / cifarSize::D2);
+				imageStream[ch + r * sizeDim * 3 + c * 3] = (unsigned char)im.vImageData[rr * 3 * cifarSize::D2 + cc * 3 + ch];
+				//imageStream[ch + r * sizeDim * 3 + c * 3] = (unsigned char)im.vimageData[ch][r / (sizeDim / cifarSize::D1)][c / (sizeDim / cifarSize::D2)];
 			}
 		}
 	}
@@ -274,20 +301,7 @@ void FNN::ViewOut(int)
 	QPixmap pix = QPixmap::fromImage(img);
 	img.scaled(ui.label_pITURE->size(), Qt::KeepAspectRatio);
 	ui.label_pITURE->setPixmap(pix);
-	/*
-	float* out = new float[1];
-	image normalizedImage = MyCNNModel.normliaze(im);
-	if (MyCNNModel.LaunchCNNModelBySimd(normalizedImage, out, 1))
-	{
-		ui.textBrowser->append("your answer is: " + QString::number(out[0] * 10));
-		ui.textBrowser->append("the expected answer is: " + QString::number(expectedOut[0] * 10));
-	}
-	else
-	{
-		ui.textBrowser->append("make sure your model has been properly built");
 
-	}
-	*/
 }
 void FNN::ViewiNPUT(int i)
 {
@@ -305,7 +319,11 @@ void FNN::ViewiNPUT(int i)
 			{
 				for (int c = 0;c < sizeDim;c++)
 				{
-					imageStream[ch + r * sizeDim * 3 + c * 3] = (unsigned char)currentImage.imageData[ch][r/(sizeDim/ cifarSize::D1)][c/ (sizeDim / cifarSize::D2)];
+					int rr = r / (sizeDim / cifarSize::D1);
+					int cc = c / (sizeDim / cifarSize::D2);
+					imageStream[ch + r * sizeDim * 3 + c * 3] = (unsigned char)currentImage.vImageData[rr*3* cifarSize::D2 +cc*3+ch];
+					//	imageStream[ch + r * sizeDim * 3 + c * 3] = (unsigned char)currentImage.imageData[ch][r/(sizeDim/ cifarSize::D1)][c/ (sizeDim / cifarSize::D2)];
+
 				}
 			}
 		}
@@ -347,14 +365,17 @@ void FNN::AddLayer()
 		PaddingMethod padMthd = (PaddingMethod)ui.comboBox_padding->currentIndex();
 		float sd = ui.lineEdit_initSd->text().toFloat();
 		float bs = ui.lineEdit_bias->text().toFloat();
+
+		int bnnorm = ui.comboBox_BNPos->currentIndex();
 		if (WtsChannel == 0)
 		{//first layer
 			WtsChannel = ui.spinBox_chans->value();
 		}
 		sd /=sqrt (WtsRow * WtsCol * WtsChannel);
 		CNNCalc CurrentLayer;
+		
 		CurrentLayer.initKernals(WtsRow, WtsCol, WtsChannel, neuroNum, strd,sd,bs);
-	
+		
 		CurrentLayer.setHiddenNum(MyCNNModel.getLastLayerNum());
 		CurrentLayer.SetPoolings(poolingdime1, poolingdime2, poolingstride, poolingFun);
 		CurrentLayer.SetActivateFun(ui.spinBox_actFunction->value());
@@ -368,8 +389,14 @@ void FNN::AddLayer()
 			lastRow = ui.spinBox_rows->value();
 			lastCol = ui.spinBox_cols->value();
 		}
-	//	CurrentLayer.initLayerMemory(lastRow, lastCol, WtsChannel);//th		
+		int reslinkLayer = ui.spinBox_resLink->value();
+		if (reslinkLayer > 0)
+		{
+			CurrentLayer.setReslink(reslinkLayer);
+		}
+		
 		CurrentLayer.initLayerSize(lastRow, lastCol, WtsChannel);
+		CurrentLayer.setBatchNorm(WtsChannel, bnnorm, 0.0000001);
 		MyCNNModel.addCNNLayer(CurrentLayer);	
 		UpdateCNNTreeView();
 		if (ui.comboBox_LayerType->currentIndex() == 1)
@@ -399,12 +426,12 @@ void FNN::LauchCNNModel()
 		ui.textBrowser->append("current output Lentgh is not equal to that of expectd!");
 		isModelReady = false;
 	}
-	if ((outRow != 1)| (outCol != 1))
+	if ((outRow != 1)|| (outCol != 1))
 	{
 		ui.textBrowser->append("the Model is not complete!");
 		isModelReady = false;
 	}
-	if (isModelReady &  isDataImported)
+	if (isModelReady &&  isDataImported)
 	{
 		float*outVector = new float[expectedOutLen];
 		int indexImg = ui.spinBox_viewOutTest->value();
@@ -412,15 +439,6 @@ void FNN::LauchCNNModel()
 		if ((indexImg<ImportImages.size()))
 		{			
 #ifdef CHECKSPEED
-			clock_t st = clock();
-			for (int i = 0;i < loopImg;i++)
-			{
-				image normImg = MyCNNModel.normliaze(ImportImages.at(indexImg));
-				MyCNNModel.LaunchCNNModel(normImg, outVector, expectedOutLen);
-				normImg.freeImage();
-			}	
-			std::cout << "time non-simd:" << double(clock() - st) << std::endl;
-			std::cout << std::setprecision(6) << "out non-simd:" << outVector[0] << std::endl;
 			clock_t st2 = clock();
 			for (int i = 0;i < loopImg;i++)
 			{
@@ -519,6 +537,7 @@ void FNN::LauchCNNModelParrallel()
 				batchImage.push_back(bImage);
 			}
 			bool checkspeed = ui.checkBox_checkSpeed->isChecked();
+			float* outVectorP = new float[batch * expectedOutLen];
 			if (checkspeed)
 			{
 				clock_t st2 = clock();
@@ -553,9 +572,7 @@ void FNN::LauchCNNModelParrallel()
 				}
 				else
 				{
-					image normImgSimd = MyCNNModel.normliaze(ImportImages.at(indexImg));
-					MyCNNModel.LaunchCNNModel(normImgSimd, outVector, expectedOutLen);
-					normImgSimd.freeImage();
+
 				}
 				MyCNNModel.freeMemory();
 			}
@@ -571,7 +588,10 @@ void FNN::LauchCNNModelParrallel()
 			{
 				printf("%f, ", IdealOut.at(indexImg)[i]);
 			}
-			printf("\n------------------------------------------\n");
+			
+			printf("\n--------------------***----------------------\n");
+
+			printf("\n----------------------***--------------------\n");
 		}
 		else
 		{
@@ -583,6 +603,20 @@ void FNN::LauchCNNModelParrallel()
 	{
 		ui.textBrowser->append("Image is not imported Or Model is not constructed!");
 	}
+}
+int FNN::findmax(float* ar, int len)
+{
+	float maxv = ar[0];
+	int maxi = 0;
+	for (int i = 0;i < len;i++)
+	{
+		if (maxv < ar[i])
+		{
+			maxv = ar[i];
+			maxi = i;
+		}
+	}
+	return maxi;
 }
 void FNN::uiSetFCPara(int fc)
 {
@@ -628,7 +662,7 @@ void FNN::UpdateCNNTreeView()
 	int dpth = MyCNNModel.getLastLayerNum();
 	if (dpth > treeViewModel->rowCount())
 	{
-		CNNCalc currentLayer = MyCNNModel.getLayer(dpth - 1);
+		CNNCalc& currentLayer = MyCNNModel.getLayer(dpth - 1);
 		if (currentLayer.getHiddenNum() == dpth - 1)
 		{
 			QString strLayerType;
@@ -691,12 +725,50 @@ void FNN::UpdateCNNTreeView()
 				QStandardItem* newItemRol31 = new QStandardItem;
 				QStandardItem* newItemRol32 = new QStandardItem;
 				QStandardItem* newItemRol33 = new QStandardItem;
-				newItemRol30->setText("Convolution & Activate Image");
+				newItemRol30->setText("Convolution");
 				newItemRol31->setText(QString::number(currentLayer.getActImage().rows));
 				newItemRol32->setText(QString::number(currentLayer.getActImage().cols));
 				newItemRol33->setText(QString::number(currentLayer.getActImage().channel));
 				ActRow << newItemRol30 << newItemRol31 << newItemRol32 << newItemRol33;
 				newItemRow0->appendRow(ActRow);
+			}
+			if (currentLayer.getBNPos()==1)
+			{
+				QList<QStandardItem*> bnItem;
+				QStandardItem* newItemRol50 = new QStandardItem;
+				QStandardItem* newItemRol51 = new QStandardItem;
+				newItemRol50->setText("BatchNorm");
+				newItemRol51->setText(QString::number(currentLayer.getBNPos()));
+				bnItem << newItemRol50 << newItemRol51;
+				newItemRow0->appendRow(bnItem);
+			}
+			if (currentLayer.getResLink() > -1)
+			{
+				QList<QStandardItem*> reslinkItem;
+				QStandardItem* newItemRol50 = new QStandardItem;
+				QStandardItem* newItemRol51 = new QStandardItem;
+				newItemRol50->setText("reslink");
+				newItemRol51->setText(QString::number(currentLayer.getResLink()));
+				reslinkItem << newItemRol50 << newItemRol51;
+				newItemRow0->appendRow(reslinkItem);
+			}
+			QList<QStandardItem*> ActivateFun;
+			QStandardItem* newItemRol50 = new QStandardItem;
+			QStandardItem* newItemRol51 = new QStandardItem;
+			newItemRol50->setText("ActivateFun");
+			newItemRol51->setText(QString::number(currentLayer.getActFun()));
+			ActivateFun << newItemRol50 << newItemRol51 ;
+			newItemRow0->appendRow(ActivateFun);
+
+			if (currentLayer.getBNPos() == 2)
+			{
+				QList<QStandardItem*> bnItem;
+				QStandardItem* newItemRol50 = new QStandardItem;
+				QStandardItem* newItemRol51 = new QStandardItem;
+				newItemRol50->setText("BatchNorm");
+				newItemRol51->setText(QString::number(currentLayer.getBNPos()));
+				bnItem << newItemRol50 << newItemRol51;
+				newItemRow0->appendRow(bnItem);
 			}
 			//output image
 			QList<QStandardItem*> outRow;
@@ -757,49 +829,6 @@ void FNN::LaunchTraingThread()
 void contst()
 {
 
-}
-void FNN::LaunchTraing()
-{
-	int batchSize = ui.spinBox_batchSize->value();
-	int normMethod = ui.comboBox_normalizedMethd->currentIndex();
-	double globalNormValue = ui.lineEdit_NormalizedRange->text().toDouble();
-	double shiftValue = ui.lineEdit_NormalizedSHif->text().toDouble();
-	MyCNNModel.setNormMethod(normMethod, globalNormValue, shiftValue);
-	MyCNNModel.setMaxiters(ui.lineEdit_maxIters->text().toInt());
-	MyCNNModel.setDiffLoss(ui.lineEdit_diffLoss->text().toDouble());
-	MyCNNModel.setMinloss(ui.lineEdit_Loss->text().toDouble());
-	MyCNNModel.setLearnRate(ui.lineEdit_learnRate->text().toDouble());
-	MyCNNModel.setBatchSize(batchSize);
-	bool ret = true;
-	int trainflag = ui.comboBox_useSimd->currentIndex();
-	if (trainflag==1 || trainflag==2 || trainflag == 3)
-	{
-		ret=MyCNNModel.startTrainningSimd();
-		///ret = MyCNNModel.createThread();
-	}
-	else
-	{
-		ret=MyCNNModel.startTrainning();
-	}
-	qLineLoss->clear();
-	if (ret)
-	{
-		
-		int currentIter = MyCNNModel.vloss.size();
-		float maxvalue = 0.0;
-		for (int i = 0;i < currentIter;i++)
-		{
-			qLineLoss->append(QPointF(i, MyCNNModel.vloss.at(i)));
-			if (MyCNNModel.vloss.at(i) > maxvalue) maxvalue = MyCNNModel.vloss.at(i);
-		}
-		qChart1Loss->chart()->axisY()->setRange(0.0, maxvalue*1.1);
-		qChart1Loss->chart()->axisX()->setRange(0, currentIter);
-	//	qChart1Loss->chart()->createDefaultAxes();
-	}
-	else
-	{
-		std::cout << "training fail" << std::endl;
-	}
 }
 void FNN::ImportCifarTrain(QString fileName)
 {
@@ -976,4 +1005,233 @@ void FNN::updateLoss()
 		}
 	}
 	MyCNNModel.saveModel();
+}
+
+void FNN::egonicTestImages()
+{
+	bool isModelReady = true;
+	int expectedOutLen = ui.spinB_ExpectedOutLen->value();
+	int outRow = 0;
+	int outCol = 0;
+	int normMethod = ui.comboBox_normalizedMethd->currentIndex();
+	double globalNormValue = ui.lineEdit_NormalizedRange->text().toDouble();
+	double shiftValue = ui.lineEdit_NormalizedSHif->text().toDouble();
+	MyCNNModel.setNormMethod(normMethod, globalNormValue, shiftValue);
+	MyCNNModel.getLastLayerOutSize(outRow, outCol);
+	if (MyCNNModel.getLastLayerOutChannel() != expectedOutLen)
+	{
+		ui.textBrowser->append("current output Lentgh is not equal to that of expectd!");
+		isModelReady = false;
+	}
+	if ((outRow != 1) || (outCol != 1))
+	{
+		ui.textBrowser->append("the Model is not complete!");
+		isModelReady = false;
+	}
+	int batch = ui.spinBox_batchSize->value();
+	if (isModelReady && isDataImported && (ImportImages.size() % batch == 0))
+	{
+		std::vector<image> batchImage;
+		std::vector<image> normImgSimdSeries;
+
+
+			for (int i = 0;i < ImportImages.size();i++)
+			{
+				image normImgSimd = MyCNNModel.normliaze(ImportImages.at(i));
+				normImgSimdSeries.push_back(normImgSimd);
+			}
+			for (int i = 0;i < ImportImages.size();i += batch)
+			{
+				image bImage;
+				bImage.channel = ImportImages.at(0).channel;
+				bImage.rows = ImportImages.at(0).rows;
+				bImage.cols = ImportImages.at(0).cols;
+				bImage.initImage(0, batch);
+				for (int b = 0;b < batch;b++)
+				{
+					image normImgSimd = normImgSimdSeries.at(i + b);
+					memcpy(bImage.imageAtIndex(b), normImgSimd.vImageData, bImage.blockSize * sizeof(float));
+				}
+				batchImage.push_back(bImage);
+			}
+			float* outVectorP = new float[ImportImages.size() * expectedOutLen];
+			clock_t st3 = clock();
+			MyCNNModel.initMemory(batch);
+
+			MyCNNModel.LaunchCNNModelParrallel(batchImage, outVectorP, expectedOutLen, batch);
+			MyCNNModel.freeMemory();
+			std::cout << "parrallel time simd:" << int(clock() - st3) << std::endl;
+			printf("CNN calc successfully!");
+			printf("------------------------------------------\nModel Out: ");
+			int* Lew = new int[expectedOutLen * expectedOutLen];
+			memset(Lew, 0, sizeof(int) * expectedOutLen * expectedOutLen);
+			for (int i = 0;i < IdealOut.size();i++)
+			{
+				int curIdeal = findmax(IdealOut.at(i), expectedOutLen);
+
+				int curModel = findmax(outVectorP+i* expectedOutLen, expectedOutLen);
+				std::cout << i << "\tcurIdeal\t" << curIdeal << "\tcurModel\t" << curModel << std::endl;
+				Lew[ curModel * expectedOutLen + curIdeal] += 1;
+			}
+
+			printf("\n--------------------***----------------------\n");
+			printf("->Ideal\t");
+			for (int i = 0;i < expectedOutLen;i++)
+			{
+				printf("\(%d\)\t", i);
+			}
+			printf("\n");
+			for (int i = 0;i < expectedOutLen;i++)
+			{
+				printf("\(%d\)\t", i);
+				for (int j = 0;j < expectedOutLen;j++)
+				{
+					printf("%d\t", Lew[j* expectedOutLen + i]);
+				}
+				printf("\n");
+			}
+			delete[] Lew;
+			printf("\n----------------------***--------------------\n");
+		}
+		else
+		{
+			ui.textBrowser->append("CNN calc faily!");
+		}
+}
+void  FNN::egonicTrainImages()
+{
+
+}
+
+
+void FNN::buildDefault1CifarModelBNResNet()
+{
+	const int  wid = 16;
+	////////////////////////////////layer 1
+	MyCNNModel.clearModel();
+	MyCNNModel.clearInputImage();
+	CNNCalc CurrentLayer1;
+	CurrentLayer1.initKernals(3, 3, 3, wid, 1, 1.0 / sqrt(3 * 3 * 3), 0);
+	//sd /= sqrt(WtsRow * WtsCol * WtsChannel);
+	CurrentLayer1.setHiddenNum(MyCNNModel.getLastLayerNum());
+	CurrentLayer1.SetPoolings(2, 2,2, 0);
+	CurrentLayer1.SetActivateFun(4);
+	CurrentLayer1.setlayerType((layerType)(1));
+	CurrentLayer1.setPaddingMethod((PaddingMethod)1);
+	CurrentLayer1.initLayerSize(32, 32, 3);
+	MyCNNModel.addCNNLayer(CurrentLayer1);
+	UpdateCNNTreeView();
+
+	////////////////////////////////layer 2
+	CNNCalc CurrentLayer2;
+	CurrentLayer2.initKernals(3, 3, wid, wid, 1, 1.0 / sqrt(3 * 3 * wid), 0);
+	CurrentLayer2.setHiddenNum(MyCNNModel.getLastLayerNum());
+	CurrentLayer2.SetPoolings(1, 1, 1, 0);
+	CurrentLayer2.SetActivateFun(4);
+	CurrentLayer2.setlayerType((layerType)(1));
+	CurrentLayer2.setPaddingMethod((PaddingMethod)1);
+	int lastRow = 0;
+	int lastCol = 0;
+	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
+	CurrentLayer2.initLayerSize(lastRow, lastCol, wid);
+
+	MyCNNModel.addCNNLayer(CurrentLayer2);
+	UpdateCNNTreeView();
+	
+	////////////////////////////////layer 3
+	CNNCalc CurrentLayer3;
+	CurrentLayer3.initKernals(3, 3, wid, wid, 1, 1.0 / sqrt(3 * 3 * wid), 0);
+	CurrentLayer3.setHiddenNum(MyCNNModel.getLastLayerNum());
+	CurrentLayer3.SetPoolings(1, 1, 1, 0);
+	CurrentLayer3.SetActivateFun(4);
+	CurrentLayer3.setlayerType((layerType)(1));
+	CurrentLayer3.setPaddingMethod((PaddingMethod)1);
+
+	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
+
+	CurrentLayer3.initLayerSize(lastRow, lastCol, wid);
+	CurrentLayer3.setBatchNorm(wid, 2, 1e-8);
+	CurrentLayer3.initBNParas();
+	MyCNNModel.addCNNLayer(CurrentLayer3);
+	UpdateCNNTreeView();
+
+
+	////////////////////////////////layer 4
+	CNNCalc CurrentLayer4;
+	CurrentLayer4.initKernals(3, 3, wid, wid, 1, 1.0 / sqrt(3 * 3 * wid), 0);
+	CurrentLayer4.setHiddenNum(MyCNNModel.getLastLayerNum());
+	CurrentLayer4.SetPoolings(1, 1, 1, 0);
+	CurrentLayer4.SetActivateFun(4);
+	CurrentLayer4.setlayerType((layerType)(1));
+	CurrentLayer4.setPaddingMethod((PaddingMethod)1);
+
+	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
+
+	CurrentLayer4.initLayerSize(lastRow, lastCol, wid);
+	CurrentLayer4.setBatchNorm(wid, 2, 1e-8);
+	CurrentLayer4.initBNParas();
+
+	CurrentLayer4.setReslink(1);
+	MyCNNModel.addCNNLayer(CurrentLayer4);
+	UpdateCNNTreeView();
+
+	////////////////////////////////layer 4
+	CNNCalc CurrentLayer42;
+	CurrentLayer42.initKernals(3, 3, wid, 16, 1, 1.0 / sqrt(3 * 3 * wid), 0);
+	CurrentLayer42.setHiddenNum(MyCNNModel.getLastLayerNum());
+	CurrentLayer42.SetPoolings(1, 1, 1, 0);
+	CurrentLayer42.SetActivateFun(4);
+	CurrentLayer42.setlayerType((layerType)(1));
+	CurrentLayer42.setPaddingMethod((PaddingMethod)1);
+
+	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
+
+	CurrentLayer42.initLayerSize(lastRow, lastCol, wid);
+	CurrentLayer42.setBatchNorm(16, 2, 1e-8);
+	CurrentLayer42.initBNParas();
+
+	MyCNNModel.addCNNLayer(CurrentLayer42);
+	UpdateCNNTreeView();
+	////////////////////////////////layer 5
+	CNNCalc CurrentLayer5;
+	CurrentLayer5.initKernals(16, 16, 16, 16, 1, 1.0 / sqrt(16 * 16 * 16), 0);
+	CurrentLayer5.setHiddenNum(MyCNNModel.getLastLayerNum());
+	CurrentLayer5.SetActivateFun(4);
+	CurrentLayer5.setlayerType((layerType)(2));
+	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
+
+	CurrentLayer5.initLayerSize(lastRow, lastCol, 16);
+	MyCNNModel.addCNNLayer(CurrentLayer5);
+	UpdateCNNTreeView();
+
+	////////////////////////////////layer 6
+	CNNCalc CurrentLayer6;
+	CurrentLayer6.initKernals(1, 1, 16, 16, 1, 1.0 / sqrt(16), 0);
+	CurrentLayer6.setHiddenNum(MyCNNModel.getLastLayerNum());
+	CurrentLayer6.SetActivateFun(4);
+	CurrentLayer6.setlayerType((layerType)(2));
+	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
+	CurrentLayer6.initLayerSize(lastRow, lastCol, 16);
+	MyCNNModel.addCNNLayer(CurrentLayer6);
+	UpdateCNNTreeView();
+
+
+	////////////////////////////////layer 7
+	CNNCalc CurrentLayer7;
+	CurrentLayer7.initKernals(1, 1, 16, 10, 1, 1.0 / sqrt(16), 0);
+	CurrentLayer7.setHiddenNum(MyCNNModel.getLastLayerNum());
+	CurrentLayer7.SetActivateFun(9);
+	CurrentLayer7.setlayerType((layerType)(2));
+
+	MyCNNModel.getLastLayerOutSize(lastRow, lastCol);
+
+	CurrentLayer7.initLayerSize(lastRow, lastCol, 16);
+	MyCNNModel.addCNNLayer(CurrentLayer7);
+	UpdateCNNTreeView();
+
+	ui.comboBox_lossFunction->setCurrentIndex(1);
+	ui.lineEdit_maxIters->setText(QString::number(100));
+	ui.lineEdit_ImgNumbers->setText(QString::number(320));
+
+	ImportCifarTrain("./cifar-10-binary/cifar-10-batches-bin/data_batch_1.bin");
 }

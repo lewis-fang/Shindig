@@ -1,95 +1,45 @@
 #include"CNNLayer.h"
 
 CNNCalc::CNNCalc()
+   : CNNKernals(NULL),
+     CNNKernalsRotate180(NULL),
+     CNNKernalsRotate180Simd(NULL),
+     cmplementSize(0),
+     cmplementSizePoolImge(0),
+     dkernal(NULL),
+     kernalChannel(0),
+     kernalCols(0),
+     kernalRows(0),
+     neuroNums(0),
+     stride(0)
 {
-	isSetData = false;
-	isSetConfig = false;
-	activateType = 4;
-	poolingFun = 0;
-	poolingRow = 2;
-	poolingCol = 2;
-	poolingStride = 2;
-	HideLayerNumth = 0;
-	paddingrow = 0;
-	paddingcol = 0;
-	padMoethod = SMALLER;
-	thisLayerType = CONVOLUTION;
-	isBufferInitiated = false;
-	
+   isSetData = false;
+   isSetConfig = false;
+   activateType = 4;
+   poolingFun = 0;
+   poolingRow = 2;
+   poolingCol = 2;
+   poolingStride = 2;
+   HideLayerNumth = 0;
+   paddingrow = 0;
+   paddingcol = 0;
+   padMoethod = SMALLER;
+   thisLayerType = CONVOLUTION;
+   isBufferInitiated = false;
+   barrier.initBarrier(0);
 }
+
 CNNCalc::~CNNCalc()
 {
-	/*
-	for (float* v : vlineCNNKernals)
-	{
-		_mm_free(v);
-	}
-	for (float* v : vCNNKernalsRotate180)
-	{
-		_mm_free(v);
-	}
-	for (float* v : vdkernal)
-	{
-		_mm_free(v);
-	}
-	if (rowImg != NULL)
-	{
-		_mm_free(rowImg);
-		rowImg = NULL;
-	}
-	vlineCNNKernals.clear();
-	vCNNKernalsRotate180.clear();
-	vdkernal.clear();
-	*/
 }
+
+
 void CNNCalc::SetActivateFun(int Act)
 {
 	activateType = Act;
 	BL.setActType(Act);
 }
-void CNNCalc::SetInput(image imago)
-{
-	bool rowOk = inputImage.rows == imago.rows;
-	bool colOk = inputImage.cols == imago.cols;
-	bool channelOk = inputImage.channel == imago.channel;
-	if (rowOk && colOk && channelOk)
-	{
-		for (int ch = 0; ch < imago.channel; ch++)
-		{
-			for (int r = 0; r < imago.rows; r++)
-			{
-				for (int c = 0; c < imago.cols; c++)
-				{
-					inputImage.imageData[ch][r][c] = imago.imageData[ch][r][c];
-				}
-			}
-		}
-		isSetData = true;
-	}
-	else
-	{
-		std::cout << "siz of input image that it to be is not expected" << std::endl;
-		isSetData = false;
-	}
-}
 
-bool CNNCalc::LaunchConvolution()
-{
-	if (isSetData && isSetConfig)
-	{
-		padding();
-		Convolution();
-		if (thisLayerType == CONVOLUTION)
-		{
-			pooling();
-		}
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
 bool CNNCalc::LaunchConvolutionBySimd(int b)
 {
 	if (isSetData && isSetConfig)
@@ -113,6 +63,8 @@ bool CNNCalc::LaunchConvolutionBySimd(int b)
 		return false;
 	}
 }
+
+
 bool CNNCalc::SetKernals(std::vector<kernal> kernals, int kernalrow, int kernalcol, int padsz, int strd, int ns)
 {
 	paddingrow = padsz;
@@ -132,16 +84,6 @@ bool CNNCalc::SetKernals(std::vector<kernal> kernals, int kernalrow, int kernalc
 			CNNKernals[kn].col = kernalCols;
 			CNNKernals[kn].channel = kernalChannel;
 			CNNKernals[kn].initKernal(1);
-			for (int ch = 0; ch < kernalChannel; ch++)
-			{
-				for (int r = 0; r < kernalrow; r++)
-				{
-					for (int c = 0; c < kernalcol; c++)
-					{
-						CNNKernals[kn].weight[ch][r][c] = kernals.at(kn).weight[ch][r][c];
-					}
-				}
-			}
 		}
 
 		isSetConfig = true;
@@ -162,97 +104,8 @@ void CNNCalc::SetPoolings(int pldim1, int pldim2, int plStrd,int plFun)
 }
 
 
-void CNNCalc::Convolution()
-{
-	for (int kn = 0; kn < neuroNums; kn++)
-	{
-		kernal CurrentKernal = CNNKernals[kn];
-		int OutBuffer1IndexX = 0;
-		for (int r = 0; r < padImage.rows - kernalRows + 1; r += stride)
-		{
-			int OutBuffer1IndexY = 0;
-			for (int c = 0; c < padImage.cols - kernalCols + 1; c += stride)
-			{
-				float currentValue = 0.0;
-				for (int kr = 0; kr < kernalRows; kr++)
-				{
-					for (int kc = 0; kc < kernalCols; kc++)
-					{
-						for (int kch = 0; kch < kernalChannel; kch++)
-						{
-							currentValue += CurrentKernal.weight[kch][kr][kc] * padImage.imageData[kch][r + kr][c + kc];
-						}
-					}
-				}
-				bzactImage.imageData[kn][OutBuffer1IndexX][OutBuffer1IndexY] = currentValue + CurrentKernal.bias;
-				actImage.imageData[kn][OutBuffer1IndexX][OutBuffer1IndexY] = activate(currentValue + CurrentKernal.bias, activateType);
-				OutBuffer1IndexY++;
 
-			}
-			OutBuffer1IndexX++;
-		}
 
-	}
-
-}
-void CNNCalc::padding()
-{
-
-	for (int ch = 0; ch < padImage.channel; ch++)
-	{
-		for (int r = 0; r < padImage.rows; r++)
-		{
-			for (int c = 0; c < padImage.cols; c++)
-			{
-				if ((r < paddingrow) || (r > inputImage.rows + paddingrow - 1) || (c < paddingcol) || (c > inputImage.cols + paddingcol - 1))
-				{
-					padImage.imageData[ch][r][c] = 0;
-				}
-				else
-				{
-					padImage.imageData[ch][r][c] = inputImage.imageData[ch][r - paddingrow][c - paddingcol];
-				}
-
-			}
-		}
-	}
-}
-
-void CNNCalc::pooling()
-{
-	for (int kn = 0; kn < actImage.channel; kn++)
-	{
-		int outBuffer2IndexX = 0;
-		for (int r = 0; r < actImage.rows - poolingRow + 1; r += poolingStride)
-		{
-			int outBuffer2IndexY = 0;
-			for (int c = 0; c < actImage.cols - poolingCol + 1; c += poolingStride)
-			{
-				float currentValue = actImage.imageData[kn][r][c ];
-				for (int i = 0; i < poolingRow; i++)
-				{
-					for (int j = 0; j < poolingCol; j++)
-					{
-						if (poolingFun == 0)
-						{
-							if (actImage.imageData[kn][r + i][c + j] > currentValue)
-							{
-								currentValue = actImage.imageData[kn][r + i][c + j];
-							}
-						}
-						else
-						{
-							currentValue += actImage.imageData[kn][r + i][c + j] / (poolingRow * poolingCol);
-						}
-					}
-				}
-				outImage.imageData[kn][outBuffer2IndexX][outBuffer2IndexY] = currentValue;
-				outBuffer2IndexY++;
-			}
-			outBuffer2IndexX++;
-		}
-	}
-}
 void CNNCalc::SetInputSimd(image imago,int b)
 {
 
@@ -275,7 +128,6 @@ void CNNCalc::SetInputSimd(image imago,int b)
 }
 void CNNCalc::SetInputSimdV2(image imago, int b)
 {
-
 	float* imagoBase = imago.imageAtIndex(0);
 	float* inputImgBase = inputImage.imageAtIndex(b);
 	bool rowOk = inputImage.rows == imago.rows;
@@ -491,99 +343,6 @@ void CNNCalc::poolingSimdV2(int b)
 	}
 }
 
-float CNNCalc::activate(float a, int fun)
-{
-	if (fun == 2)
-	{//Relu
-		if (a < 0)
-		{
-			return 0;
-		}
-		else
-		{
-			return a;
-		}
-	}
-	else if (fun == 1)
-	{//sigmoid
-		return 1.0 / (1 + exp(-a));
-	}
-	else if (fun == 3)
-	{//tan
-		return (exp(a)-exp(-a)) / (exp(a) + exp(-a));
-	}
-	else if (fun == 4)
-	{
-		if (a < 0)
-		{
-			return exp(a) - 1;
-		}
-		else
-		{
-			return a;
-		}
-	}
-	else
-	{
-		if (a < 0)
-		{
-			return 0;
-		}
-		else
-		{
-			return a;
-		}
-	}
-}
-//bool CNNCalc::activateOperateSimd(int b)
-//{
-//	float* baseBzAct = bzactImage.imageAtIndex(b);
-//	float* baseAct = actImage.imageAtIndex(b);
-//	int offset = AlignBytes / sizeof(float);
-//	__m256 sum = _mm256_setzero_ps();
-//	if (activateType == 9)
-//	{//softmax
-//		float maxValue = 0.0;
-//		for (int i = 0;i < bzactImage.blockSize;i += 1)
-//		{//get max value x
-//			if (maxValue < *(baseBzAct + i))
-//			{
-//				maxValue = *(baseBzAct + i);
-//			}
-//		}
-//		__m256 maxReg = _mm256_set1_ps(maxValue);
-//		for (int i = 0;i < bzactImage.blockSize;i += offset)
-//		{//get sum of exp(x)
-//			__m256 bzReg = _mm256_load_ps(baseBzAct + i);
-//			bzReg = _mm256_sub_ps(bzReg, maxReg);
-//			bzReg = _mm256_exp_ps(bzReg);
-//			sum = _mm256_add_ps(sum, bzReg);
-//		}
-//
-//		sum = _mm256_hadd_ps(sum, sum);
-//		sum = _mm256_hadd_ps(sum, sum);
-//		float sumexp = sum.m256_f32[0] + sum.m256_f32[4];
-//		sum = _mm256_set1_ps(sumexp);
-//		for (int i = 0;i < bzactImage.blockSize;i += offset)
-//		{//get exp(x)/sum(exp(x))
-//			__m256 bzReg = _mm256_load_ps(baseBzAct + i);
-//			bzReg = _mm256_sub_ps(bzReg, maxReg);
-//			bzReg = _mm256_exp_ps(bzReg);
-//			bzReg = _mm256_div_ps(bzReg, sum);
-//			_mm256_stream_ps(baseAct + i, bzReg);
-//		}
-//	}
-//	else
-//	{
-//		for (int i = 0;i < bzactImage.blockSize;i += offset)
-//		{
-//			__m256 bzReg = _mm256_load_ps(baseBzAct + i);
-//			bzReg = activateSingleSimd(bzReg, activateType);
-//			_mm256_stream_ps(baseAct + i, bzReg);
-//		}
-//	}
-//	return true;
-//}
 bool CNNCalc::activateOperateSimd(int b)
 {
 	float* baseBzAct = bzactImage.imageAtIndex(b);
@@ -719,8 +478,24 @@ void CNNCalc::initKernals(int wtsRow, int wtsCol, int wtsChannel, int ns,int str
 	BL.aKernal.initKernal(0);
 	isSetConfig = true;
 	BL.TMatrixKernalSimd(CNNKernals, CNNKernalsRotate180Simd, neuroNums);
+
+	
 }
 
+void CNNCalc::initBNParas()
+{
+	myBatchNorm.initParas();
+	if (myBatchNorm.getPos() == 1)
+	{
+		myBatchNorm.linkImage(bzactImage);
+
+	}
+	else if (myBatchNorm.getPos() == 2)
+	{
+		myBatchNorm.linkImage(actImage);
+	}
+	myBatchNorm.preCalcParas();
+}
 
 void CNNCalc::initLayerMemory(int inRows, int inCols, int inChannel)
 {
@@ -818,6 +593,66 @@ void CNNCalc::initLayerSize(int inRows, int inCols, int inChannel)
 		outImage.cols = actImage.cols;
 	}
 }
+
+
+///////////////bath norm and res link functions
+void CNNCalc::setBatchNorm(int len, int bnp, float sv)
+{
+	myBatchNorm.setBatchNorm(len,(BNPosition) bnp, sv);
+}
+void CNNCalc::layerBNCalc(image preImage,int toi,int b)
+{
+	if((TrainOrInference)toi==train)
+	{
+		barrier.wait();
+		if (b == 0)
+		{
+			updateBNParas(preImage);
+		}
+		barrier.wait();
+	}
+	myBatchNorm.calcBN((TrainOrInference)toi, preImage, b);	
+}
+bool CNNCalc::LaunchConvolutionBySimdBN(int toi, int b)
+{
+	if (isSetData && isSetConfig)
+	{
+		paddingSimd(b);
+		if (thisLayerType == CONVOLUTION)
+		{	
+			ConvolutionSimd(b);
+			if (myBatchNorm.getPos() == 1)
+			{
+				layerBNCalc(bzactImage, toi, b);
+			}
+		    myResLink.resAdd(bzactImage,b);
+			activateOperateSimd(b);
+			if (myBatchNorm.getPos() == 2)
+			{
+				layerBNCalc(actImage, toi, b);
+			}
+			poolingSimdV2(b);
+		}
+		else
+		{
+			ConvolutionSimdFullyConv(b);
+			activateOperateSimd(b);
+		}
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+void CNNCalc::updateBNParas(image preImage)
+{
+	if (myBatchNorm.getPos() != BNUnkown)
+	{
+		myBatchNorm.updateBNParas(preImage);
+	}
+}
+//void setResLink(bool rs, image lastimage)
 void CNNCalc::freeLayerMemory()
 {
 	inputImage.freeImageSpace();
@@ -842,11 +677,17 @@ void CNNCalc::freeLayerMemory()
 		}
 	
 	}
+	if (HideLayerNumth == 0)
+	{
+		BL.dIdealInoutVSdO.freeImageSpace();
+	}
+	//myBatchNorm.deleteSpace();
 	_mm_free(BL.IdealOut);
 	_mm_free(BL.VBias);
 }
-void CNNCalc::initLayerMemoryV2(int batchSize)
+void CNNCalc::initLayerMemoryV2( int batchSize)
 {
+	barrier.initBarrier(batchSize);
 
 	inputImage.initImage(0,batchSize);
 	padImage.initImage(0, batchSize);
@@ -857,6 +698,7 @@ void CNNCalc::initLayerMemoryV2(int batchSize)
 //	std::cout << "activated image is initialized~" << std::endl;
 	setOutBuffer2(batchSize);
 //	std::cout << "Out image is initialized~" << std::endl;
+
 	dkernalSeries.clear();
 	for (int b = 0;b < std::max(3,batchSize);b++)
 	{
@@ -874,22 +716,38 @@ void CNNCalc::initLayerMemoryV2(int batchSize)
 	BL.IdealOut= (float*)_mm_malloc(batchSize *outImage.blockSize * sizeof(float), AlignBytes);
 	BL.VBias = (float*)_mm_malloc(batchSize*AlignVec(neuroNums, offset) * sizeof(float), AlignBytes);
 
+	myBatchNorm.initSpace(batchSize);
+
 	isBufferInitiated = true;
 }
+void CNNCalc::linkPreImageRes(image resImage)
+{
+	myResLink.linkPreImage(resImage);
+}
+
+
+
+
 void CNNCalc::setOutBuffer(int batchSize)
 {
-
 	actImage.initImage(0, batchSize);
 	bzactImage.initImage(0, batchSize);
 	dpoolingIMG.channel = actImage.channel;
 	dpoolingIMG.rows = actImage.rows;
 	dpoolingIMG.cols = actImage.cols;
 	dpoolingIMG.initImage(0, batchSize);
+	outImage.initImage(0, batchSize);
 }
 
 void CNNCalc::setOutBuffer2(int batchSize)
 {
-	outImage.initImage(0, batchSize);
+	if (HideLayerNumth == 0)
+	{
+		BL.dIdealInoutVSdO.channel = inputImage.channel;
+		BL.dIdealInoutVSdO.rows = inputImage.rows;
+		BL.dIdealInoutVSdO.cols = inputImage.cols;
+		BL.dIdealInoutVSdO.initImage(0, batchSize);
+	}
 	BL.dIdealOutVSdO.channel = neuroNums;
 	BL.dIdealOutVSdO.rows = outImage.rows;
 	BL.dIdealOutVSdO.cols = outImage.cols;
@@ -951,88 +809,51 @@ image CNNCalc::getOutImage()
 		return actImage;
 	}	
 }
-bool CNNCalc::UpdateLayerLoss(image& retImage)
-{//update dC/dI
-	
-	
-	bool ret = true;
-	BL.TMatrixKernal(CNNKernals, CNNKernalsRotate180, neuroNums);
-	
-	if (thisLayerType == layerType::CONVOLUTION)
-	{
-		ret = BL.dPooling(actImage, BL.dIdealOutVSdO, poolingRow, poolingCol, poolingStride, dpoolingIMG);
-		//dc/dA=dC/dOut(.)dOut/dA
-		if (ret)
-		{		
-			ret = BL.dConvolutionX(inputImage, dpoolingIMG, bzactImage,CNNKernalsRotate180, neuroNums, stride,retImage);
-		}
-	}
-	else if (thisLayerType == layerType::FULLYCONNECTION)
-	{
-		ret = BL.dConvolutionX(inputImage, BL.dIdealOutVSdO, bzactImage, CNNKernalsRotate180, neuroNums, stride,retImage);
-		
-	}
-	else
-	{
-		ret = false;
-	}
-	
-	return ret;
 
-}
-
-bool CNNCalc::UpdateLayerLossSimd(image& retImage,int b)
+bool CNNCalc::UpdateLayerLossSimd( int b)
 {//update dC/dI
 	bool ret = true;
-	ret=BL.dActivateOperateSimd(bzactImage, actImage, b);
+
+	ret = BL.dActivateOperateSimd(bzactImage, actImage, b);
 	if (thisLayerType == layerType::CONVOLUTION)
 	{
-		//BL.TMatrixKernalSimd(CNNKernals, CNNKernalsRotate180Simd, neuroNums);//IT should be put out of detached thread
-		ret = BL.dPoolingSimd(actImage, BL.dIdealOutVSdO, poolingRow, poolingCol, poolingStride, dpoolingIMG,b);	
-		if (ret)
+		ret &= BL.dPoolingSimd(actImage, BL.dIdealOutVSdO, poolingRow, poolingCol, poolingStride, dpoolingIMG, b);
+
+		if (myBatchNorm.getPos() == 2)
 		{
-			ret = BL.dConvolutionXSimd(inputImage, dpoolingIMG, BL.dbzImageBe4pad, CNNKernalsRotate180Simd, neuroNums, stride, retImage,b);
-			//std::cout << "dConvolutionXSimd matrix sucee" << std::endl;
-		}
-	}
-	else if (thisLayerType == layerType::FULLYCONNECTION)
-	{
-		ret = BL.dFullyConvolutionXSimd(inputImage, BL.dIdealOutVSdO, BL.dbzImageBe4pad, CNNKernals, neuroNums, retImage,b);
-	}
-	else
-	{
-		ret = false;
-	}
-
-	return ret;
-
-}
-
-
-bool CNNCalc::setOutLossss(image umg)
-{
-	if ((BL.dIdealOutVSdO.channel == umg.channel) && (BL.dIdealOutVSdO.rows == umg.rows) && (BL.dIdealOutVSdO.cols == umg.cols))
-	{
-		for (int ch = 0; ch < umg.channel;ch++)
-		{
-			for (int r = 0; r < umg.rows; r++)
+			barrier.wait();
+			if (b == 0)
 			{
-				for (int c = 0; c < umg.cols; c++)
-				{
-					BL.dIdealOutVSdO.imageData[ch][r][c] = umg.imageData[ch][r][c];
-				}
+				ret &= myBatchNorm.derivativeDLDx(dpoolingIMG, dpoolingIMG, b);
 			}
+			barrier.wait();
 		}
+		ret &= BL.dActMultidLdy(dpoolingIMG, BL.dbzImageBe4pad, BL.dbzImageBe4pad, b);
+		if (myBatchNorm.getPos() == 1)
+		{		
+			barrier.wait();
+			if (b == 0)
+			{
+				ret &= myBatchNorm.derivativeDLDx(BL.dbzImageBe4pad, BL.dbzImageBe4pad, b);
+			}
+			barrier.wait();
+		}
+		ret &= BL.dConvolutionXSimd(inputImage, BL.dbzImageBe4pad, CNNKernalsRotate180Simd, neuroNums, stride, BL.dIdealInoutVSdO, b);
+	}
+	else if (thisLayerType == layerType::FULLYCONNECTION)
+	{
+		ret &= BL.dActMultidLdy(BL.dIdealOutVSdO, BL.dbzImageBe4pad, BL.dbzImageBe4pad, b);
+		ret &= BL.dFullyConvolutionXSimd(inputImage, BL.dIdealOutVSdO, BL.dbzImageBe4pad, CNNKernals, neuroNums, BL.dIdealInoutVSdO, b);
 	}
 	else
 	{
-		std::cout << "ideal out is not matched to that of updated loss" << std::endl;
-		return false;
+		ret = false;
 	}
-	
-	
-	return true;
+
+	return ret;
+
 }
+
 bool CNNCalc::setOutLossssSimd(image umg,int b)
 {
 	if ((BL.dIdealOutVSdO.channel == umg.channel) && (BL.dIdealOutVSdO.rows == umg.rows) && (BL.dIdealOutVSdO.cols == umg.cols))
@@ -1048,40 +869,7 @@ bool CNNCalc::setOutLossssSimd(image umg,int b)
 
 	return true;
 }
-void CNNCalc::AccumulateDW(float learnrate,int bs)
-{//update weights
-	bool ret = true;
-	for (int i = 0; i < neuroNums;i++)
-	{
-		dkernal[i].apply(0.0);
-	}
-	if (thisLayerType == layerType::CONVOLUTION)
-	{
-		ret = BL.dPooling(actImage, BL.dIdealOutVSdO,poolingRow,poolingCol,poolingStride, dpoolingIMG);
-		//dc/dA=dC/dOut(.)dOut/dA
-		if (ret)
-		{		
-			ret = BL.dConvolutionW(inputImage, dpoolingIMG, bzactImage, dkernal, neuroNums,stride);
-		}
-	}
-	else if (thisLayerType == layerType::FULLYCONNECTION)
-	{
-		ret = BL.dConvolutionW(inputImage, BL.dIdealOutVSdO, bzactImage, dkernal, neuroNums,stride);
-	}
-	else
-	{
-		ret = false;
-	}
 
-	if (ret)
-	{
-		for (int kn = 0; kn < neuroNums; kn++)
-		{
-			dkernal[kn].apply(-learnrate/bs);
-			BL.ShadowMoment[kn] += dkernal[kn];
-		}
-	}
-}
 void CNNCalc::AccumulateDWSimd(float learnrate, int bs, int b)
 {//update weights
 	bool ret = true;
@@ -1089,30 +877,23 @@ void CNNCalc::AccumulateDWSimd(float learnrate, int bs, int b)
 	{
 		dkernalSeries.at(b)[i].applySimd(0.0);
 	}
-	if (HideLayerNumth == 0)
-	{
-		ret = BL.dActivateOperateSimd(bzactImage, actImage, b);
-		ret = BL.dPoolingSimd(actImage, BL.dIdealOutVSdO, poolingRow, poolingCol, poolingStride, dpoolingIMG, b);
-	}
 	if (thisLayerType == layerType::CONVOLUTION)
 	{
-		//ret = BL.dPoolingSimd(actImage, BL.dIdealOutVSdO, poolingRow, poolingCol, poolingStride, dpoolingIMG, b);
-		//dc/dA=dC/dOut(.)dOut/dA
-		if (ret)
+
+		if (myBatchNorm.getPos() == 2)
 		{
-			ret = BL.dConvolutionWSimd(inputImage, dpoolingIMG, BL.dbzImageBe4pad, dkernalSeries.at(b), neuroNums, stride, b);
+			ret &=myBatchNorm.derivativeDLDw(dpoolingIMG, b);
+			//waiting
 		}
+		else if (myBatchNorm.getPos() == 1)
+		{
+			ret &= myBatchNorm.derivativeDLDw(BL.dbzImageBe4pad, b);
+		}
+		ret &= BL.dConvolutionWSimd(inputImage, BL.dbzImageBe4pad, dkernalSeries.at(b), neuroNums, stride, b);
 	}
-	else if (thisLayerType == layerType::FULLYCONNECTION)
+	else if(thisLayerType == layerType::FULLYCONNECTION)
 	{
-		ret = BL.dConvolutionWSimd(inputImage, BL.dIdealOutVSdO, BL.dbzImageBe4pad, dkernalSeries.at(b), neuroNums, stride, b);
-	}
-}
-void CNNCalc::UpdateLayerWB()
-{//SGD
-	for (int k = 0; k < neuroNums; k++)
-	{
-		CNNKernals[k]+= dkernalSeries.at(0)[k];
+		ret &= BL.dConvolutionWSimd(inputImage, BL.dbzImageBe4pad, dkernalSeries.at(b), neuroNums, stride, b);
 	}
 }
 
@@ -1123,13 +904,14 @@ void CNNCalc::addDKernalShadow(int b)
 	{
 			dkernalSeries.at(0)[k].addSimd(dkernalSeries.at(b)[k]);
 	}
-	//if (HideLayerNumth == 1)
-	//{
-	//	dkernalSeries.at(0)->printKernal(1, "HideLayerNumth=1");
-	//}
+	myBatchNorm.accumulateDW(b);
 }
 void CNNCalc::UpdateLayerWBSimd(float learnrate, float l2Lamda,int bs)
 {
+	if (myBatchNorm.getPos() > 0)
+	{
+		myBatchNorm.mysweetfc(learnrate, 0.9, 0.99, 1e-6, l2Lamda, 1000);
+	}
 	for (int k = 0; k < neuroNums; k++)		
 	{
 		dkernalSeries.at(0)[k].applySimd(-learnrate / sqrt(bs));
@@ -1144,6 +926,10 @@ void CNNCalc::UpdateLayerWBSimd(float learnrate, float l2Lamda,int bs)
 
 void CNNCalc::UpdateLayerWBSGDM(float learnrate,float beta1, float l2Lamda,int t)
 {//SGDM
+	if (myBatchNorm.getPos() > 0)
+	{
+		myBatchNorm.mysweetfc(learnrate, beta1, 0.99, 1e-6, l2Lamda, t);
+	}
 	for (int k = 0; k < neuroNums; k++)
 	{
 		BL.ShadowMoment[k].applySimd(beta1);
@@ -1163,6 +949,10 @@ void CNNCalc::UpdateLayerWBSGDM(float learnrate,float beta1, float l2Lamda,int t
 }
 void CNNCalc::UpdateLayerWBSGDMW(float learnrate, float beta1, float l2Lamda, int t)
 {//SGDM
+	if (myBatchNorm.getPos() > 0)
+	{
+		myBatchNorm.mysweetfc(learnrate, beta1, 0.99, 1e-6, l2Lamda, t);
+	}
 	for (int k = 0; k < neuroNums; k++)
 	{
 		BL.ShadowMoment[k].applySimd(beta1);
@@ -1183,17 +973,23 @@ void CNNCalc::UpdateLayerWBSGNAD(float learnrate, float beta1, float l2Lamda, in
 	/*
 	* m(t)=beta*m(t-1)+(1-beta)*(g(t)-g(t-1))/(1-beta^t)
 	*/
+	if (myBatchNorm.getPos() > 0)
+	{
+		myBatchNorm.mysweetfc(learnrate, beta1, 0.99, 1e-6, l2Lamda, t);
+	}
 	for (int k = 0; k < neuroNums; k++)
 	{	
 		BL.ShadowMoment[k].applySimd(beta1);//m(t-1)*beta
 		dkernalSeries.at(0)[k].applySimd((1 - beta1) / (1 - std::powf(beta1, t)));//g(t)*(1-beta)/(1-beta^t)
 		BL.ShadowMoment[k].addSimd(dkernalSeries.at(0)[k]);//m(t)=m(t-1)*beta+g(t)*(1-beta)/(1-beta^t)
-		dkernalSeries.at(0)[k].applySimd(-learnrate);
+		dkernalSeries.at(0)[k].copySimd(BL.ShadowMoment[k]);//m(t)=m(t-1)*beta+g(t)*(1-beta)/(1-beta^t)
+
+		dkernalSeries.at(0)[k].applySimd(-learnrate*(1+beta1));
 		CNNKernals[k].addSimd(dkernalSeries.at(0)[k]);//w(t)-alpha*(1-beta)*g(t)
 
-		dkernalSeries.at(0)[k].copySimd(BL.ShadowMoment[k]);//save m(t)' to dkernal
-		dkernalSeries.at(0)[k].applySimd(-learnrate*beta1);// m(t)'*(alpha*beta) 
-		CNNKernals[k].addSimd(dkernalSeries.at(0)[k]);//w(t)-alpha*(beta)*m(t)'
+	//	dkernalSeries.at(0)[k].copySimd(BL.ShadowMoment[k]);//save m(t)' to dkernal
+	//	dkernalSeries.at(0)[k].applySimd(-learnrate*beta1);// m(t)'*(alpha*beta) 
+	//	CNNKernals[k].addSimd(dkernalSeries.at(0)[k]);//w(t)-alpha*(beta)*m(t)'
 	}
 	BL.TMatrixKernalSimd(CNNKernals, CNNKernalsRotate180Simd, neuroNums);
 }
@@ -1203,6 +999,10 @@ void CNNCalc::UpdateLayerWBADAM(float learnrate, float beta1, float beta2, float
 	* m(t)=beta1*m(t-1)+(1-beta1)*g(t)
 	* V(t)=max{V(t-1),beta2*V(t-1)+(1-beta2)*g(t)^2}
 	*/
+	if (myBatchNorm.getPos() > 0)
+	{
+		myBatchNorm.mysweetfc(learnrate, beta1, beta2, sigma, l2Lamda, t);
+	}
 	for (int k = 0; k < neuroNums; k++)
 	{
 		BL.ShadowMoment[k].applySimd(beta1);//m(t-1)*beta
@@ -1224,7 +1024,7 @@ void CNNCalc::UpdateLayerWBADAM(float learnrate, float beta1, float beta2, float
 
 		dkernalSeries.at(1)[k].sqrtSimd();//sqrt(Vt')
 		dkernalSeries.at(2)[k].copySimd(BL.ShadowMoment[k]);
-		dkernalSeries.at(2)[k].divSimd(dkernalSeries.at(1)[k], sigma);//m(t)/(sqrt(t)+sigma)
+		dkernalSeries.at(2)[k].divSimd(dkernalSeries.at(1)[k], sigma);//m(t)/(sqrt(Vt)+sigma)
 
 		dkernalSeries.at(2)[k].applySimd(-learnrate);
 		CNNKernals[k].addSimd(dkernalSeries.at(2)[k]);//w(t)-alpha*(1-beta)*g(t)
@@ -1239,6 +1039,10 @@ void CNNCalc::UpdateLayerWBADAMW(float learnrate, float beta1,float beta2,float 
 	* m(t)=beta1*m(t-1)+(1-beta1)*g(t)
 	* V(t)=max{V(t-1),beta2*V(t-1)+(1-beta2)*g(t)^2}
 	*/
+	if (myBatchNorm.getPos() > 0)
+	{
+		myBatchNorm.mysweetfc(learnrate, beta1, beta2, sigma, l2Lamda, t);
+	}
 	for (int k = 0; k < neuroNums; k++)
 	{	
 		BL.ShadowMoment[k].applySimd(beta1);//m(t-1)*beta
@@ -1270,81 +1074,30 @@ void CNNCalc::UpdateLayerWBADAMW(float learnrate, float beta1,float beta2,float 
 	}
 	BL.TMatrixKernalSimd(CNNKernals, CNNKernalsRotate180Simd, neuroNums);
 }
-bool CNNCalc::BackLayer::dConvolutionX(image inPa, image outZ,image bzactImage, kernal* K180, int Kn, int stride, image& dImage)
-{//(4) 
-	int kernalcol = K180[0].col;
-	int kernalrow = K180[0].row;
-	if (outZ.channel != Kn)
-	{
-		return false;
-	}
-	dactImage.apllyratio(0.0);
-	dbzImage.apllyratio(0.0);
-	bool ret = true;
-
-	innerPadding(outZ, dactImage, stride - 1, stride - 1);
-	innerPadding(bzactImage, dbzImage, stride - 1, stride - 1);
-
-	dImage.rows = inPa.rows;
-	dImage.cols = inPa.cols;
-	dImage.channel = inPa.channel;
-	dImage.initImage();
-	int ConvolutionX = 0;
-	int ConvolutionY = 0;
-	for (int ch = 0; ch < inPa.channel; ch++)
-	{
-		ConvolutionX = 0;
-		for (int r = 0; r < dactImage.rows - kernalrow+1; r += 1)
-		{
-			ConvolutionY = 0;
-			for (int c = 0; c < dactImage.cols-kernalcol+1; c += 1)
-			{
-				float currentValue = 0.0;
-				for (int k = 0; k < Kn; k++)
-				{
-					for (int kr = 0; kr < K180[k].row; kr++)
-					{
-						for (int kc = 0; kc < K180[k].col; kc++)
-						{
-							float dValue = dactivate(dbzImage.imageData[k][r + kr][c + kc], acttype)*dactImage.imageData[k][r + kr][c + kc];
-							currentValue += K180[k].weight[ch][kr][kc] * dValue;
-						}
-					}
-				}
-				dImage.imageData[ch][ConvolutionX][ConvolutionY] = currentValue;
-				ConvolutionY++;
-			}
-			ConvolutionX++;
-		}
-	}
-	/*dactImage.freeImage();
-	dbzImage.freeImage();*/
-	return true;
-}
-bool CNNCalc::BackLayer::dConvolutionXSimd(image inPa, image outZ, image dbzactImageBe4Pad, kernal* K180, int Kn, int stride, image& dImage, int b)
+bool CNNCalc::BackLayer::dConvolutionXSimd(image inPa,  image dbzactImageBe4Pad, kernal* K180, int Kn, int stride, image& dImage, int b)
 {//(4) 
 	bool ret = true;
 	int kernalcol = K180[0].col;
 	int kernalrow = K180[0].row;
-	if (outZ.channel != Kn)
+	if (dbzactImageBe4Pad.channel != Kn)
 	{
 		std::cout << "ideal image size is not equal to the neuros~" << std::endl;
 		ret= false;
 	}
-	dactImage.apllyratioSimd(0.0,b);
+	//dactImage.apllyratioSimd(0.0,b);
 	dbzImage.apllyratioSimd(0.0,b);
-	innerPaddingSimd(outZ, dactImage, stride - 1, stride - 1,b);
+	//innerPaddingSimd(outZ, dactImage, stride - 1, stride - 1,b);
 	innerPaddingSimd(dbzactImageBe4Pad, dbzImage, stride - 1, stride - 1,b);
 	if((dImage.rows == inPa.rows) && (dImage.cols == inPa.cols) && (dImage.channel == inPa.channel))
 	{
 		int offset = AlignBytes / sizeof(float);
 		trpDim kernalSz(kernalrow, kernalcol, Kn);
-		dactImage.im2row(kernalSz, 1,b);
+		//dactImage.im2row(kernalSz, 1,b);
 		dbzImage.im2row(kernalSz, 1,b);
 		int ConvolutionX = 0;
 		int ConvolutionY = 0;
-		size_t rowStrp = dactImage.rows - kernalrow + 1;
-		size_t colStrp = dactImage.cols - kernalcol + 1;
+		size_t rowStrp = dbzImage.rows - kernalrow + 1;
+		size_t colStrp = dbzImage.cols - kernalcol + 1;
 		size_t reorderRow = rowStrp * colStrp;
 		size_t reorderCol = AlignVec(kernalrow * kernalcol * Kn,offset);
 
@@ -1356,18 +1109,18 @@ bool CNNCalc::BackLayer::dConvolutionXSimd(image inPa, image outZ, image dbzactI
 			{
 				float currentValue = 0.0;
 				float* dbzImageBase = dbzImage.rowImg+ dbzImage .rowImgBlockSize*b+ ir * reorderCol;
-				float* dactImageBase = dactImage.rowImg + dactImage.rowImgBlockSize * b + ir * reorderCol;
+				//float* dactImageBase = dactImage.rowImg + dactImage.rowImgBlockSize * b + ir * reorderCol;
 				float* cvWeright = K180[ch].vWeight;
 				__m256 sumRegister = _mm256_setzero_ps();
 				for (int ic = 0;ic < reorderCol;ic += offset)
 				{
-					__m256 dactLine = _mm256_load_ps(dactImageBase + ic);
-					//__m256 dbzactLine = _mm256_load_ps(dbzImageBase + ic);
-					//__m256 dbzactLineAct = dactivateSimd(dbzactLine ,acttype);
+					//__m256 dactLine = _mm256_load_ps(dactImageBase + ic);
+
 					__m256 dbzactLineAct = _mm256_load_ps(dbzImageBase + ic);
 					__m256 wLine = _mm256_load_ps(cvWeright + ic);
-					__m256 mulLine = _mm256_mul_ps(dactLine, dbzactLineAct);
-					sumRegister = _mm256_fmadd_ps(mulLine, wLine, sumRegister);
+					//__m256 mulLine = _mm256_mul_ps(dactLine, dbzactLineAct);
+					//sumRegister = _mm256_fmadd_ps(mulLine, wLine, sumRegister);
+					sumRegister = _mm256_fmadd_ps(dbzactLineAct, wLine, sumRegister);
 				}
 				sumRegister = _mm256_hadd_ps(sumRegister, sumRegister);
 				sumRegister = _mm256_hadd_ps(sumRegister, sumRegister);
@@ -1417,14 +1170,15 @@ bool CNNCalc::BackLayer::dFullyConvolutionXSimd(image inPa, image outZ, image db
 			__m256 sumR = _mm256_setzero_ps();
 			for (int k = 0;k < Kn;k++)
 			{
-				__m256 outImageR = _mm256_set1_ps(outZ.imageAtIndex(b)[k]);
+				//__m256 outImageR = _mm256_set1_ps(outZ.imageAtIndex(b)[k]);
 				//__m256 bzRegister = _mm256_set1_ps(bzactImage.imageAtIndex(b)[k]);
 				__m256 dbzRegister = _mm256_set1_ps(dbzactImageBe4Pad.imageAtIndex(b)[k]);
 				float* cWpointer = kernalSeries[k].vWeight + i;
 				__m256 wRegister = _mm256_load_ps(cWpointer);
 				//__m256 dbzRegister = dactivateSimd(bzRegister, acttype);
-				__m256 ddImage = _mm256_mul_ps(wRegister, dbzRegister);
-				sumR = _mm256_fmadd_ps(ddImage, outImageR, sumR);
+				//__m256 ddImage = _mm256_mul_ps(wRegister, dbzRegister);
+				//sumR = _mm256_fmadd_ps(ddImage, outImageR, sumR);
+				sumR = _mm256_fmadd_ps(wRegister, dbzRegister, sumR);
 			}
 			float* dst = dImage.imageAtIndex(b) + i;
 			_mm256_stream_ps(dst, sumR);
@@ -1433,93 +1187,37 @@ bool CNNCalc::BackLayer::dFullyConvolutionXSimd(image inPa, image outZ, image db
 
 	return ret;
 }
-bool CNNCalc::BackLayer::dConvolutionW(image inPa, image outZ, image bzactImage, kernal*& dkernal, int Kn, int stride)
-{
-	//dactImageW.apllyratio(0.0);
-	//dbzImageW.apllyratio(0.0);
 
-	innerPadding(outZ, dactImageW, stride - 1, stride - 1);
-	innerPadding(bzactImage, dbzImageW, stride - 1, stride - 1);
-
-
-	for (int k = 0; k < Kn; k++)
-	{
-		double subBiasValue = 0.0;
-		for (int i = 0; i < dactImageW.rows; i++)
-		{
-			for (int j = 0; j < dactImageW.cols; j++)
-			{
-				double dvalue = dactImageW.imageData[k][i][j] * dactivate(dbzImageW.imageData[k][i][j], acttype);
-				subBiasValue += dvalue;
-			}
-		}
-		dkernal[k].bias = subBiasValue;
-	}
-
-	int WX = 0;
-	int WY = 0;
-	for (int k = 0; k < Kn; k++)
-	{
-		for (int ch = 0; ch < inPa.channel; ch++)
-		{
-			WX = 0;
-			for (int r = 0; r < inPa.rows-dactImageW.rows+1; r++)
-			{
-				WY = 0;
-				for (int c = 0; c < inPa.cols-dactImageW.cols+1; c++)
-				{
-					float currentValue = 0;
-					for (int i = 0; i < dactImageW.rows; i++)
-					{
-						for (int j = 0; j < dactImageW.cols; j++)
-						{
-							float dvalue= dactivate(dbzImageW.imageData[k][i][j], acttype) * dactImageW.imageData[k][i][j];
-							currentValue += inPa.imageData[ch][r + i][c + j] * dvalue;
-						}
-					}
-					dkernal[k].weight[ch][WX][WY] = currentValue;
-					WY++;
-				}
-				WX++;
-			}
-			
-		}
-	}
-	return true;
-}
-
-bool CNNCalc::BackLayer::dConvolutionWSimd(image inPa, image outZ, image dbzactImageBe4Pad, kernal*& dkernal, int Kn, int stride, int b)
+bool CNNCalc::BackLayer::dConvolutionWSimd(image inPa, image dbzactImageBe4Pad, kernal*& dkernal, int Kn, int stride, int b)
 {//ret = BL.dConvolutionWSimd(inputImage, dpoolingIMG, bzactImage, dkernal, neuroNums, stride);
 
-	innerPaddingSimd(outZ, dactImageW, stride - 1, stride - 1,b);
+	//innerPaddingSimd(outZ, dactImageW, stride - 1, stride - 1,b);
 	innerPaddingSimd(dbzactImageBe4Pad, dbzImageW, stride - 1, stride - 1,b);
 	size_t offset = AlignBytes / sizeof(float);
 	size_t offset16 = AlignBytes16 / sizeof(float);
-	size_t cols = dactImageW.cols;
+	size_t cols = dbzImageW.cols;
 	size_t k = 0;
 //	float* VBias = (float*)_mm_malloc(Kn * sizeof(float), AlignBytes);
 	float* VBaseBias = VBias + b * AlignVec(Kn, offset);
-	for (int i = 0;i < dactImageW.blockSize;i += offset)
-	{
-		__m256 dactWReg = _mm256_load_ps(dactImageW.imageAtIndex(b) + i);
-		__m256 dbzActWReg = _mm256_load_ps(dbzImageW.imageAtIndex(b) + i);
-		__m256 mulReg = _mm256_mul_ps(dactWReg, dbzActWReg);
-		_mm256_stream_ps(dbzImageW.imageAtIndex(b) + i, mulReg);
-	}
+	//for (int i = 0;i < dbzImageW.blockSize;i += offset)
+	//{
+	//	//__m256 dactWReg = _mm256_load_ps(dactImageW.imageAtIndex(b) + i);
+	//	__m256 dbzActWReg = _mm256_load_ps(dbzImageW.imageAtIndex(b) + i);
+	//	//__m256 mulReg = _mm256_mul_ps(dactWReg, dbzActWReg);
+	//	//_mm256_stream_ps(dbzImageW.imageAtIndex(b) + i, mulReg);
+	//	_mm256_stream_ps(dbzImageW.imageAtIndex(b) + i, dbzActWReg);
+	//}
 	for (;k + offset - 1 < Kn;k +=offset)
 	{
-		float* baseImgPointerAct = dactImageW.imageAtIndex(b) + k;
+		//float* baseImgPointerAct = dactImageW.imageAtIndex(b) + k;
 		float* baseImgPointerBaact = dbzImageW.imageAtIndex(b) + k;
 		__m256 sumRegistr = _mm256_setzero_ps();
 		for (size_t i = 0; i < dactImageW.rows; i++)
 		{
 			for (size_t j = 0; j < dactImageW.cols; j++)
 			{
-				__m256 currentLoadDact= _mm256_loadu_ps(baseImgPointerAct + j * Kn + i * Kn * cols);
-				//__m256 currentLoadBz= _mm256_loadu_ps(baseImgPointerBaact + j * Kn + i * Kn * cols);
+				//__m256 currentLoadDact= _mm256_loadu_ps(baseImgPointerAct + j * Kn + i * Kn * cols);
 				__m256 dactivateBz = _mm256_loadu_ps(baseImgPointerBaact + j * Kn + i * Kn * cols);
-				//__m256 dactivateBz = dactivateSimd(currentLoadBz,acttype);
-				//sumRegistr = _mm256_fmadd_ps(dactivateBz, currentLoadDact, sumRegistr);
 				sumRegistr = _mm256_add_ps(dactivateBz, sumRegistr);
 			}
 		}
@@ -1527,14 +1225,14 @@ bool CNNCalc::BackLayer::dConvolutionWSimd(image inPa, image outZ, image dbzactI
 	}
 	for (;k + offset16 - 1 < Kn;k += offset16)
 	{
-		float* baseImgPointerAct = dactImageW.imageAtIndex(b) + k;
+		//float* baseImgPointerAct = dactImageW.imageAtIndex(b) + k;
 		float* baseImgPointerBaact = dbzImageW.imageAtIndex(b) + k;
 		__m128 sumRegistr = _mm_setzero_ps();
 		for (size_t i = 0; i < dactImageW.rows; i++)
 		{
 			for (size_t j = 0; j < dactImageW.cols; j++)
 			{
-				__m128 currentLoadDact = _mm_loadu_ps(baseImgPointerAct + j * Kn + i * Kn * cols);
+				//__m128 currentLoadDact = _mm_loadu_ps(baseImgPointerAct + j * Kn + i * Kn * cols);
 				//__m128 currentLoadBz = _mm_loadu_ps(baseImgPointerBaact + j * Kn + i * Kn * cols);
 				//__m128 dactivateBz = dactivateSimd128(currentLoadBz, acttype);
 				__m128 dactivateBz = _mm_loadu_ps(baseImgPointerBaact + j * Kn + i * Kn * cols);
@@ -1546,19 +1244,19 @@ bool CNNCalc::BackLayer::dConvolutionWSimd(image inPa, image outZ, image dbzactI
 	}
 	for (;k < Kn;k += 1)
 	{
-		float* baseImgPointerAct = dactImageW.imageAtIndex(b) + k;
+		//float* baseImgPointerAct = dactImageW.imageAtIndex(b) + k;
 		float* baseImgPointerBaact = dbzImageW.imageAtIndex(b) + k;
 		float sumRegistr = 0;
 		for (size_t i = 0; i < dactImageW.rows; i++)
 		{
 			for (size_t j = 0; j < dactImageW.cols; j++)
 			{
-				float currentLoadDact = *(baseImgPointerAct + j * Kn + i * Kn * cols);
+				//float currentLoadDact = *(baseImgPointerAct + j * Kn + i * Kn * cols);
 			//	float currentLoadBz = *(baseImgPointerBaact + j * Kn + i * Kn * cols);
 			//	float dactivateBz = dactivate(currentLoadBz, acttype);
 				float dactivateBz = *(baseImgPointerBaact + j * Kn + i * Kn * cols);
 				//sumRegistr = dactivateBz * currentLoadDact + sumRegistr;
-			sumRegistr = dactivateBz + sumRegistr;
+				sumRegistr = dactivateBz + sumRegistr;
 			}
 		}
 		*(VBaseBias + k)= sumRegistr;
@@ -1579,20 +1277,20 @@ bool CNNCalc::BackLayer::dConvolutionWSimd(image inPa, image outZ, image dbzactI
 		for (; ch+offset-1 < inPa.channel; ch+=offset)
 		{
 			WX = 0;
-			for (int r = 0; r < inPa.rows - dactImageW.rows + 1; r++)
+			for (int r = 0; r < inPa.rows - dbzImageW.rows + 1; r++)
 			{
 				WY = 0;
-				for (int c = 0; c < inPa.cols - dactImageW.cols + 1; c++)
+				for (int c = 0; c < inPa.cols - dbzImageW.cols + 1; c++)
 				{
 					float* baseImgPointerInpa = inPa.imageAtIndex(b) + ch+ c* inPa.channel+r* inPa.cols * inPa.channel;
 					__m256 sumRegistr = _mm256_setzero_ps();
 					float currentValue = 0;
-					for (int i = 0; i < dactImageW.rows; i++)
+					for (int i = 0; i < dbzImageW.rows; i++)
 					{
-						for (int j = 0; j < dactImageW.cols; j++)
+						for (int j = 0; j < dbzImageW.cols; j++)
 						{
 							float* ImgPointerInpa = baseImgPointerInpa  +j * inPa.channel + i * inPa.cols * inPa.channel;
-							int index = k + i * dactImageW.channel * dactImageW.cols + j * dactImageW.channel;
+							int index = k + i * dbzImageW.channel * dbzImageW.cols + j * dbzImageW.channel;
 							//float dvalue = dactivate(dbzImageW.imageAtIndex(b)[index], acttype) * dactImageW.imageAtIndex(b)[index];
 							//float dvalue = dbzImageW.imageAtIndex(b)[index] * dactImageW.imageAtIndex(b)[index];
 							float dvalue = dbzImageW.imageAtIndex(b)[index];
@@ -1602,6 +1300,7 @@ bool CNNCalc::BackLayer::dConvolutionWSimd(image inPa, image outZ, image dbzactI
 							sumRegistr = _mm256_fmadd_ps(dvalueRgst, inpaRgst, sumRegistr);
 						}
 					}
+					//sumRegistr = _mm256_div_ps(sumRegistr, _mm256_set1_ps(dactImageW.rows * dactImageW.cols));
 					float* dkernalChannelLoad = dkernal[k].vWeight + ch + WX * kernalCol * kernalChannel + WY * kernalChannel;
 					_mm256_storeu_ps(dkernalChannelLoad, sumRegistr);
 					WY++;
@@ -1612,20 +1311,20 @@ bool CNNCalc::BackLayer::dConvolutionWSimd(image inPa, image outZ, image dbzactI
 		for (; ch + offset16 - 1 < inPa.channel; ch+=offset16)
 		{
 			WX = 0;
-			for (int r = 0; r < inPa.rows - dactImageW.rows + 1; r++)
+			for (int r = 0; r < inPa.rows - dbzImageW.rows + 1; r++)
 			{
 				WY = 0;
-				for (int c = 0; c < inPa.cols - dactImageW.cols + 1; c++)
+				for (int c = 0; c < inPa.cols - dbzImageW.cols + 1; c++)
 				{
 					float* baseImgPointerInpa = inPa.imageAtIndex(b) + ch + c * inPa.channel + r * inPa.cols * inPa.channel;
 					__m128 sumRegistr = _mm_setzero_ps();
 					float currentValue = 0;
-					for (int i = 0; i < dactImageW.rows; i++)
+					for (int i = 0; i < dbzImageW.rows; i++)
 					{
-						for (int j = 0; j < dactImageW.cols; j++)
+						for (int j = 0; j < dbzImageW.cols; j++)
 						{
 							float* ImgPointerInpa = baseImgPointerInpa + j * inPa.channel + i * inPa.cols * inPa.channel;
-							int index = k + i * dactImageW.channel * dactImageW.cols + j * dactImageW.channel;
+							int index = k + i * dbzImageW.channel * dbzImageW.cols + j * dbzImageW.channel;
 							//float dvalue = dactivate(dbzImageW.imageAtIndex(b)[index], acttype) * dactImageW.imageAtIndex(b)[index];
 							//float dvalue = dbzImageW.imageAtIndex(b)[index]* dactImageW.imageAtIndex(b)[index];
 							float dvalue = dbzImageW.imageAtIndex(b)[index];
@@ -1634,6 +1333,7 @@ bool CNNCalc::BackLayer::dConvolutionWSimd(image inPa, image outZ, image dbzactI
 							sumRegistr = _mm_fmadd_ps(dvalueRgst, inpaRgst, sumRegistr);
 						}
 					}
+					//sumRegistr = _mm_div_ps(sumRegistr, _mm_set1_ps(dactImageW.rows * dactImageW.cols));
 					float* dkernalChannelLoad = dkernal[k].vWeight + ch + WX * kernalCol * kernalChannel + WY * kernalChannel;
 					_mm_storeu_ps(dkernalChannelLoad, sumRegistr);
 					WY++;
@@ -1645,20 +1345,20 @@ bool CNNCalc::BackLayer::dConvolutionWSimd(image inPa, image outZ, image dbzactI
 		for (; ch < inPa.channel; ch+=1)
 		{
 			WX = 0;
-			for (int r = 0; r < inPa.rows - dactImageW.rows + 1; r++)
+			for (int r = 0; r < inPa.rows - dbzImageW.rows + 1; r++)
 			{
 				WY = 0;
-				for (int c = 0; c < inPa.cols - dactImageW.cols + 1; c++)
+				for (int c = 0; c < inPa.cols - dbzImageW.cols + 1; c++)
 				{
 					float* baseImgPointerInpa = inPa.imageAtIndex(b) + ch;
 					float sumRegistr = 0;
 					float currentValue = 0;
-					for (int i = 0; i < dactImageW.rows; i++)
+					for (int i = 0; i < dbzImageW.rows; i++)
 					{
-						for (int j = 0; j < dactImageW.cols; j++)
+						for (int j = 0; j < dbzImageW.cols; j++)
 						{
 							float* ImgPointerInpa = baseImgPointerInpa + (c + j) * inPa.channel + (r + i) * cols * inPa.channel;
-							int index = k + i * dactImageW.channel * dactImageW.cols + j * dactImageW.channel;
+							int index = k + i * dbzImageW.channel * dbzImageW.cols + j * dbzImageW.channel;
 							//float dvalue = dactivate(dbzImageW.imageAtIndex(b)[index], acttype) * dactImageW.imageAtIndex(b)[index];
 							//float dvalue = dbzImageW.imageAtIndex(b)[index] * dactImageW.imageAtIndex(b)[index];
 							float dvalue = dbzImageW.imageAtIndex(b)[index];
@@ -1666,6 +1366,7 @@ bool CNNCalc::BackLayer::dConvolutionWSimd(image inPa, image outZ, image dbzactI
 							sumRegistr = dvalue * inpaRgst+ sumRegistr;
 						}
 					}
+					//sumRegistr /= (dactImageW.rows* dactImageW.cols);
 					float* dkernalChannelLoad = dkernal[k].vWeight + ch + WX * kernalCol * kernalChannel + WY * kernalChannel;
 					*dkernalChannelLoad= sumRegistr;
 					WY++;
@@ -1676,95 +1377,6 @@ bool CNNCalc::BackLayer::dConvolutionWSimd(image inPa, image outZ, image dbzactI
 		}
 	}
 	return true;
-}
-void CNNCalc::BackLayer::dPadding(image BeforePaddingZ, image& AfterPaddingZ, int padSizeR, int padSizeC)
-{
-	AfterPaddingZ.rows = BeforePaddingZ.rows + 2 * padSizeR;
-	AfterPaddingZ.cols = BeforePaddingZ.cols + 2 * padSizeC;
-	AfterPaddingZ.channel = BeforePaddingZ.channel;
-	for (int ch = 0; ch < AfterPaddingZ.channel; ch++)
-	{
-		for (int r = 0; r < AfterPaddingZ.rows; r++)
-		{
-			for (int c = 0; c < AfterPaddingZ.cols; c++)
-			{
-				int rindex = 0;
-				int cindex = 0;
-				if (r < padSizeR)
-				{
-					rindex = 0;
-				}
-				else if (r> BeforePaddingZ.rows + padSizeR - 1)
-				{
-					rindex = BeforePaddingZ.rows - 1;
-				}
-				else
-				{
-					rindex = r-padSizeR;
-				}
-				if (c < padSizeC)
-				{
-					cindex = 0;
-				}
-				else if (c> BeforePaddingZ.cols + padSizeC - 1)
-				{
-					cindex = BeforePaddingZ.cols - 1;
-				}
-				else
-				{
-					cindex =c-padSizeC;
-				}
-				AfterPaddingZ.imageData[ch][r][c] = BeforePaddingZ.imageData[ch][rindex][cindex];	
-
-			}
-		}
-	}
-}
-float CNNCalc::BackLayer::dactivate(float a, int fun)
-{
-	if (fun == 2)
-	{//Relu
-		if (a < 0)
-		{
-			return 0;
-		}
-		else
-		{
-			return 1;
-		}
-	}
-	else if (fun == 1)
-	{
-		float sx = 1.0 / (1 + exp(-a));
-		return sx * (1 - sx);
-	}
-	else if (fun == 3)
-	{
-		return (exp(a) + exp(-a)) / (exp(a) - exp(-a));
-	}
-	else if (fun == 4)
-	{
-		if (a < 0)
-		{
-			//std::cout << a << std::endl;
-			return exp(a);
-		}
-		else
-		{
-			return 1;
-		}
-	}
-	else
-	{
-		if (a < 0)
-		{
-			return 0;
-		}
-		else
-		{
-			return 1;
-		}
-	}
 }
 __m128  CNNCalc::BackLayer::dactivateSimd128(__m128 a, int fun)
 {
@@ -1912,44 +1524,6 @@ __m256  CNNCalc::BackLayer::dactivateSimd(__m256 a, int fun)
 		return a;
 	}
 }
-bool CNNCalc::BackLayer::dPooling(image actImage, image DyDxoutImage, int poolingdim1, int poolingdim2, int poolingstride, image& dPoolingImage)
-{
-	int outIndexRow = 0;
-	int outIndexCol = 0;
-	
-	dPoolingImage.apllyratio(0.0);
-	for (int ch = 0; ch < actImage.channel; ch++)
-	{
-		outIndexRow = 0;
-		for (int r = 0; r < actImage.rows- poolingdim1 +1; r += poolingstride)
-		{
-			outIndexCol = 0;
-			for (int c = 0; c < actImage.cols- poolingdim2 +1; c += poolingstride)
-			{
-				float currentMaxValue = actImage.imageData[ch][r][c];
-				int maxXValueIndex =0;
-				int maxYValueIndex = 0;
-
-				for (int i = 0; i < poolingdim1; i++)
-				{
-					for (int j = 0; j < poolingdim2; j++)
-					{
-						if (actImage.imageData[ch][r + i][c + j]>currentMaxValue)
-						{
-							currentMaxValue = actImage.imageData[ch][r + i][c + j];
-							maxXValueIndex = i;
-							maxYValueIndex = j;
-						}
-					}
-				}
-				dPoolingImage.imageData[ch][r + maxXValueIndex][c + maxYValueIndex] += DyDxoutImage.imageData[ch][outIndexRow][outIndexCol];
-				outIndexCol++;
-			}
-			outIndexRow++;
-		}
-	}
-	return true;
-}
 bool CNNCalc::BackLayer::dPoolingSimd(image actImage, image DyDxoutImage, int poolingdim1, int poolingdim2, int poolingstride, image& dPoolingImage, int b)
 {
 	//ret = BL.dPooling(actImage, BL.dIdealOutVSdO, poolingRow, poolingCol, poolingStride, dpoolingIMG);
@@ -2061,25 +1635,6 @@ bool CNNCalc::BackLayer::dPoolingSimd(image actImage, image DyDxoutImage, int po
 	}
 	return true;
 }
-void CNNCalc::BackLayer::innerPadding(image beforePaddingZ, image& AfterPaddingZ,int innerSizeRow,int innerSizeCol)
-{
-	int innerpaddingszRow = (beforePaddingZ.rows - 1) * innerSizeRow + beforePaddingZ.rows;
-	int innerpaddingszCol = (beforePaddingZ.cols - 1) * innerSizeCol + beforePaddingZ.cols;
-	int edgeRow = (AfterPaddingZ.rows - innerpaddingszRow) / 2;
-	int edgeCol = (AfterPaddingZ.cols - innerpaddingszCol) / 2;
-	for (int ch = 0; ch < beforePaddingZ.channel; ch++)
-	{
-		for (int r = 0; r < beforePaddingZ.rows; r += 1)
-		{
-			for (int c = 0; c < beforePaddingZ.cols; c += 1)
-			{
-				int currentRow = r * (innerSizeRow + 1) + edgeRow;
-				int currentCol = c * (innerSizeCol + 1) + edgeCol;
-				AfterPaddingZ.imageData[ch][currentRow][currentCol] = beforePaddingZ.imageData[ch][r][c];
-			}
-		}
-	}
-}
 void CNNCalc::BackLayer::innerPaddingSimd(image beforePaddingZ, image& AfterPaddingZ, int innerSizeRow, int innerSizeCol, int b)
 {
 	int innerpaddingszRow = (beforePaddingZ.rows - 1) * innerSizeRow + beforePaddingZ.rows;
@@ -2115,44 +1670,6 @@ void CNNCalc::BackLayer::innerPaddingSimd(image beforePaddingZ, image& AfterPadd
 	
 }
 
-bool CNNCalc::BackLayer::outPadding(image beforePaddingZ, image& AfterPaddingZ, int targetRow, int targetCol)
-{
-	
-	AfterPaddingZ.channel = beforePaddingZ.channel;
-	AfterPaddingZ.rows = targetRow;
-	AfterPaddingZ.cols = targetCol;
-	AfterPaddingZ.initImage();
-	
-	//std::cout << "target size ::" << targetRow << "," << targetCol << std::endl;
-	bool isBeforeEvenRow = (1.0 * beforePaddingZ.rows / 2 - beforePaddingZ.rows / 2) > 0.25;
-	bool isBeforeEvenCol = (1.0 * beforePaddingZ.cols / 2 - beforePaddingZ.cols / 2) > 0.25;
-	bool isAfterEvenRow = (1.0 * AfterPaddingZ.rows / 2 - AfterPaddingZ.rows / 2) > 0.25;
-	bool isAfterEvenCol = (1.0 * AfterPaddingZ.cols / 2 - AfterPaddingZ.cols / 2) > 0.25;
-	
-
-	if ((isBeforeEvenRow == isAfterEvenRow) && (isBeforeEvenCol == isAfterEvenCol))
-	{
-		int edgeRow = (targetRow - beforePaddingZ.rows) / 2;
-		int edgeCol = (targetCol - beforePaddingZ.cols) / 2;
-		for (int ch = 0; ch < beforePaddingZ.channel; ch++)
-		{
-			for (int r = edgeRow; r < targetRow - edgeRow; r++)
-			{
-				for (int c = edgeCol; c < targetCol - edgeCol; c++)
-				{
-					AfterPaddingZ.imageData[ch][r][c] = beforePaddingZ.imageData[ch][r - edgeRow][c - edgeCol];
-				}
-			}
-		}
-		return true;
-	}
-	else
-	{
-		std::cout << "outpadding input image and output image are nor to judge even or odd" << std::endl;
-		return false;
-	}
-
-}
 bool CNNCalc::BackLayer::outPaddingSimd(image beforePaddingZ, image& AfterPaddingZ, int targetRow, int targetCol)
 {
 
@@ -2183,28 +1700,6 @@ bool CNNCalc::BackLayer::outPaddingSimd(image beforePaddingZ, image& AfterPaddin
 		return false;
 	}
 
-}
-bool CNNCalc::BackLayer::TMatrixKernal(const kernal* kernalSeris, kernal* retKernal180, int neuroNums)
-{
-	//kernal* retKernal180 = new kernal[neuroNums];
-	bool ret = true;
-	int channel = retKernal180[0].channel;
-	int row = retKernal180[0].row;
-	int col = retKernal180[0].col;
-	for (int i = 0; i < neuroNums; i++)
-	{
-		for (int ch = 0; ch < channel; ch++)
-		{
-			for (int r = 0; r < row; r++)
-			{
-				for (int c = 0; c < col; c++)
-				{
-					retKernal180[i].weight[ch][r][c] = kernalSeris[i].weight[ch][row - r-1][col-c-1];
-				}
-			}
-		}
-	}
-	return true;
 }
 bool CNNCalc::BackLayer::TMatrixKernalSimd(const kernal* kernalSeris, kernal* retKernal180, int neuroNums)
 {
@@ -2264,3 +1759,36 @@ __m128 CNNCalc::BackLayer::_mm_exp_ps_ft(__m128 a)
 	);
 	//_mm_exp_ps(_mm_set1_ps(1));
 }
+bool CNNCalc::BackLayer::dActMultidLdy(image dLdy, image dbzactImageBe4Pad, image& outZ, int b)
+{
+	int row = dLdy.rows;
+	int col = dLdy.cols;
+	int channel = dLdy.channel;
+
+	bool equal1 = row == dbzactImageBe4Pad.rows && row == outZ.rows;
+	bool equal2 = col == dbzactImageBe4Pad.cols && col == outZ.cols;
+	bool equal3 = channel == dbzactImageBe4Pad.channel && channel == outZ.channel;
+	if (!(equal1 && equal2 && equal3))
+	{
+		std::cout << "dActMultidLdy input image size not equal" << std::endl;
+		return false;
+	}
+	int offset = AlignBytes / sizeof(float);
+	float* dLdyData = dLdy.imageAtIndex(b);
+	float* dbzactData = dbzactImageBe4Pad.imageAtIndex(b);
+	float* outZData = outZ.imageAtIndex(b);
+
+	for (int i = 0;i < dLdy.blockSize;i+= offset)
+	{
+		__m256 reg1 = _mm256_load_ps(dLdyData + i);
+		__m256 reg2 = _mm256_load_ps(dbzactData + i);
+		__m256 mulReg = _mm256_mul_ps(reg1,reg2);
+		_mm256_store_ps(outZData + i, mulReg);
+	}
+	return true;
+}
+
+//bool CNNCalc::BackLayer::addResLinkDbzImage(image resDbzactImage, int b)
+//{
+//	dIdealOutVSdO.addSimd(resDbzactImage, b);
+//}

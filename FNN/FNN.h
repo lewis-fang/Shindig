@@ -47,10 +47,10 @@ private:
 	int getCpuId();
 
 	
+	int findmax(float* ar, int len);
 	void updateLoss();
 public slots:
 //	void ImpotsDatas();
-	void ImpotWts();
 	void SetInputSize();
 	void Launch();
 	void ViewOut(int);
@@ -60,7 +60,6 @@ public slots:
 	void uiSetFCPara(int fc);
 	void popBack();
 	void ChangeTrainMode(int);
-	void LaunchTraing();
 //	void ImportIdlO();
 	void ImportCifarTrain(QString fileName ="");
 	void ImportCifarTest();
@@ -68,4 +67,10 @@ public slots:
 	void LauchCNNModelParrallel();
 
 	void buildDefault1CifarModel();
+	void buildDefault1CifarModelBN();
+
+	void egonicTestImages();
+	void egonicTrainImages();
+
+	void buildDefault1CifarModelBNResNet();
 };
